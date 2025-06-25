@@ -1,0 +1,200 @@
+{
+  "hero": {
+    "name": "Ikenna Iwuoha",
+    "title": "Full-Stack Technologist & Digital Solutions Architect",
+    "tagline": "From Infrastructure to AI—Delivering Scalable, Secure, and Insightful Technology Solutions.",
+    "bio": "10+ years of experience delivering enterprise solutions across automotive, healthcare, retail, and education sectors. Passionate about transforming complex business challenges into elegant technical solutions.",
+    "resumeUrl": "/resume-ikenna-iwuoha.pdf",
+    "location": "Ireland"
+  },
+  "about": {
+    "summary": "With over a decade in technology spanning multiple industries, I bring a unique blend of technical depth and business acumen. My experience ranges from software engineering and ERP implementations to DevOps, cloud architecture, and AI solutions. I thrive on solving complex problems and have successfully led projects from conception to deployment, always focusing on scalable, secure, and user-centric solutions.",
+    "highlights": [
+      "10+ years across automotive, healthcare, retail, and education industries",
+      "Versatile expertise: software engineering, ERP, DevOps, cloud, and AI",
+      "Proven track record in both individual contribution and leadership roles",
+      "Based in Ireland with global project experience"
+    ]
+  },
+  "skills": {
+    "Software & Architecture": [
+      "Python", "C#", "PHP", "JavaScript", "TypeScript", "ERPNext", "MySQL", "PostgreSQL", "Streamlit", "Web Development", "Mobile App Development", "API Design"
+    ],
+    "Systems & Infrastructure": [
+      "Active Directory", "Office 365", "Exchange Server", "Networking", "Virtualization", "Hyper-V", "Windows Server", "Linux Administration"
+    ],
+    "Cloud & DevOps": [
+      "Google Cloud Platform", "SaaS Solutions", "System Administration", "Docker", "CI/CD", "Infrastructure as Code", "Cloud Migration"
+    ],
+    "Project & Team Leadership": [
+      "Agile Methodologies", "Scrum", "JIRA", "Requirement Analysis", "Technical Support", "Documentation", "Stakeholder Management", "Team Leadership"
+    ],
+    "Data & Analytics": [
+      "Power BI", "SQL", "Data Analysis", "Dashboard Development", "Business Intelligence", "Reporting", "Data Visualization"
+    ]
+  },
+  "experience": [
+    {
+      "title": "IT Manager",
+      "company": "Farrelly Motors",
+      "period": "2023 - Present",
+      "location": "Ireland",
+      "description": "Leading digital transformation initiatives and infrastructure modernization for automotive dealership operations.",
+      "achievements": [
+        "Delivered custom workshop management system using C# and MySQL",
+        "Implemented real-time analytics dashboards improving operational efficiency by 35%",
+        "Managed infrastructure upgrades supporting 100+ users across multiple locations"
+      ],
+      "technologies": ["C#", "MySQL", "Power BI", "Windows Server", "Active Directory"]
+    },
+    {
+      "title": "Software Engineer",
+      "company": "Greenby International",
+      "period": "2022 - 2023",
+      "location": "Ireland",
+      "description": "Specialized in ERP system implementations and business process optimization for international clients.",
+      "achievements": [
+        "Led ERPNext implementation for 5+ enterprise clients",
+        "Designed and executed data migration strategies with 99.9% accuracy",
+        "Conducted comprehensive user training programs and system audits"
+      ],
+      "technologies": ["ERPNext", "Python", "MySQL", "JavaScript", "API Integration"]
+    },
+    {
+      "title": "Technical Support Specialist",
+      "company": "Milestone Procore",
+      "period": "2021 - 2022",
+      "location": "Ireland",
+      "description": "Provided enterprise-level technical support for Windows environments and network infrastructure.",
+      "achievements": [
+        "Maintained 98% customer satisfaction rating across 500+ support tickets",
+        "Implemented automated monitoring solutions reducing incident response time by 50%",
+        "Led compliance audits and security assessments"
+      ],
+      "technologies": ["Windows Server", "Active Directory", "Exchange", "PowerShell", "Network Administration"]
+    },
+    {
+      "title": "Freelance Developer",
+      "company": "Independent",
+      "period": "2020 - Present",
+      "location": "Global (Remote)",
+      "description": "Developing custom applications and cloud solutions for diverse clients worldwide.",
+      "achievements": [
+        "Built 15+ web applications using modern frameworks",
+        "Implemented cloud migration strategies for small to medium businesses",
+        "Created data analytics platforms using Python and Streamlit"
+      ],
+      "technologies": ["Python", "JavaScript", "React", "Node.js", "Google Cloud", "Streamlit"]
+    }
+  ],
+  "projects": [
+    {
+      "title": "Workshop Management System",
+      "company": "Farrelly Motors",
+      "description": "Complete workshop management solution with real-time tracking, inventory management, and customer communications.",
+      "image": "https://images.pexels.com/photos/5474285/pexels-photo-5474285.jpeg?auto=compress&cs=tinysrgb&w=800",
+      "technologies": ["C#", "MySQL", "WPF", "Crystal Reports"],
+      "features": [
+        "Real-time job tracking and status updates",
+        "Integrated inventory management system",
+        "Automated customer communication workflows",
+        "Comprehensive reporting and analytics dashboard"
+      ],
+      "impact": "Reduced job processing time by 40% and improved customer satisfaction scores by 25%"
+    },
+    {
+      "title": "ERP Implementation & Migration",
+      "company": "Greenby International",
+      "description": "Large-scale ERPNext implementation for manufacturing client with complex supply chain requirements.",
+      "image": "https://images.pexels.com/photos/7688460/pexels-photo-7688460.jpeg?auto=compress&cs=tinysrgb&w=800",
+      "technologies": ["ERPNext", "Python", "MySQL", "JavaScript"],
+      "features": [
+        "Custom module development for industry-specific workflows",
+        "Data migration from legacy systems",
+        "Integration with third-party logistics providers",
+        "Comprehensive user training and documentation"
+      ],
+      "impact": "Streamlined operations resulting in 30% reduction in processing time and improved inventory accuracy"
+    },
+    {
+      "title": "Data Analytics Platform",
+      "company": "Freelance Project",
+      "description": "Python-based analytics platform for retail client with real-time dashboard and predictive insights.",
+      "image": "https://images.pexels.com/photos/669615/pexels-photo-669615.jpeg?auto=compress&cs=tinysrgb&w=800",
+      "technologies": ["Python", "Streamlit", "Pandas", "Power BI"],
+      "features": [
+        "Real-time sales and inventory dashboards",
+        "Predictive analytics for demand forecasting",
+        "Automated report generation and distribution",
+        "Mobile-responsive interface for field teams"
+      ],
+      "impact": "Improved inventory planning accuracy by 45% and reduced stockouts by 60%"
+    },
+    {
+      "title": "Infrastructure Modernization",
+      "company": "Milestone Procore",
+      "description": "Complete infrastructure overhaul including Active Directory migration and cloud integration.",
+      "image": "https://images.pexels.com/photos/2881232/pexels-photo-2881232.jpeg?auto=compress&cs=tinysrgb&w=800",
+      "technologies": ["Windows Server", "Active Directory", "Azure", "PowerShell"],
+      "features": [
+        "Zero-downtime Active Directory migration",
+        "Hybrid cloud integration with Azure",
+        "Automated backup and disaster recovery solutions",
+        "Enhanced security protocols and compliance"
+      ],
+      "impact": "Achieved 99.9% uptime and reduced IT support tickets by 50%"
+    }
+  ],
+  "education": [
+    {
+      "degree": "Master's in Computer Science (MIS)",
+      "institution": "University",
+      "year": "2018",
+      "description": "Specialized in Management Information Systems with focus on enterprise architecture and data analytics."
+    },
+    {
+      "degree": "Bachelor's in Software Engineering",
+      "institution": "University",
+      "year": "2016",
+      "description": "Comprehensive foundation in software development methodologies, system design, and project management."
+    }
+  ],
+  "certifications": [
+    {
+      "name": "Goethe German Certificate",
+      "issuer": "Goethe Institute",
+      "year": "2020",
+      "description": "Advanced German language proficiency certification"
+    }
+  ],
+  "blog": [
+    {
+      "title": "Why ERP Fails Without Proper Change Management",
+      "excerpt": "Exploring the critical success factors for ERP implementations beyond technical considerations.",
+      "date": "2024-01-15",
+      "readTime": "8 min read",
+      "image": "https://images.pexels.com/photos/3184418/pexels-photo-3184418.jpeg?auto=compress&cs=tinysrgb&w=400"
+    },
+    {
+      "title": "Building a Workshop Management App from Scratch",
+      "excerpt": "A deep dive into the architectural decisions and challenges faced when developing custom business applications.",
+      "date": "2024-02-10",
+      "readTime": "12 min read",
+      "image": "https://images.pexels.com/photos/574071/pexels-photo-574071.jpeg?auto=compress&cs=tinysrgb&w=400"
+    },
+    {
+      "title": "Python & Power BI for Real-time Analytics in SMEs",
+      "excerpt": "How small and medium enterprises can leverage modern analytics tools for competitive advantage.",
+      "date": "2024-03-05",
+      "readTime": "10 min read",
+      "image": "https://images.pexels.com/photos/669615/pexels-photo-669615.jpeg?auto=compress&cs=tinysrgb&w=400"
+    }
+  ],
+  "contact": {
+    "email": "ikenna.b.iwuoha@gmail.com",
+    "linkedin": "https://linkedin.com/in/ikenna-iwuoha",
+    "github": "https://github.com/ikenna-iwuoha",
+    "location": "Ireland",
+    "available": true
+  }
+}
