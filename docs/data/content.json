@@ -72,6 +72,25 @@
   },
   "experience": [
     {
+      "title": "Technical Support Specialist",
+      "company": "Milestone Procore",
+      "period": "2025 - Present",
+      "location": "Ireland",
+      "description": "Provided enterprise-level technical support for Windows environments and network infrastructure.",
+      "achievements": [
+        "Maintained 98% customer satisfaction rating across 500+ support tickets",
+        "Implemented automated monitoring solutions reducing incident response time by 50%",
+        "Led compliance audits and security assessments"
+      ],
+      "technologies": [
+        "Windows Server",
+        "Active Directory",
+        "Exchange",
+        "PowerShell",
+        "Network Administration"
+      ]
+    },
+    {
       "title": "IT Manager",
       "company": "Farrelly Motors",
       "period": "2023 - 2024",
@@ -107,25 +126,6 @@
         "MySQL",
         "JavaScript",
         "API Integration"
-      ]
-    },
-    {
-      "title": "Technical Support Specialist",
-      "company": "Milestone Procore",
-      "period": "2025 - Present",
-      "location": "Ireland",
-      "description": "Provided enterprise-level technical support for Windows environments and network infrastructure.",
-      "achievements": [
-        "Maintained 98% customer satisfaction rating across 500+ support tickets",
-        "Implemented automated monitoring solutions reducing incident response time by 50%",
-        "Led compliance audits and security assessments"
-      ],
-      "technologies": [
-        "Windows Server",
-        "Active Directory",
-        "Exchange",
-        "PowerShell",
-        "Network Administration"
       ]
     },
     {
