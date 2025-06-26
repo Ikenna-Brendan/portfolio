@@ -8,7 +8,7 @@ export interface StorageData {
 }
 
 const STORAGE_KEY = 'portfolio-content';
-const VERSION = '1.0.0';
+const VERSION = '1.0.1';
 
 export const storage = {
   // Save content to localStorage

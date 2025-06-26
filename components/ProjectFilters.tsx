@@ -74,16 +74,16 @@ export default function ProjectFilters({ projects, onFilterChange }: ProjectFilt
       {/* Search and Clear */}
       <div className="flex gap-4 items-center">
         <div className="relative flex-1">
-          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
+          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 dark:text-gray-500 h-4 w-4" />
           <Input
             placeholder="Search projects..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            className="pl-10"
+            className="pl-10 bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white placeholder:text-gray-500 dark:placeholder:text-gray-400"
           />
         </div>
         {hasActiveFilters && (
-          <Button variant="outline" onClick={clearFilters} size="sm">
+          <Button variant="outline" onClick={clearFilters} size="sm" className="border-gray-200 dark:border-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700">
             <X className="h-4 w-4 mr-2" />
             Clear
           </Button>
@@ -93,7 +93,7 @@ export default function ProjectFilters({ projects, onFilterChange }: ProjectFilt
       {/* Technology Filters */}
       <div>
         <div className="flex items-center gap-2 mb-3">
-          <Filter className="h-4 w-4 text-gray-600" />
+          <Filter className="h-4 w-4 text-gray-600 dark:text-gray-400" />
           <span className="text-sm font-medium text-gray-700 dark:text-gray-300">
             Filter by Technology:
           </span>
@@ -103,7 +103,11 @@ export default function ProjectFilters({ projects, onFilterChange }: ProjectFilt
             <Badge
               key={tech}
               variant={selectedTechnologies.includes(tech) ? "default" : "outline"}
-              className="cursor-pointer hover:bg-blue-100 dark:hover:bg-blue-900 transition-colors"
+              className={`cursor-pointer transition-colors ${
+                selectedTechnologies.includes(tech)
+                  ? "bg-blue-600 hover:bg-blue-700 text-white"
+                  : "bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 border-gray-200 dark:border-gray-600 hover:bg-blue-100 dark:hover:bg-blue-900"
+              }`}
               onClick={() => toggleTechnology(tech)}
             >
               {tech}

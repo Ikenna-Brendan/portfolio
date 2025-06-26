@@ -14,27 +14,27 @@ interface SkillsProps {
 }
 
 const categoryIcons: { [key: string]: React.ReactNode } = {
-  'Software & Architecture': <Code className="text-blue-600" size={24} />,
-  'Systems & Infrastructure': <Server className="text-green-600" size={24} />,
-  'Cloud & DevOps': <Cloud className="text-purple-600" size={24} />,
-  'Project & Team Leadership': <Users className="text-orange-600" size={24} />,
-  'Data & Analytics': <BarChart3 className="text-teal-600" size={24} />
+  'Software & Architecture': <Code className="text-blue-600 dark:text-blue-400" size={24} />,
+  'Systems & Infrastructure': <Server className="text-green-600 dark:text-green-400" size={24} />,
+  'Cloud & DevOps': <Cloud className="text-purple-600 dark:text-purple-400" size={24} />,
+  'Project & Team Leadership': <Users className="text-orange-600 dark:text-orange-400" size={24} />,
+  'Data & Analytics': <BarChart3 className="text-teal-600 dark:text-teal-400" size={24} />
 };
 
 export default function Skills({ data }: SkillsProps) {
   const [activeCategory, setActiveCategory] = useState<string | null>(null);
 
   return (
-    <section id="skills" className="py-20 bg-white">
+    <section id="skills" className="py-20 bg-white dark:bg-gray-900">
       <div className="container mx-auto px-6">
         <div className="max-w-6xl mx-auto">
           {/* Section header */}
           <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-4">
               Skills & Expertise
             </h2>
             <div className="w-24 h-1 bg-gradient-to-r from-blue-600 to-teal-600 mx-auto rounded-full mb-6"></div>
-            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+            <p className="text-lg text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
               A comprehensive toolkit spanning full-stack development, infrastructure management, 
               and strategic technology leadership across diverse industries.
             </p>
@@ -45,16 +45,16 @@ export default function Skills({ data }: SkillsProps) {
             {Object.entries(data).map(([category, skills]) => (
               <Card 
                 key={category}
-                className={`transition-all duration-300 cursor-pointer hover:shadow-xl hover:-translate-y-2 ${
+                className={`transition-all duration-300 cursor-pointer hover:shadow-xl hover:-translate-y-2 bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700 ${
                   activeCategory === category ? 'ring-2 ring-blue-500 shadow-xl' : ''
                 }`}
                 onMouseEnter={() => setActiveCategory(category)}
                 onMouseLeave={() => setActiveCategory(null)}
               >
                 <CardHeader className="pb-4">
-                  <CardTitle className="flex items-center gap-3 text-lg">
+                  <CardTitle className="flex items-center gap-3 text-lg text-gray-900 dark:text-white">
                     {categoryIcons[category]}
-                    <span className="text-gray-900">{category}</span>
+                    <span>{category}</span>
                   </CardTitle>
                 </CardHeader>
                 <CardContent>
@@ -65,8 +65,8 @@ export default function Skills({ data }: SkillsProps) {
                         variant="secondary"
                         className={`transition-all duration-300 ${
                           activeCategory === category 
-                            ? 'bg-blue-100 text-blue-800 border-blue-200' 
-                            : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                            ? 'bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 border-blue-200 dark:border-blue-700' 
+                            : 'bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600 border-gray-200 dark:border-gray-600'
                         }`}
                       >
                         {skill}

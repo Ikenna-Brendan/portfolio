@@ -26,11 +26,8 @@ export default function Footer() {
 
             {/* Footer content */}
             <div className="border-t border-gray-700 pt-8">
-              <p className="text-gray-400 mb-4">
+              <p className="text-gray-400">
                 © 2024 Ikenna Iwuoha. All rights reserved.
-              </p>
-              <p className="text-sm text-gray-500 flex items-center justify-center gap-2">
-                Built with <Heart size={16} className="text-red-500" /> using Next.js & Tailwind CSS
               </p>
             </div>
           </div>

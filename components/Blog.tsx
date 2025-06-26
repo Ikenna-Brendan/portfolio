@@ -24,16 +24,16 @@ export default function Blog({ data }: BlogProps) {
   };
 
   return (
-    <section id="blog" className="py-20 bg-white">
+    <section id="blog" className="py-20 bg-white dark:bg-gray-900">
       <div className="container mx-auto px-6">
         <div className="max-w-6xl mx-auto">
           {/* Section header */}
           <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-4">
               Insights & Thoughts
             </h2>
             <div className="w-24 h-1 bg-gradient-to-r from-blue-600 to-teal-600 mx-auto rounded-full mb-6"></div>
-            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+            <p className="text-lg text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
               Sharing insights on technology leadership, software engineering, 
               and digital transformation strategies.
             </p>
@@ -44,7 +44,7 @@ export default function Blog({ data }: BlogProps) {
             {data.map((post, index) => (
               <Card 
                 key={index}
-                className="overflow-hidden hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2 cursor-pointer group"
+                className="overflow-hidden hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2 cursor-pointer group bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700"
                 onClick={() => handleReadMore(post.title)}
               >
                 {/* Post image */}
@@ -58,7 +58,7 @@ export default function Blog({ data }: BlogProps) {
                 </div>
 
                 <CardHeader>
-                  <div className="flex items-center gap-4 text-sm text-gray-500 mb-2">
+                  <div className="flex items-center gap-4 text-sm text-gray-500 dark:text-gray-400 mb-2">
                     <div className="flex items-center gap-1">
                       <Calendar size={14} />
                       <span>{new Date(post.date).toLocaleDateString('en-US', { 
@@ -67,26 +67,26 @@ export default function Blog({ data }: BlogProps) {
                         day: 'numeric' 
                       })}</span>
                     </div>
-                    <Badge variant="outline" className="flex items-center gap-1 text-xs">
+                    <Badge variant="outline" className="flex items-center gap-1 text-xs bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 border-gray-200 dark:border-gray-600">
                       <Clock size={12} />
                       {post.readTime}
                     </Badge>
                   </div>
                   
-                  <CardTitle className="text-lg text-gray-900 group-hover:text-blue-600 transition-colors duration-300">
+                  <CardTitle className="text-lg text-gray-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors duration-300">
                     {post.title}
                   </CardTitle>
                 </CardHeader>
 
                 <CardContent>
-                  <p className="text-gray-700 leading-relaxed mb-4">
+                  <p className="text-gray-700 dark:text-gray-300 leading-relaxed mb-4">
                     {post.excerpt}
                   </p>
                   
                   <Button 
                     variant="ghost" 
                     size="sm"
-                    className="p-0 h-auto text-blue-600 hover:text-blue-700 group-hover:translate-x-1 transition-all duration-300"
+                    className="p-0 h-auto text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 group-hover:translate-x-1 transition-all duration-300"
                   >
                     Read More
                     <ArrowRight size={16} className="ml-2" />

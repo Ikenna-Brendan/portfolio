@@ -28,14 +28,17 @@ export default function ContactForm({ email }: ContactFormProps) {
     setSubmitStatus('idle');
 
     try {
-      // Option 1: Use Formspree (free tier available)
-      const response = await fetch('https://formspree.io/f/YOUR_FORM_ID', {
+      // Using Formspree for form handling
+      const response = await fetch('https://formspree.io/f/xwpbwwdv', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          ...formData,
+          name: formData.name,
+          email: formData.email,
+          subject: formData.subject,
+          message: formData.message,
           _subject: `Portfolio Contact: ${formData.subject}`,
         }),
       });
@@ -65,23 +68,24 @@ export default function ContactForm({ email }: ContactFormProps) {
   };
 
   return (
-    <div className="grid md:grid-cols-2 gap-8">
+    <div className="space-y-6">
       {/* Contact Form */}
-      <Card>
+      <Card className="bg-white/5 border-white/20">
         <CardHeader>
-          <CardTitle className="flex items-center gap-2">
+          <CardTitle className="flex items-center gap-2 text-white">
             <Send className="h-5 w-5" />
             Send Message
           </CardTitle>
         </CardHeader>
         <CardContent>
           <form onSubmit={handleSubmit} className="space-y-4">
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <Input
                 placeholder="Your Name"
                 value={formData.name}
                 onChange={(e) => handleInputChange('name', e.target.value)}
                 required
+                className="bg-white/10 border-white/20 text-white placeholder:text-gray-300"
               />
               <Input
                 type="email"
@@ -89,6 +93,7 @@ export default function ContactForm({ email }: ContactFormProps) {
                 value={formData.email}
                 onChange={(e) => handleInputChange('email', e.target.value)}
                 required
+                className="bg-white/10 border-white/20 text-white placeholder:text-gray-300"
               />
             </div>
             <Input
@@ -96,6 +101,7 @@ export default function ContactForm({ email }: ContactFormProps) {
               value={formData.subject}
               onChange={(e) => handleInputChange('subject', e.target.value)}
               required
+              className="bg-white/10 border-white/20 text-white placeholder:text-gray-300"
             />
             <Textarea
               placeholder="Your Message"
@@ -103,17 +109,18 @@ export default function ContactForm({ email }: ContactFormProps) {
               value={formData.message}
               onChange={(e) => handleInputChange('message', e.target.value)}
               required
+              className="bg-white/10 border-white/20 text-white placeholder:text-gray-300 resize-none"
             />
             
             {submitStatus === 'success' && (
-              <div className="flex items-center gap-2 text-green-600 dark:text-green-400">
+              <div className="flex items-center gap-2 text-green-400">
                 <CheckCircle className="h-4 w-4" />
                 <span>Message sent successfully!</span>
               </div>
             )}
             
             {submitStatus === 'error' && (
-              <div className="flex items-center gap-2 text-red-600 dark:text-red-400">
+              <div className="flex items-center gap-2 text-red-400">
                 <AlertCircle className="h-4 w-4" />
                 <span>Failed to send message. Please try again.</span>
               </div>
@@ -122,7 +129,7 @@ export default function ContactForm({ email }: ContactFormProps) {
             <Button 
               type="submit" 
               disabled={isSubmitting}
-              className="w-full"
+              className="w-full bg-blue-600 hover:bg-blue-700 text-white"
             >
               {isSubmitting ? 'Sending...' : 'Send Message'}
             </Button>
@@ -131,36 +138,36 @@ export default function ContactForm({ email }: ContactFormProps) {
       </Card>
 
       {/* Direct Contact */}
-      <Card>
+      <Card className="bg-white/5 border-white/20">
         <CardHeader>
-          <CardTitle className="flex items-center gap-2">
+          <CardTitle className="flex items-center gap-2 text-white">
             <Mail className="h-5 w-5" />
             Direct Contact
           </CardTitle>
         </CardHeader>
         <CardContent className="space-y-4">
           <div>
-            <h4 className="font-semibold mb-2">Email</h4>
+            <h4 className="font-semibold mb-2 text-gray-200">Email</h4>
             <Button 
               variant="outline" 
               onClick={handleEmailClick}
-              className="w-full justify-start"
+              className="w-full justify-start bg-white/10 border-white/20 text-blue-400 hover:bg-white/20 hover:text-blue-300 break-all"
             >
-              <Mail className="h-4 w-4 mr-2" />
-              {email}
+              <Mail className="h-4 w-4 mr-2 flex-shrink-0" />
+              <span className="truncate">{email}</span>
             </Button>
           </div>
           
           <div>
-            <h4 className="font-semibold mb-2">Response Time</h4>
-            <p className="text-sm text-gray-600 dark:text-gray-400">
+            <h4 className="font-semibold mb-2 text-gray-200">Response Time</h4>
+            <p className="text-sm text-gray-300 break-words">
               I typically respond within 24 hours during business days.
             </p>
           </div>
 
           <div>
-            <h4 className="font-semibold mb-2">Availability</h4>
-            <p className="text-sm text-gray-600 dark:text-gray-400">
+            <h4 className="font-semibold mb-2 text-gray-200">Availability</h4>
+            <p className="text-sm text-gray-300 break-words">
               Currently available for new opportunities and collaborations.
             </p>
           </div>

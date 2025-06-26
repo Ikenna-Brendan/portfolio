@@ -1,6 +1,10 @@
 /** @type {import('next').NextConfig} */
+const isGithubPages = process.env.NODE_ENV === 'production';
+
 const nextConfig = {
   output: 'export',
+  assetPrefix: isGithubPages ? '/portfolio/' : '',
+  basePath: isGithubPages ? '/portfolio' : '',
   eslint: {
     ignoreDuringBuilds: true,
   },
@@ -8,9 +12,6 @@ const nextConfig = {
     unoptimized: true,
   },
   trailingSlash: true,
-  experimental: {
-    appDir: true,
-  },
   webpack: (config) => {
     config.resolve.fallback = {
       ...config.resolve.fallback,

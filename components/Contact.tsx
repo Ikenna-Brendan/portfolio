@@ -50,22 +50,22 @@ export default function Contact({ data }: ContactProps) {
             </p>
           </div>
 
-          <div className="grid lg:grid-cols-2 gap-12">
+          <div className="grid lg:grid-cols-2 gap-12 items-start">
             {/* Contact information */}
-            <div>
-              <h3 className="text-2xl font-bold mb-8">Get In Touch</h3>
+            <div className="space-y-8">
+              <h3 className="text-2xl font-bold">Get In Touch</h3>
               
-              <div className="space-y-6 mb-8">
+              <div className="space-y-6">
                 <div className="flex items-center gap-4">
-                  <div className="w-12 h-12 bg-blue-600 rounded-lg flex items-center justify-center">
+                  <div className="w-12 h-12 bg-blue-600 rounded-lg flex items-center justify-center flex-shrink-0">
                     <Mail size={20} />
                   </div>
-                  <div>
+                  <div className="min-w-0 flex-1">
                     <h4 className="font-semibold text-gray-200">Email</h4>
                     <Button 
                       variant="link" 
                       onClick={handleEmailClick}
-                      className="text-blue-400 hover:text-blue-300 p-0 h-auto"
+                      className="text-blue-400 hover:text-blue-300 p-0 h-auto text-left break-all"
                     >
                       {data.email}
                     </Button>
@@ -73,22 +73,22 @@ export default function Contact({ data }: ContactProps) {
                 </div>
 
                 <div className="flex items-center gap-4">
-                  <div className="w-12 h-12 bg-green-600 rounded-lg flex items-center justify-center">
+                  <div className="w-12 h-12 bg-green-600 rounded-lg flex items-center justify-center flex-shrink-0">
                     <MapPin size={20} />
                   </div>
-                  <div>
+                  <div className="min-w-0 flex-1">
                     <h4 className="font-semibold text-gray-200">Location</h4>
-                    <p className="text-gray-300">{data.location}</p>
+                    <p className="text-gray-300 break-words">{data.location}</p>
                   </div>
                 </div>
 
                 <div className="flex items-center gap-4">
-                  <div className="w-12 h-12 bg-purple-600 rounded-lg flex items-center justify-center">
+                  <div className="w-12 h-12 bg-purple-600 rounded-lg flex items-center justify-center flex-shrink-0">
                     <CheckCircle size={20} />
                   </div>
-                  <div>
+                  <div className="min-w-0 flex-1">
                     <h4 className="font-semibold text-gray-200">Availability</h4>
-                    <p className="text-gray-300">
+                    <p className="text-gray-300 break-words">
                       {data.available ? 'Available for new projects' : 'Currently unavailable'}
                     </p>
                   </div>
@@ -117,22 +117,22 @@ export default function Contact({ data }: ContactProps) {
               </div>
 
               {/* Additional info */}
-              <Card className="mt-8 bg-white/10 backdrop-blur-sm border-white/20">
+              <Card className="bg-white/10 backdrop-blur-sm border-white/20">
                 <CardContent className="pt-6">
                   <h4 className="font-semibold text-gray-200 mb-3">What I Offer</h4>
                   <ul className="space-y-2 text-sm text-gray-300">
-                    <li>• Full-stack development solutions</li>
-                    <li>• ERP system implementations</li>
-                    <li>• Cloud infrastructure consulting</li>
-                    <li>• Data analytics and reporting</li>
-                    <li>• Technical leadership and mentoring</li>
+                    <li className="break-words">• Full-stack development solutions</li>
+                    <li className="break-words">• ERP system implementations</li>
+                    <li className="break-words">• Cloud infrastructure consulting</li>
+                    <li className="break-words">• Data analytics and reporting</li>
+                    <li className="break-words">• Technical leadership and mentoring</li>
                   </ul>
                 </CardContent>
               </Card>
             </div>
 
             {/* Contact form */}
-            <div className="bg-white/10 backdrop-blur-sm border border-white/20 rounded-lg p-6">
+            <div className="bg-white/10 backdrop-blur-sm border border-white/20 rounded-lg p-6 h-fit">
               <ContactForm email={data.email} />
             </div>
           </div>

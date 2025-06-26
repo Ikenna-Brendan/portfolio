@@ -23,10 +23,21 @@ export default function Home() {
   const [content, setContent] = useState<any>(null);
   const [showCMS, setShowCMS] = useState(false);
   const [loading, setLoading] = useState(true);
+  const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  useEffect(() => {
+    if (!mounted) return;
+
     // Track page view
-    trackPageView('home');
+    try {
+      trackPageView('home');
+    } catch (error) {
+      console.warn('Analytics error:', error);
+    }
 
     // Load content with localStorage fallback
     const loadContent = async () => {
@@ -40,11 +51,35 @@ export default function Home() {
         } else {
           // Fallback to JSON file
           console.log('Loading content from JSON file');
-          const response = await fetch('/data/content.json');
-          const data = await response.json();
-          setContent(data);
-          // Save to localStorage for future use
-          storage.saveContent(data);
+          
+          // Try multiple paths for content.json
+          const paths = [
+            '/data/content.json',
+            './data/content.json',
+            '/portfolio/data/content.json'
+          ];
+          
+          let data = null;
+          for (const path of paths) {
+            try {
+              console.log('Trying path:', path);
+              const response = await fetch(path);
+              if (response.ok) {
+                data = await response.json();
+                console.log('Successfully loaded from:', path);
+                break;
+              }
+            } catch (error) {
+              console.log('Failed to load from:', path, error);
+            }
+          }
+          
+          if (data) {
+            setContent(data);
+            storage.saveContent(data);
+          } else {
+            throw new Error('Could not load content from any path');
+          }
         }
       } catch (error) {
         console.error('Failed to load content:', error);
@@ -151,7 +186,7 @@ export default function Home() {
     };
 
     loadContent();
-  }, []);
+  }, [mounted]);
 
   const handleContentSave = async (updatedContent: any) => {
     setContent(updatedContent);

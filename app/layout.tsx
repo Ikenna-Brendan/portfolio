@@ -68,12 +68,16 @@ export default function RootLayout({
     registerServiceWorker();
   }
 
+  // Determine the base path for static assets
+  const isGithubPages = process.env.NODE_ENV === 'production';
+  const basePath = isGithubPages ? '/portfolio' : '';
+
   return (
     <html lang="en" className="scroll-smooth" suppressHydrationWarning>
       <head>
-        <link rel="icon" href="/favicon.ico" />
-        <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
-        <link rel="manifest" href="/manifest.json" />
+        <link rel="icon" href={`${basePath}/favicon.ico`} />
+        <link rel="apple-touch-icon" href={`${basePath}/apple-touch-icon.png`} />
+        <link rel="manifest" href={`${basePath}/manifest.json`} />
         <meta name="theme-color" content="#1e293b" />
       </head>
       <body className={inter.className}>
