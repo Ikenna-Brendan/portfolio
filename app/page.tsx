@@ -48,54 +48,65 @@ export default function Home() {
         if (storedContent) {
           console.log('Loaded content from localStorage');
           setContent(storedContent);
-        } else {
-          // Fallback to JSON file
-          console.log('Loading content from JSON file');
-          
-          // Try multiple paths for content.json
-          const paths = [
-            '/data/content.json',
-            './data/content.json',
-            '/portfolio/data/content.json'
-          ];
-          
-          let data = null;
-          for (const path of paths) {
-            try {
-              console.log('Trying path:', path);
-              const response = await fetch(path);
-              if (response.ok) {
-                data = await response.json();
-                console.log('Successfully loaded from:', path);
-                break;
-              }
-            } catch (error) {
-              console.log('Failed to load from:', path, error);
+          setLoading(false);
+          return;
+        }
+
+        // Fallback to JSON file
+        console.log('Loading content from JSON file');
+        
+        // Try multiple paths for content.json
+        const paths = [
+          '/data/content.json',
+          './data/content.json',
+          '/portfolio/data/content.json',
+          'http://localhost:3000/data/content.json'
+        ];
+        
+        let data = null;
+        for (const path of paths) {
+          try {
+            console.log('Trying path:', path);
+            const response = await fetch(path);
+            console.log('Response status:', response.status, 'for path:', path);
+            if (response.ok) {
+              data = await response.json();
+              console.log('Successfully loaded from:', path);
+              break;
             }
+          } catch (error) {
+            console.log('Failed to load from:', path, error);
           }
-          
-          if (data) {
-            setContent(data);
-            storage.saveContent(data);
-          } else {
-            throw new Error('Could not load content from any path');
-          }
+        }
+        
+        if (data) {
+          console.log('Setting content from JSON file');
+          setContent(data);
+          storage.saveContent(data);
+        } else {
+          console.error('Could not load content from any path');
+          throw new Error('Could not load content from any path');
         }
       } catch (error) {
         console.error('Failed to load content:', error);
         // Fallback content
         const fallbackContent = {
           hero: {
-            name: 'Ikenna Iwuoha',
+            name: 'Ikenna B Iwuoha',
             title: 'Full-Stack Technologist & Digital Solutions Architect',
-            tagline: 'From Infrastructure to AI—Delivering Scalable, Secure, and Insightful Technology Solutions.',
-            bio: '10+ years of experience delivering enterprise solutions across multiple industries.',
+            tagline: 'From Infrastructure to AI-Delivering Scalable, Secure, and Insightful Technology Solutions.',
+            bio: '15+ years of experience delivering enterprise solutions across automotive, healthcare, retail, and education sectors. Passionate about transforming complex business challenges into elegant technical solutions.',
             resumeUrl: '/resume-ikenna-iwuoha.pdf',
             location: 'Ireland'
           },
           about: {
-            summary: 'Experienced technology professional with a passion for innovation.',
-            highlights: ['10+ years in technology', 'Cross-industry experience', 'Full-stack expertise']
+            summary: 'With over a decade in technology spanning multiple industries, I bring a unique blend of technical depth and business acumen. My experience ranges from software engineering and ERP implementations to DevOps, cloud architecture, and AI solutions. I thrive on solving complex problems and have successfully led projects from conception to deployment, always focusing on scalable, secure, and user-centric solutions.',
+            highlights: [
+              '15+ years across automotive, healthcare, retail, and education industries',
+              'Versatile expertise: software engineering, ERP, DevOps, cloud, and AI',
+              'Proven track record in both individual contribution and leadership roles',
+              'Based in Ireland with global project experience'
+            ]
           },
           skills: {
             "Software & Architecture": [
@@ -118,7 +129,7 @@ export default function Home() {
             {
               title: "IT Manager",
               company: "Farrelly Motors",
-              period: "2023 - Present",
+              period: "2023 - 2024",
               location: "Ireland",
               description: "Leading digital transformation initiatives and infrastructure modernization for automotive dealership operations.",
               achievements: [
@@ -147,8 +158,8 @@ export default function Home() {
           ],
           education: [
             {
-              degree: "Master's in Computer Science (MIS)",
-              institution: "University",
+              degree: "MSc. Management Information Systems",
+              institution: "University of Malaya - Kuala Lumpur",
               year: "2018",
               description: "Specialized in Management Information Systems with focus on enterprise architecture and data analytics."
             }
@@ -157,7 +168,7 @@ export default function Home() {
             {
               name: "Goethe German Certificate",
               issuer: "Goethe Institute",
-              year: "2020",
+              year: "2001",
               description: "Advanced German language proficiency certification"
             }
           ],
@@ -172,12 +183,13 @@ export default function Home() {
           ],
           contact: {
             email: 'ikenna.b.iwuoha@gmail.com',
-            linkedin: 'https://linkedin.com/in/ikenna-iwuoha',
+            linkedin: 'https://www.linkedin.com/in/ikenna-brendan-iwuoha-ict-specialist',
             github: 'https://github.com/ikenna-iwuoha',
             location: 'Ireland',
             available: true
           }
         };
+        console.log('Using fallback content');
         setContent(fallbackContent);
         storage.saveContent(fallbackContent);
       } finally {
@@ -228,14 +240,19 @@ export default function Home() {
       <ThemeToggle />
 
       {/* CMS Access Button */}
-      <Button
-        onClick={() => setShowCMS(true)}
-        className="fixed top-4 right-4 z-40 bg-gray-800 hover:bg-gray-700 dark:bg-gray-700 dark:hover:bg-gray-600 text-white shadow-lg"
-        size="sm"
-      >
-        <Settings size={16} className="mr-2" />
-        CMS
-      </Button>
+      {/* Show CMS button in development or when explicitly enabled */}
+      {(process.env.NODE_ENV === 'development' || 
+        process.env.NEXT_PUBLIC_SHOW_CMS === 'true' ||
+        typeof window !== 'undefined' && window.location.search.includes('cms=true')) && (
+        <Button
+          onClick={() => setShowCMS(true)}
+          className="fixed top-4 right-4 z-40 bg-gray-800 hover:bg-gray-700 dark:bg-gray-700 dark:hover:bg-gray-600 text-white shadow-lg"
+          size="sm"
+        >
+          <Settings size={16} className="mr-2" />
+          CMS
+        </Button>
+      )}
 
       {/* Main Content */}
       <Hero data={content.hero} contact={content.contact} />

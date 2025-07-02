@@ -4,6 +4,9 @@ import { Calendar, Clock, ArrowRight } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
+import { Dialog, DialogTrigger, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '@/components/ui/dialog';
+import React from 'react';
+import ReactMarkdown from 'react-markdown';
 
 interface BlogPost {
   title: string;
@@ -11,6 +14,7 @@ interface BlogPost {
   date: string;
   readTime: string;
   image: string;
+  content?: string;
 }
 
 interface BlogProps {
@@ -18,9 +22,12 @@ interface BlogProps {
 }
 
 export default function Blog({ data }: BlogProps) {
-  const handleReadMore = (title: string) => {
-    // In a real implementation, this would navigate to the full blog post
-    console.log(`Navigate to blog post: ${title}`);
+  const [open, setOpen] = React.useState(false);
+  const [selectedPost, setSelectedPost] = React.useState<BlogPost | null>(null);
+
+  const handleReadMore = (post: BlogPost) => {
+    setSelectedPost(post);
+    setOpen(true);
   };
 
   return (
@@ -45,7 +52,7 @@ export default function Blog({ data }: BlogProps) {
               <Card 
                 key={index}
                 className="overflow-hidden hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2 cursor-pointer group bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700"
-                onClick={() => handleReadMore(post.title)}
+                onClick={() => handleReadMore(post)}
               >
                 {/* Post image */}
                 <div className="relative h-48 overflow-hidden">
@@ -87,6 +94,7 @@ export default function Blog({ data }: BlogProps) {
                     variant="ghost" 
                     size="sm"
                     className="p-0 h-auto text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 group-hover:translate-x-1 transition-all duration-300"
+                    onClick={e => { e.stopPropagation(); handleReadMore(post); }}
                   >
                     Read More
                     <ArrowRight size={16} className="ml-2" />
@@ -95,6 +103,33 @@ export default function Blog({ data }: BlogProps) {
               </Card>
             ))}
           </div>
+
+          {/* Blog Post Modal */}
+          <Dialog open={open} onOpenChange={setOpen}>
+            <DialogContent className="max-w-2xl w-full">
+              {selectedPost && (
+                <>
+                  <DialogHeader>
+                    <DialogTitle>{selectedPost.title}</DialogTitle>
+                    <DialogDescription>
+                      <div className="flex items-center gap-2 text-sm text-gray-500 dark:text-gray-400 mb-2">
+                        <Calendar size={14} />
+                        <span>{new Date(selectedPost.date).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</span>
+                        <Badge variant="outline" className="flex items-center gap-1 text-xs bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 border-gray-200 dark:border-gray-600 ml-2">
+                          <Clock size={12} />
+                          {selectedPost.readTime}
+                        </Badge>
+                      </div>
+                    </DialogDescription>
+                  </DialogHeader>
+                  <img src={selectedPost.image} alt={selectedPost.title} className="w-full h-56 object-cover rounded mb-4" />
+                  <div className="prose dark:prose-invert max-h-[70vh] overflow-y-auto [&>*]:mb-4 [&>*:last-child]:mb-0 pb-16">
+                    <ReactMarkdown>{selectedPost.content || selectedPost.excerpt}</ReactMarkdown>
+                  </div>
+                </>
+              )}
+            </DialogContent>
+          </Dialog>
 
           {/* Call to action */}
           <div className="text-center mt-12">

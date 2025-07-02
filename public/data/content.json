@@ -72,6 +72,25 @@
   },
   "experience": [
     {
+      "title": "Technical Support Specialist",
+      "company": "Milestone Procore",
+      "period": "2025 - Present",
+      "location": "Ireland",
+      "description": "Provided enterprise-level technical support for Windows environments and network infrastructure.",
+      "achievements": [
+        "Maintained 98% customer satisfaction rating across 500+ support tickets",
+        "Implemented automated monitoring solutions reducing incident response time by 50%",
+        "Led compliance audits and security assessments"
+      ],
+      "technologies": [
+        "Windows Server",
+        "Active Directory",
+        "Exchange",
+        "PowerShell",
+        "Network Administration"
+      ]
+    },
+    {
       "title": "IT Manager",
       "company": "Farrelly Motors",
       "period": "2023 - 2024",
@@ -107,25 +126,6 @@
         "MySQL",
         "JavaScript",
         "API Integration"
-      ]
-    },
-    {
-      "title": "Technical Support Specialist",
-      "company": "Milestone Procore",
-      "period": "2025 - Present",
-      "location": "Ireland",
-      "description": "Provided enterprise-level technical support for Windows environments and network infrastructure.",
-      "achievements": [
-        "Maintained 98% customer satisfaction rating across 500+ support tickets",
-        "Implemented automated monitoring solutions reducing incident response time by 50%",
-        "Led compliance audits and security assessments"
-      ],
-      "technologies": [
-        "Windows Server",
-        "Active Directory",
-        "Exchange",
-        "PowerShell",
-        "Network Administration"
       ]
     },
     {
@@ -253,23 +253,26 @@
     {
       "title": "Why ERP Fails Without Proper Change Management",
       "excerpt": "Exploring the critical success factors for ERP implementations beyond technical considerations.",
-      "date": "2024-01-15",
-      "readTime": "8 min read",
-      "image": "https://images.pexels.com/photos/3184418/pexels-photo-3184418.jpeg?auto=compress&cs=tinysrgb&w=400"
+      "date": "2025-05-15",
+      "readTime": "7-9 min read",
+      "image": "https://images.pexels.com/photos/3184418/pexels-photo-3184418.jpeg?auto=compress&cs=tinysrgb&w=400",
+      "content": "## **Introduction**\nEnterprise Resource Planning (ERP) systems promise efficiency, integration, and improved decision-making. But despite the investment, over 50% of ERP implementations fail to meet expectations. While technical glitches get a lot of attention, the real culprit behind most failures isn't the software—it's the lack of proper change management.\n\nThis post explores why change management is essential for ERP success, what typically goes wrong, and how businesses can get it right.\n\n---\n\n## What Is Change Management in ERP?\nChange management refers to the structured approach used to transition individuals, teams, and organizations from a current state to a desired future state.\n\nIn ERP terms, this means:\n\n- Preparing employees to use the new system\n- Aligning business processes with the software\n- Managing expectations and reducing resistance\n- Training and ongoing support\n\nERP isn't just a tech shift—it's an organizational transformation.\n\n---\n\n## The Real Cost of Ignoring Change Management\nHere's what often happens when ERP change management is neglected:\n\n### 🔻 1. User Resistance\nEmployees feel left out of the process, don't understand the benefits, and fear job displacement. Result? They resist using the system or revert to old methods.\n\n### 💸 2. Poor Adoption\nWithout clear communication and training, users make errors or underutilize the system, undermining ROI.\n\n### ⚠️ 3. Business Disruption\nProcesses stall or break down during go-live due to confusion and lack of readiness. This can lead to delivery delays, payroll issues, or inventory chaos.\n\n### 📉 4. Loss of Morale\nERP projects that are \"done to\" employees—not \"with\" them—cause distrust, burnout, or resignations.\n\n---\n\n## Key Pillars of ERP Change Management\n\n### ✅ 1. Executive Sponsorship\nLeadership must be visible, vocal, and committed. When executives demonstrate belief in the project, it cascades down to users.\n\n### ✅ 2. Stakeholder Engagement\nFrom finance managers to warehouse workers, include stakeholders early. Ask:\n\n- What are your pain points?\n- What do you need from the system?\n\nThis builds ownership and reduces resistance.\n\n### ✅ 3. Communication Strategy\nCommunicate early and often:\n\n- What is changing and why\n- How it affects each department\n- What support is available\n\nUse emails, intranet posts, Q&A sessions, and even posters.\n\n### ✅ 4. Training & Support\nNo ERP system is intuitive without training. Offer:\n\n- Hands-on sessions\n- Role-specific manuals\n- Helpdesk/chat support\n- \"Super users\" as internal champions\n\n### ✅ 5. Process Alignment\nAvoid the trap of customizing ERP to match outdated processes. Instead:\n\n- Review and redesign workflows\n- Align business practices with ERP best practices\n\nThis is where Business Process Reengineering (BPR) and ERP intersect.\n\n### ✅ 6. Pilot Testing and Phased Rollout\nAvoid big-bang launches. Instead:\n\n- Start with a pilot department or process\n- Gather feedback\n- Fix issues\n- Scale gradually\n\nThis reduces risk and builds confidence.\n\n---\n\n## Real-World Examples of ERP Failure Without Change Management\n- **Hershey's SAP rollout (1999)**: $100M loss in sales due to poor planning and lack of change readiness.\n- **Nike's $400M ERP disaster**: Resulted from rushing implementation without aligning processes and training.\n- **Revlon (2018)**: Cited \"lack of adequate change management\" as a core reason for supply chain collapse after ERP migration.\n\nIn all cases, technical systems worked—but people, process, and communication failed.\n\n---\n\n## How to Get Change Management Right\n- **Start Early**: Begin change management during planning, not after go-live.\n- **Assign a Change Manager**: Give someone the responsibility and budget to drive it.\n- **Involve HR**: Culture, training, and employee relations are critical.\n- **Use Feedback Loops**: Conduct surveys and feedback sessions to adapt and adjust.\n\n---\n\n## Conclusion\nERP implementation is 20% technology and 80% people. Without managing the human side of change, even the best systems fall flat. Successful ERP projects are those that treat change management not as a box to tick—but as a strategic pillar.\n\nIf you're planning an ERP rollout or upgrade, invest in your people as much as your platform—and watch transformation take root."
     },
     {
       "title": "Building a Workshop Management App from Scratch",
       "excerpt": "A deep dive into the architectural decisions and challenges faced when developing custom business applications.",
-      "date": "2024-02-10",
-      "readTime": "12 min read",
-      "image": "https://images.pexels.com/photos/574071/pexels-photo-574071.jpeg?auto=compress&cs=tinysrgb&w=400"
+      "date": "2025-06-25",
+      "readTime": "8-10 min read",
+      "image": "https://images.pexels.com/photos/574071/pexels-photo-574071.jpeg?auto=compress&cs=tinysrgb&w=400",
+      "content": "## **Introduction**\nAs small businesses scale, off-the-shelf solutions often fall short of meeting their evolving needs—especially in specialized industries like auto repair, electronics, or mechanical workshops. This is where custom workshop management applications step in. But building one from scratch isn't a simple plug-and-play affair—it requires deliberate architectural decisions and an understanding of real-world operational pain points.\n\nThis blog post walks you through the key phases, architecture, tech stack choices, and challenges involved in developing a custom workshop management app, from idea to deployment.\n\n---\n\n## Understanding Business Requirements\nBefore writing a single line of code, it's critical to deeply understand the workflows within a typical workshop:\n\n- Job intake and customer requests\n- Diagnosis and repair tracking\n- Inventory of tools and spare parts\n- Staff assignments and job progress\n- Billing, invoicing, and customer communication\n\nThis phase involves interviewing stakeholders, creating flowcharts, and mapping business rules. A good app doesn't just replicate current practices—it improves them.\n\n---\n\n## Core Features to Include\nA robust workshop management app typically needs the following modules:\n\n- **Customer Management**: Contact info, vehicle/device history\n- **Work Order System**: Create, assign, and track job cards\n- **Inventory Management**: Track parts, reorder levels, and usage\n- **Time Tracking**: Monitor hours spent on each job\n- **Notifications & Alerts**: For updates, delays, or completions\n- **Billing & Invoicing**: Auto-generate bills based on labor and parts\n- **Reports & Analytics**: Job turnaround time, profitability, workload distribution\n\nOptional: integration with accounting software, SMS/email notifications, payment gateways.\n\n---\n\n## Architectural Decisions\n\n### 1. Monolith vs Microservices\n- **Monolithic**: Easier to develop for MVP; all modules are bundled.\n- **Microservices**: Useful if the app scales or requires separate deployments for inventory, billing, etc.\n\n**Recommendation**: Start monolithic for simplicity and migrate to services later if needed.\n\n### 2. Frontend Stack\n- React.js or Vue.js for dynamic dashboards\n- TailwindCSS or Bootstrap for UI\n- Mobile access? Consider React Native or Flutter\n\n### 3. Backend Stack\n- Node.js (Express), Django, or Laravel for REST API\n- Authentication via JWT/OAuth\n- Role-based access control (admins, mechanics, storekeepers, etc.)\n\n### 4. Database Design\n- Relational DB (PostgreSQL / MySQL) for structured data\n- Tables: Customers, WorkOrders, Inventory, Employees, Invoices, etc.\n- Use foreign keys to link orders with customers, inventory items, and labor costs\n\n### 5. Deployment & DevOps\n- Use Docker for containerization\n- Deploy via Heroku, DigitalOcean, or AWS EC2\n- CI/CD using GitHub Actions or GitLab CI\n- Log monitoring via LogRocket, Sentry, or Datadog\n\n---\n\n## Major Development Challenges\n\n### 🔄 1. Synchronization Issues\nIn workshops, multiple users interact with the system simultaneously. For example:\n\n- A mechanic logs job status\n- The storekeeper updates inventory\n- The receptionist updates billing\n\n**Solution**: Implement real-time data sync using WebSockets or polling, and lock records where needed.\n\n### 🔐 2. Access Control\nEach user should only see what's relevant to them.\n\n**Solution**: Implement role-based access using ACL (Access Control Lists) or permission middleware.\n\n### 💥 3. Offline Mode\nMany workshops suffer from poor connectivity.\n\n**Solution**: Consider PWA features or local caching to let users work offline and sync later.\n\n### 📱 4. User Interface Complexity\nStaff may not be tech-savvy.\n\n**Solution**:\n- Use icons and simple labels\n- Limit options per screen\n- Offer onboarding tutorials\n\n### 📊 5. Reporting & Analytics\nWorkshops want insights, not just data.\n\n**Solution**: Build an admin dashboard with filters by date, employee, job status, etc. Add exports to PDF/Excel.\n\n---\n\n## Testing & Feedback Loop\n\n### ✅ Testing Phases:\n- Unit testing (business logic)\n- Integration testing (API + DB)\n- UI/UX testing (front-end usability)\n- Beta testing with real users in the workshop\n\n**Pro tip**: Use bug reports to build a feedback loop and refine your features continuously.\n\n---\n\n## Going Beyond: Scalability & APIs\nOnce the core is solid:\n\n- Add API integrations with suppliers for real-time part availability\n- Offer multi-branch support for growing businesses\n- Implement AI features like job duration prediction or customer churn analysis\n\n---\n\n## Conclusion\nBuilding a workshop management app from scratch is a rewarding but demanding journey. It forces you to translate real-world operations into digital processes. Success lies in prioritizing user experience, understanding domain-specific workflows, and planning for future scalability.\n\nA well-designed system doesn't just digitize the business—it transforms it."
     },
     {
       "title": "Python & Power BI for Real-time Analytics in SMEs",
       "excerpt": "How small and medium enterprises can leverage modern analytics tools for competitive advantage.",
-      "date": "2024-03-05",
-      "readTime": "10 min read",
-      "image": "https://images.pexels.com/photos/669615/pexels-photo-669615.jpeg?auto=compress&cs=tinysrgb&w=400"
+      "date": "2025-07-02",
+      "readTime": "7-9 min read",
+      "image": "https://images.pexels.com/photos/669615/pexels-photo-669615.jpeg?auto=compress&cs=tinysrgb&w=400",
+      "content": "## **Introduction**\nIn today's competitive business landscape, data is no longer a luxury—it's a necessity. For small and medium-sized enterprises (SMEs), real-time analytics powered by tools like Python and Power BI can unlock powerful insights that drive smarter decisions and fuel growth.\n\n---\n\n## Why Real-Time Analytics Matter for SMEs\nReal-time analytics refers to analyzing data immediately as it becomes available. For SMEs, this means:\n\n- Spotting sales trends as they happen  \n- Reacting swiftly to inventory changes or customer behavior  \n- Improving operational efficiency  \n- Detecting fraud or anomalies quickly  \n- Gaining a competitive edge through fast, informed decisions\n\n---\n\n## Why Choose Python?\nPython is a flexible, open-source programming language that's become a go-to tool for data analysis.\n\n**Benefits of Python for SMEs:**\n- ✅ Cost-effective and community-supported  \n- ✅ Strong data processing with libraries like `Pandas`, `NumPy`  \n- ✅ Machine learning with `scikit-learn`, `TensorFlow`  \n- ✅ Automation and integration with APIs  \n\n**Use Cases:**\n- Automating reports  \n- Forecasting trends  \n- Data cleaning and integration  \n\n---\n\n## Why Choose Power BI?\nPower BI is Microsoft's business intelligence platform, ideal for creating dashboards.\n\n**Benefits of Power BI for SMEs:**\n- ✅ User-friendly interface  \n- ✅ Real-time dashboard refresh  \n- ✅ Affordable  \n- ✅ Seamless integration with Excel, SQL, Python  \n- ✅ Mobile access  \n\n**Use Cases:**\n- Sales and marketing tracking  \n- Financial and customer behavior dashboards  \n\n---\n\n## Integrating Python with Power BI\nCombining Python's processing power with Power BI's visuals gives SMEs a full-stack analytics solution.\n\n**Typical Integration Workflow:**\n1. Use Python to process the data  \n2. Apply models or analysis  \n3. Load Python scripts into Power BI  \n4. Build interactive, real-time dashboards  \n\n---\n\n## Step-by-Step Implementation Strategy\n1. Assess your data needs  \n2. Start small with a pilot project  \n3. Upskill your team  \n4. Automate and iterate  \n5. Secure data and manage access rights  \n\n---\n\n## Real-World SME Success Stories\n- **Retail**: Predicted demand and tracked sales (+20% conversion)  \n- **Healthcare**: Improved appointment efficiency (+15%)  \n- **Logistics**: Optimized routes and reduced delays (-30%)  \n\n---\n\n## Conclusion\nPython and Power BI empower SMEs to become data-driven without heavy investments. With a phased and strategic approach, SMEs can:\n\n- Make faster, smarter decisions  \n- Stay ahead of the competition  \n- Unlock actionable insights  \n\nThese tools make real-time analytics more achievable than ever."
     }
   ],
   "contact": {

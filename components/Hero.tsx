@@ -53,7 +53,7 @@ export default function Hero({ data, contact }: HeroProps) {
       <div className="container mx-auto px-6 relative z-10">
         <div className={`text-center transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
           {/* Location */}
-          <div className="flex items-center justify-center gap-2 text-blue-200 mb-6">
+          <div className="flex items-center justify-center gap-2 text-blue-200 mb-12 mt-16">
             <MapPin size={16} />
             <span className="text-sm">{data.location}</span>
           </div>

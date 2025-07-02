@@ -9,6 +9,8 @@ import { Badge } from '@/components/ui/badge';
 import { Edit, Save, X, Plus, Trash2, Download, Upload, RotateCcw } from 'lucide-react';
 import { storage } from '@/lib/storage';
 import { trackCMSAccess } from '@/lib/analytics';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '@/components/ui/dialog';
+import { Label } from '@/components/ui/label';
 
 interface ContentManagerProps {
   isVisible: boolean;
@@ -22,6 +24,14 @@ export default function ContentManager({ isVisible, onClose, onSave, currentCont
   const [activeSection, setActiveSection] = useState('hero');
   const [isSaving, setIsSaving] = useState(false);
   const [lastSaved, setLastSaved] = useState<string | null>(null);
+  const [isEditing, setIsEditing] = useState(false);
+  const [showPasswordPrompt, setShowPasswordPrompt] = useState(true);
+  const [password, setPassword] = useState('');
+  const [passwordError, setPasswordError] = useState('');
+
+  // CMS Password - Use environment variable or fallback to hardcoded password
+  // Set NEXT_PUBLIC_CMS_PASSWORD in your environment or .env.local file
+  const CMS_PASSWORD = process.env.NEXT_PUBLIC_CMS_PASSWORD || 'MyPortfolio2024!';
 
   useEffect(() => {
     setContent(currentContent);
@@ -48,6 +58,24 @@ export default function ContentManager({ isVisible, onClose, onSave, currentCont
   // Prevent scroll propagation on modal content
   const handleModalScroll = (e: React.UIEvent) => {
     e.stopPropagation();
+  };
+
+  const handlePasswordSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (password === CMS_PASSWORD) {
+      setShowPasswordPrompt(false);
+      setPasswordError('');
+    } else {
+      setPasswordError('Incorrect password');
+      setPassword('');
+    }
+  };
+
+  const handleClose = () => {
+    setShowPasswordPrompt(true);
+    setPassword('');
+    setPasswordError('');
+    onClose();
   };
 
   const handleSave = async () => {
@@ -752,112 +780,163 @@ export default function ContentManager({ isVisible, onClose, onSave, currentCont
   if (!isVisible) return null;
 
   return (
-    <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-6">
-      <Card className="w-full max-w-6xl h-[90vh] flex flex-col">
-        <CardHeader className="flex flex-row items-center justify-between flex-shrink-0">
-          <div>
-            <CardTitle>Content Management System</CardTitle>
-            {lastSaved && (
-              <p className="text-sm text-gray-500 mt-1">
-                Last saved: {new Date(lastSaved).toLocaleString()}
-              </p>
-            )}
-          </div>
-          <div className="flex gap-2">
-            <Button variant="outline" size="sm" onClick={handleExport}>
-              <Download size={16} className="mr-2" />
-              Export
-            </Button>
-            <label className="cursor-pointer">
-              <input
-                type="file"
-                accept=".json"
-                onChange={handleImport}
-                className="hidden"
-              />
-              <Button variant="outline" size="sm" asChild>
-                <span>
-                  <Upload size={16} className="mr-2" />
-                  Import
-                </span>
-              </Button>
-            </label>
-            <Button variant="outline" size="sm" onClick={handleReset}>
-              <RotateCcw size={16} className="mr-2" />
-              Reset
-            </Button>
-            <Button variant="outline" size="sm" onClick={onClose}>
-              <X size={16} />
-            </Button>
-          </div>
-        </CardHeader>
-        <CardContent className="flex-1 overflow-y-auto p-6">
-          <div className="grid md:grid-cols-4 gap-6 h-full">
-            {/* Section navigation */}
-            <div className="space-y-2">
-              {sections.map((section) => (
-                <Button
-                  key={section.id}
-                  variant={activeSection === section.id ? 'default' : 'outline'}
-                  size="sm"
-                  onClick={() => setActiveSection(section.id)}
-                  className="w-full justify-start"
-                >
-                  {section.label}
-                </Button>
-              ))}
-            </div>
+    <Dialog open={isVisible} onOpenChange={handleClose}>
+      <DialogContent className="max-w-6xl max-h-[90vh] flex flex-col p-0 cms-modal-content">
+        <DialogHeader className="flex-shrink-0 p-6 pb-4">
+          <DialogTitle>Content Management System</DialogTitle>
+          <DialogDescription>
+            Edit your portfolio content. Changes are saved to localStorage.
+          </DialogDescription>
+        </DialogHeader>
 
-            {/* Content editor */}
-            <div className="md:col-span-3 overflow-y-auto">
-              {activeSection === 'hero' && renderHeroEditor()}
-              {activeSection === 'about' && renderAboutEditor()}
-              {activeSection === 'skills' && renderSkillsEditor()}
-              {activeSection === 'experience' && renderExperienceEditor()}
-              {activeSection === 'projects' && renderProjectsEditor()}
-              {activeSection === 'education' && renderEducationEditor()}
-              {activeSection === 'certifications' && renderCertificationsEditor()}
-              {activeSection === 'blog' && renderBlogEditor()}
-              {activeSection === 'contact' && (
-                <div className="space-y-4">
+        {showPasswordPrompt ? (
+          <div className="flex flex-col items-center justify-center py-8 px-6">
+            <div className="w-full max-w-md space-y-4">
+              <div className="text-center">
+                <h3 className="text-lg font-semibold">CMS Access Required</h3>
+                <p className="text-sm text-muted-foreground mt-1">
+                  Enter the password to access the content management system.
+                </p>
+              </div>
+              
+              <form onSubmit={handlePasswordSubmit} className="space-y-4">
+                <div>
+                  <Label htmlFor="password">Password</Label>
                   <Input
-                    placeholder="Email"
-                    value={content.contact.email}
-                    onChange={(e) => updateContent('contact', 'email', e.target.value)}
+                    id="password"
+                    type="password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    placeholder="Enter CMS password"
+                    className={passwordError ? 'border-red-500' : ''}
                   />
-                  <Input
-                    placeholder="LinkedIn URL"
-                    value={content.contact.linkedin}
-                    onChange={(e) => updateContent('contact', 'linkedin', e.target.value)}
-                  />
-                  <Input
-                    placeholder="GitHub URL"
-                    value={content.contact.github}
-                    onChange={(e) => updateContent('contact', 'github', e.target.value)}
-                  />
-                  <Input
-                    placeholder="Location"
-                    value={content.contact.location}
-                    onChange={(e) => updateContent('contact', 'location', e.target.value)}
-                  />
+                  {passwordError && (
+                    <p className="text-sm text-red-500 mt-1">{passwordError}</p>
+                  )}
                 </div>
-              )}
-
-              {/* Save button */}
-              <div className="mt-6 pt-4 border-t">
-                <Button 
-                  onClick={handleSave} 
-                  disabled={isSaving}
-                  className="w-full"
-                >
-                  <Save size={16} className="mr-2" />
-                  {isSaving ? 'Saving...' : 'Save Changes'}
+                
+                <Button type="submit" className="w-full">
+                  Access CMS
+                </Button>
+              </form>
+              
+              <Button 
+                variant="outline" 
+                onClick={handleClose}
+                className="w-full"
+              >
+                Cancel
+              </Button>
+            </div>
+          </div>
+        ) : (
+          <div className="flex flex-col h-full min-h-0">
+            <CardHeader className="flex flex-row items-center justify-between flex-shrink-0 p-6 pb-4">
+              <div>
+                <CardTitle>Content Management System</CardTitle>
+                {lastSaved && (
+                  <p className="text-sm text-gray-500 mt-1">
+                    Last saved: {new Date(lastSaved).toLocaleString()}
+                  </p>
+                )}
+              </div>
+              <div className="flex gap-2">
+                <Button variant="outline" size="sm" onClick={handleExport}>
+                  <Download size={16} className="mr-2" />
+                  Export
+                </Button>
+                <label className="cursor-pointer">
+                  <input
+                    type="file"
+                    accept=".json"
+                    onChange={handleImport}
+                    className="hidden"
+                  />
+                  <Button variant="outline" size="sm" asChild>
+                    <span>
+                      <Upload size={16} className="mr-2" />
+                      Import
+                    </span>
+                  </Button>
+                </label>
+                <Button variant="outline" size="sm" onClick={handleReset}>
+                  <RotateCcw size={16} className="mr-2" />
+                  Reset
+                </Button>
+                <Button variant="outline" size="sm" onClick={handleClose}>
+                  <X size={16} />
                 </Button>
               </div>
-            </div>
+            </CardHeader>
+            <CardContent className="flex-1 overflow-y-auto p-6 pt-0 min-h-0" onScroll={handleModalScroll}>
+              <div className="grid md:grid-cols-4 gap-6 h-full">
+                {/* Section navigation */}
+                <div className="space-y-2">
+                  {sections.map((section) => (
+                    <Button
+                      key={section.id}
+                      variant={activeSection === section.id ? 'default' : 'outline'}
+                      size="sm"
+                      onClick={() => setActiveSection(section.id)}
+                      className="w-full justify-start"
+                    >
+                      {section.label}
+                    </Button>
+                  ))}
+                </div>
+
+                {/* Content editor */}
+                <div className="md:col-span-3 overflow-y-auto" onScroll={handleModalScroll}>
+                  {activeSection === 'hero' && renderHeroEditor()}
+                  {activeSection === 'about' && renderAboutEditor()}
+                  {activeSection === 'skills' && renderSkillsEditor()}
+                  {activeSection === 'experience' && renderExperienceEditor()}
+                  {activeSection === 'projects' && renderProjectsEditor()}
+                  {activeSection === 'education' && renderEducationEditor()}
+                  {activeSection === 'certifications' && renderCertificationsEditor()}
+                  {activeSection === 'blog' && renderBlogEditor()}
+                  {activeSection === 'contact' && (
+                    <div className="space-y-4">
+                      <Input
+                        placeholder="Email"
+                        value={content.contact.email}
+                        onChange={(e) => updateContent('contact', 'email', e.target.value)}
+                      />
+                      <Input
+                        placeholder="LinkedIn URL"
+                        value={content.contact.linkedin}
+                        onChange={(e) => updateContent('contact', 'linkedin', e.target.value)}
+                      />
+                      <Input
+                        placeholder="GitHub URL"
+                        value={content.contact.github}
+                        onChange={(e) => updateContent('contact', 'github', e.target.value)}
+                      />
+                      <Input
+                        placeholder="Location"
+                        value={content.contact.location}
+                        onChange={(e) => updateContent('contact', 'location', e.target.value)}
+                      />
+                    </div>
+                  )}
+
+                  {/* Save button */}
+                  <div className="mt-6 pt-4 border-t">
+                    <Button 
+                      onClick={handleSave} 
+                      disabled={isSaving}
+                      className="w-full"
+                    >
+                      <Save size={16} className="mr-2" />
+                      {isSaving ? 'Saving...' : 'Save Changes'}
+                    </Button>
+                  </div>
+                </div>
+              </div>
+            </CardContent>
           </div>
-        </CardContent>
-      </Card>
-    </div>
+        )}
+      </DialogContent>
+    </Dialog>
   );
 }
