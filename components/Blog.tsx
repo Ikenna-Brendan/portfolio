@@ -1,6 +1,6 @@
 'use client';
 
-import { Calendar, Clock, ArrowRight } from 'lucide-react';
+import { Calendar, Clock, ArrowRight, X } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -109,7 +109,16 @@ export default function Blog({ data }: BlogProps) {
             <DialogContent className="max-w-2xl w-full">
               {selectedPost && (
                 <>
-                  <DialogHeader>
+                  <DialogHeader className="relative">
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      className="absolute right-0 top-0 h-8 w-8 p-0 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200"
+                      onClick={() => setOpen(false)}
+                    >
+                      <X size={16} />
+                      <span className="sr-only">Close</span>
+                    </Button>
                     <DialogTitle>{selectedPost.title}</DialogTitle>
                     <DialogDescription>
                       <div className="flex items-center gap-2 text-sm text-gray-500 dark:text-gray-400 mb-2">
