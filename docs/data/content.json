@@ -17,49 +17,70 @@
     ]
   },
   "skills": {
-    "programming": [
-      "JavaScript",
-      "TypeScript",
+    "Software & Architecture": [
       "Python",
       "C#",
-      "HTML/CSS",
-      "SQL"
-    ],
-    "frameworks": [
+      "PHP",
+      "JavaScript",
+      "TypeScript",
       "React.js",
       "Next.js",
       "Node.js",
       "Express.js",
-      "Tailwind CSS",
-      "Bootstrap"
+      "ERPNext",
+      "Web Development",
+      "Mobile App Development",
+      "API Design",
+      "RESTful APIs",
+      "Automated Testing"
     ],
-    "databases": [
-      "MySQL",
-      "PostgreSQL",
-      "MongoDB",
-      "SQLite"
+    "Systems & Infrastructure": [
+      "Active Directory",
+      "Office 365",
+      "Exchange Server",
+      "Networking",
+      "Virtualization",
+      "Hyper-V",
+      "Windows Server",
+      "Linux Administration"
     ],
-    "cloud": [
+    "Cloud & DevOps": [
       "Google Cloud Platform",
       "GitHub Pages",
       "Vercel",
-      "Netlify"
+      "Netlify",
+      "SaaS Solutions",
+      "System Administration",
+      "Docker",
+      "CI/CD",
+      "Infrastructure as Code",
+      "Cloud Migration"
     ],
-    "tools": [
-      "Git",
-      "GitHub",
-      "VS Code",
+    "Project & Team Leadership": [
+      "Agile Methodologies",
+      "Scrum",
+      "JIRA",
+      "Confluence",
+      "Trello",
+      "Requirement Analysis",
+      "Technical Support",
+      "Documentation",
+      "Stakeholder Management",
+      "Team Leadership"
+    ],
+    "Data & Analytics": [
       "Power BI",
-      "Streamlit",
-      "Docker"
-    ],
-    "other": [
-      "RESTful APIs",
-      "Content Management Systems",
-      "Responsive Design",
-      "UI/UX Design",
-      "Agile Development",
-      "Technical Documentation"
+      "SQL",
+      "MySQL",
+      "PostgreSQL",
+      "MongoDB",
+      "SQLite",
+      "Data Analysis",
+      "Dashboard Development",
+      "Business Intelligence",
+      "Reporting",
+      "Data Visualization",
+      "Streamlit"
     ]
   },
   "experience": [
@@ -74,7 +95,8 @@
         "Implemented modern tech stacks including React.js, Next.js, TypeScript, and Tailwind CSS",
         "Deployed applications to GitHub Pages and self-hosted environments",
         "Integrated advanced features including real-time CMS, blog platforms with Markdown support",
-        "Applied responsive design principles and modern UI/UX practices"
+        "Applied responsive design principles and modern UI/UX practices",
+        "Created automated website testing tool for performance, security, accessibility, and SEO analysis"
       ],
       "technologies": [
         "React.js",
@@ -82,7 +104,9 @@
         "TypeScript",
         "Tailwind CSS",
         "GitHub Pages",
-        "Content Management Systems"
+        "Content Management Systems",
+        "Node.js",
+        "Automated Testing"
       ]
     },
     {
