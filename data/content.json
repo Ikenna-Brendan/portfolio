@@ -23,13 +23,16 @@
       "PHP",
       "JavaScript",
       "TypeScript",
+      "React.js",
+      "Next.js",
+      "Node.js",
+      "Express.js",
       "ERPNext",
-      "MySQL",
-      "PostgreSQL",
-      "Streamlit",
       "Web Development",
       "Mobile App Development",
-      "API Design"
+      "API Design",
+      "RESTful APIs",
+      "Automated Testing"
     ],
     "Systems & Infrastructure": [
       "Active Directory",
@@ -43,6 +46,9 @@
     ],
     "Cloud & DevOps": [
       "Google Cloud Platform",
+      "GitHub Pages",
+      "Vercel",
+      "Netlify",
       "SaaS Solutions",
       "System Administration",
       "Docker",
@@ -54,6 +60,8 @@
       "Agile Methodologies",
       "Scrum",
       "JIRA",
+      "Confluence",
+      "Trello",
       "Requirement Analysis",
       "Technical Support",
       "Documentation",
@@ -63,14 +71,44 @@
     "Data & Analytics": [
       "Power BI",
       "SQL",
+      "MySQL",
+      "PostgreSQL",
+      "MongoDB",
+      "SQLite",
       "Data Analysis",
       "Dashboard Development",
       "Business Intelligence",
       "Reporting",
-      "Data Visualization"
+      "Data Visualization",
+      "Streamlit"
     ]
   },
   "experience": [
+    {
+      "title": "Full-Stack Developer & Technology Consultant",
+      "company": "Independent",
+      "period": "2024 - Present",
+      "location": "Ireland",
+      "description": "Developing modern web applications and providing technology consulting services with focus on rapid prototyping and full-stack development.",
+      "achievements": [
+        "Developed 3 complete web applications from concept to deployment within one week",
+        "Implemented modern tech stacks including React.js, Next.js, TypeScript, and Tailwind CSS",
+        "Deployed applications to GitHub Pages and self-hosted environments",
+        "Integrated advanced features including real-time CMS, blog platforms with Markdown support",
+        "Applied responsive design principles and modern UI/UX practices",
+        "Created automated website testing tool for performance, security, accessibility, and SEO analysis"
+      ],
+      "technologies": [
+        "React.js",
+        "Next.js",
+        "TypeScript",
+        "Tailwind CSS",
+        "GitHub Pages",
+        "Content Management Systems",
+        "Node.js",
+        "Automated Testing"
+      ]
+    },
     {
       "title": "Technical Support Specialist",
       "company": "Milestone Procore",
