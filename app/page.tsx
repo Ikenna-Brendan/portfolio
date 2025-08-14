@@ -58,12 +58,13 @@ export default function Home() {
         // Try multiple paths for content.json with cache busting
         const timestamp = new Date().getTime();
         const paths = [
-          // Production path
+          // Production paths (with and without basePath)
+          '/portfolio/data/content.json',
+          '/data/content.json',
+          // Absolute URL for production
           'https://ikenna-brendan.github.io/portfolio/data/content.json',
           // Local development paths
-          '/data/content.json',
           './data/content.json',
-          '/portfolio/data/content.json',
           'http://localhost:3000/data/content.json'
         ];
         
@@ -72,15 +73,43 @@ export default function Home() {
           try {
             const url = `${path}${path.includes('?') ? '&' : '?'}_t=${timestamp}`;
             console.log('Trying path:', url);
-            const response = await fetch(url);
+            const response = await fetch(url, { 
+              cache: 'no-store', 
+              headers: {
+                'Cache-Control': 'no-cache, no-store, must-revalidate',
+                'Pragma': 'no-cache',
+                'Expires': '0'
+              }
+            });
             console.log('Response status:', response.status, 'for path:', url);
             if (response.ok) {
               data = await response.json();
               console.log('Successfully loaded from:', url);
-              break;
+              // Validate we got the expected data structure
+              if (data && data.hero && data.skills) {
+                console.log('Content validation passed');
+                break;
+              } else {
+                console.warn('Content validation failed, trying next path');
+                data = null;
+              }
             }
           } catch (error) {
             console.log('Failed to load from path:', path, error);
+          }
+        }
+        
+        // If still no data, try to use the default export
+        if (!data) {
+          console.log('Falling back to default content');
+          try {
+            const defaultContent = await import('@/data/content.json');
+            if (defaultContent && defaultContent.default) {
+              data = defaultContent.default;
+              console.log('Successfully loaded default content');
+            }
+          } catch (error) {
+            console.error('Failed to load default content:', error);
           }
         }
         

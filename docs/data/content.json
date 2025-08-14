@@ -32,7 +32,9 @@
       "Mobile App Development",
       "API Design",
       "RESTful APIs",
-      "Automated Testing"
+      "Automated Testing",
+      "Cursor",
+      "Windsurf"
     ],
     "Systems & Infrastructure": [
       "Active Directory",
@@ -42,7 +44,8 @@
       "Virtualization",
       "Hyper-V",
       "Windows Server",
-      "Linux Administration"
+      "Linux Administration",
+      "Remote Desktop"
     ],
     "Cloud & DevOps": [
       "Google Cloud Platform",
@@ -80,7 +83,8 @@
       "Business Intelligence",
       "Reporting",
       "Data Visualization",
-      "Streamlit"
+      "Streamlit",
+      "Excel"
     ]
   },
   "experience": [
