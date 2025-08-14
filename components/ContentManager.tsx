@@ -11,6 +11,7 @@ import { storage } from '@/lib/storage';
 import { trackCMSAccess } from '@/lib/analytics';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '@/components/ui/dialog';
 import { Label } from '@/components/ui/label';
+import { toast } from 'react-hot-toast';
 
 interface ContentManagerProps {
   isVisible: boolean;
@@ -81,10 +82,12 @@ export default function ContentManager({ isVisible, onClose, onSave, currentCont
   const handleSave = async () => {
     setIsSaving(true);
     try {
-      storage.saveContent(content);
+      // Save to localStorage and trigger file download in development
+      await storage.saveContent(content, { saveToFile: true });
       onSave(content);
       setLastSaved(new Date().toISOString());
       // Show success feedback
+      toast.success('Content saved successfully!');
       setTimeout(() => setIsSaving(false), 1000);
     } catch (error) {
       console.error('Failed to save content:', error);

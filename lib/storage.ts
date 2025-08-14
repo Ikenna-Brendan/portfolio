@@ -53,24 +53,50 @@ const getBuildId = (): string => {
 
 const CURRENT_BUILD_ID = getBuildId();
 
+// Import client-side file system operations
+import { saveContentToFile } from './fileSystem';
+
+// Helper function to save to file system in development
+const saveToFileSystem = async (content: any, options: { forceDownload?: boolean } = {}): Promise<boolean> => {
+  // Only run in development and only if explicitly requested
+  if (typeof window === 'undefined' || 
+      process.env.NODE_ENV !== 'development' || 
+      !options.forceDownload) {
+    return false;
+  }
+
+  try {
+    // Use client-side file system operations
+    return await saveContentToFile(content);
+  } catch (error) {
+    console.warn('Could not save to file system:', error);
+    return false;
+  }
+};
+
 export const storage = {
-  // Save content to localStorage with build ID
-  saveContent: (content: any): void => {
+  // Save content to localStorage with build ID and optionally to file system in development
+  saveContent: async (content: any, options: { saveToFile?: boolean } = {}): Promise<void> => {
     try {
-      console.log('Saving content to localStorage...', { content });
+      console.log('Saving content...', { content });
       const data: StorageData = {
         content,
         lastUpdated: new Date().toISOString(),
         version: VERSION,
         buildId: CURRENT_BUILD_ID
       };
-      console.log('Data to be saved:', data);
+      
+      // Save to localStorage
+      console.log('Saving to localStorage...');
       localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
       console.log(`Content saved to localStorage [Build: ${CURRENT_BUILD_ID}, Key: ${STORAGE_KEY}]`);
       
-      // Verify the content was saved
-      const saved = localStorage.getItem(STORAGE_KEY);
-      console.log('Verification - Content in localStorage:', saved);
+      // Only save to file system if explicitly requested
+      if (process.env.NODE_ENV === 'development' && options.saveToFile) {
+        console.log('Attempting to save to file system...');
+        const fileSaveSuccess = await saveToFileSystem(content, { forceDownload: true });
+        console.log('File system save result:', fileSaveSuccess ? 'Success' : 'Failed');
+      }
     } catch (error) {
       console.error('Failed to save content:', error);
     }

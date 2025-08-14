@@ -36,7 +36,6 @@
       "Automated Testing",
       "Cursor",
       "Windsurf",
-      "GitHub Copilot",
       "Visual Studio Code"
     ],
     "Systems & Infrastructure": [
@@ -98,12 +97,13 @@
       "location": "Ireland",
       "description": "Developing modern web applications and providing technology consulting services with focus on rapid prototyping and full-stack development.",
       "achievements": [
-        "Developed 3 complete web applications from concept to deployment within one week",
+        "Developed 3 complete web applications from concept to deployment within one week using AI tools",
         "Implemented modern tech stacks including React.js, Next.js, TypeScript, and Tailwind CSS",
         "Deployed applications to GitHub Pages and self-hosted environments",
         "Integrated advanced features including real-time CMS, blog platforms with Markdown support",
         "Applied responsive design principles and modern UI/UX practices",
-        "Created automated website testing tool for performance, security, accessibility, and SEO analysis"
+        "Created automated website testing tool for performance, security, accessibility, and SEO analysis",
+        "Automated deployment of full-stack app on Ubuntu using Docker Compose, systemd, and Bash; secured access via Cloudflare Tunnel and CORS, showcasing expertise in Linux ops, container orchestration, and network security"
       ],
       "technologies": [
         "React.js",
