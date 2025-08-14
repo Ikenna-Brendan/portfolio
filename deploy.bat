@@ -60,16 +60,29 @@ if exist "public\icon-512x512.png" (
     copy "public\icon-512x512.png" "docs\icon-512x512.png"
 )
 
+REM Ensure data directory exists in docs
+if not exist "docs\data" mkdir "docs\data"
+
 REM Copy content files to docs directory with cache busting
 if exist "public\data" (
-    if not exist "docs\data" mkdir "docs\data"
     if exist "public\data\content.json" (
-        echo [*] Copying content files...
-        copy "public\data\content.json" "docs\data\content.json"
+        echo [*] Updating content files...
+        
+        REM First, remove any old content-*.json files
+        del /Q "docs\data\content-*.json" 2>nul
+        
+        REM Copy the main content file
+        copy /Y "public\data\content.json" "docs\data\content.json"
         
         REM Create a versioned copy for cache busting
-        copy "public\data\content.json" "docs\data\content-!BUILD_ID!.json"
+        copy /Y "public\data\content.json" "docs\data\content-!BUILD_ID!.json"
+        
+        echo [+] Content files updated successfully
+    ) else (
+        echo [!] No content.json found in public\data
     )
+) else (
+    echo [!] public\data directory not found
 )
 
 REM Create .nojekyll file for GitHub Pages

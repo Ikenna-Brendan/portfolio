@@ -11,12 +11,8 @@ interface EducationItem {
   description: string;
 }
 
-interface CertificationItem {
-  name: string;
-  issuer: string;
-  year: string;
-  description: string;
-}
+// Import shared types
+import { CertificationItem } from '@/types';
 
 interface EducationProps {
   education: EducationItem[];

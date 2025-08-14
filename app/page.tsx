@@ -19,18 +19,53 @@ import ScrollProgress from '@/components/ScrollProgress';
 import { storage } from '@/lib/storage';
 import { trackPageView } from '@/lib/analytics';
 
-export default function Home() {
-  const [content, setContent] = useState<any>(null);
-  const [showCMS, setShowCMS] = useState(false);
-  const [loading, setLoading] = useState(true);
-  const [mounted, setMounted] = useState(false);
+// Import shared types
+import { CertificationItem } from '@/types';
 
+// Define content type for better type safety
+interface Content {
+  hero: {
+    name: string;
+    title: string;
+    tagline: string;
+    bio: string;
+    resumeUrl: string;
+    location: string;
+  };
+  about: {
+    summary: string;
+    highlights: string[];
+  };
+  skills: Record<string, string[]>;
+  experience: any[];
+  projects: any[];
+  education: any[];
+  blog: any[];
+  contact: {
+    email: string;
+    linkedin: string;
+    github: string;
+    location: string;
+    available: boolean;
+  };
+  certifications?: CertificationItem[]; // Optional certifications array with proper type
+}
+
+export default function Home() {
+  const [content, setContent] = useState<Content | null>(null);
+  const [showCMS, setShowCMS] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+  const [isMounted, setIsMounted] = useState(false);
+
+  // Set mounted state on component mount
   useEffect(() => {
-    setMounted(true);
+    setIsMounted(true);
+    return () => setIsMounted(false);
   }, []);
 
+  // Load content when component mounts
   useEffect(() => {
-    if (!mounted) return;
+    if (!isMounted) return;
 
     // Track page view
     try {
@@ -39,92 +74,152 @@ export default function Home() {
       console.warn('Analytics error:', error);
     }
 
-    // Load content with localStorage fallback
-    const loadContent = async () => {
+    /**
+     * Load content from server with cache busting
+     */
+    const loadContentFromServer = async (): Promise<void> => {
+      if (!isMounted) return;
+      
       try {
-        // First try to load from localStorage
-        const storedContent = storage.loadContent();
-        
-        if (storedContent) {
-          console.log('Loaded content from localStorage');
-          setContent(storedContent);
-          setLoading(false);
-          return;
-        }
-
-        // Fallback to JSON file
-        console.log('Loading content from JSON file');
-        
-        // Try multiple paths for content.json with cache busting
+        console.log('Loading content from server...');
         const timestamp = new Date().getTime();
         const paths = [
-          // Production paths (with and without basePath)
           '/portfolio/data/content.json',
           '/data/content.json',
-          // Absolute URL for production
-          'https://ikenna-brendan.github.io/portfolio/data/content.json',
-          // Local development paths
+          `https://ikenna-brendan.github.io/portfolio/data/content.json?t=${timestamp}`,
           './data/content.json',
-          'http://localhost:3000/data/content.json'
+          `http://localhost:3000/data/content.json?t=${timestamp}`
         ];
         
-        let data = null;
         for (const path of paths) {
           try {
             const url = `${path}${path.includes('?') ? '&' : '?'}_t=${timestamp}`;
-            console.log('Trying path:', url);
+            console.log('Trying to load content from:', url);
+            
             const response = await fetch(url, { 
-              cache: 'no-store', 
+              cache: 'no-store',
               headers: {
                 'Cache-Control': 'no-cache, no-store, must-revalidate',
                 'Pragma': 'no-cache',
                 'Expires': '0'
               }
             });
-            console.log('Response status:', response.status, 'for path:', url);
+            
             if (response.ok) {
-              data = await response.json();
-              console.log('Successfully loaded from:', url);
-              // Validate we got the expected data structure
-              if (data && data.hero && data.skills) {
-                console.log('Content validation passed');
-                break;
-              } else {
-                console.warn('Content validation failed, trying next path');
-                data = null;
+              const data: Content = await response.json();
+              if (data?.hero && data?.skills) {
+                console.log('Successfully loaded content from:', url);
+                storage.saveContent(data);
+                if (isMounted) {
+                  setContent(data);
+                  setIsLoading(false);
+                }
+                return;
               }
             }
           } catch (error) {
-            console.log('Failed to load from path:', path, error);
+            console.error(`Failed to load from ${path}:`, error);
           }
         }
         
-        // If still no data, try to use the default export
-        if (!data) {
-          console.log('Falling back to default content');
-          try {
-            const defaultContent = await import('@/data/content.json');
-            if (defaultContent && defaultContent.default) {
-              data = defaultContent.default;
-              console.log('Successfully loaded default content');
-            }
-          } catch (error) {
-            console.error('Failed to load default content:', error);
+        // If we get here, all paths failed - try localStorage as fallback
+        console.warn('Failed to load from all paths, checking localStorage...');
+        const storedContent = storage.loadContent();
+        if (storedContent) {
+          console.log('Using content from localStorage');
+          if (isMounted) {
+            setContent(storedContent);
+            setIsLoading(false);
           }
+          return;
         }
         
-        if (data) {
-          console.log('Setting content from JSON file');
-          setContent(data);
-          storage.saveContent(data);
-        } else {
-          console.error('Could not load content from any path');
-          throw new Error('Could not load content from any path');
+        // If we still don't have content, use fallback
+        console.warn('No content available, using fallback content');
+        const fallbackContent: Content = {
+          hero: {
+            name: 'Ikenna B Iwuoha',
+            title: 'Full-Stack Technologist & Digital Solutions Architect',
+            tagline: 'From Infrastructure to AI - Delivering Scalable, Secure, and Insightful Technology Solutions',
+            bio: 'Experienced technology leader with a passion for building innovative solutions that drive business growth.',
+            resumeUrl: '/resume-ikenna-iwuoha.pdf',
+            location: 'Dublin, Ireland'
+          },
+          about: {
+            summary: 'Seasoned technology professional with expertise in cloud architecture, full-stack development, and digital transformation initiatives.',
+            highlights: [
+              '15+ years of experience in software development and IT leadership',
+              'Specializing in cloud-native applications and microservices architecture',
+              'Strong focus on delivering high-quality, scalable solutions'
+            ]
+          },
+          skills: {
+            'Frontend': ['React', 'TypeScript', 'Next.js', 'Tailwind CSS'],
+            'Backend': ['Node.js', 'Python', 'Java', 'C#'],
+            'Cloud': ['AWS', 'Azure', 'Docker', 'Kubernetes'],
+            'DevOps': ['CI/CD', 'Terraform', 'Ansible', 'GitHub Actions']
+          },
+          experience: [],
+          projects: [],
+          education: [],
+          blog: [],
+          contact: {
+            email: 'contact@ikenna-iwuoha.com',
+            linkedin: 'https://linkedin.com/in/ikenna-iwuoha',
+            github: 'https://github.com/ikenna-brendan',
+            location: 'Dublin, Ireland',
+            available: true
+          }
+        };
+        
+        if (isMounted) {
+          setContent(fallbackContent);
+          setIsLoading(false);
         }
+        
       } catch (error) {
-        console.error('Failed to load content:', error);
-        // Fallback content
-        const fallbackContent = {
+        console.error('Error loading content:', error);
+        if (isMounted) {
+          setIsLoading(false);
+        }
+      }
+    };
+    
+    // Load content based on URL parameters
+    const loadContent = async (): Promise<void> => {
+      if (!isMounted) return;
+      
+      try {
+        const urlParams = new URLSearchParams(window.location.search);
+        const forceRefresh = urlParams.get('refresh') === 'true';
+        
+        if (!forceRefresh) {
+          const storedContent = storage.loadContent();
+          if (storedContent) {
+            console.log('Using cached content from localStorage');
+            if (isMounted) {
+              setContent(storedContent);
+              setIsLoading(false);
+            }
+            // Still try to update in the background
+            loadContentFromServer();
+            return;
+          }
+        } else {
+          console.log('Forcing content refresh from server');
+          storage.clearContent();
+        }
+        
+        // If we get here, load directly from server
+        await loadContentFromServer();
+      } catch (error) {
+        console.error('Error in loadContent:', error);
+        if (isMounted) {
+          setIsLoading(false);
+        }
+        
+        // Fallback content in case of errors
+        const fallbackContent: Content = {
           hero: {
             name: 'Ikenna B Iwuoha',
             title: 'Full-Stack Technologist & Digital Solutions Architect',
@@ -224,24 +319,56 @@ export default function Home() {
           }
         };
         console.log('Using fallback content');
-        setContent(fallbackContent);
-        storage.saveContent(fallbackContent);
-      } finally {
-        setLoading(false);
+        if (isMounted) {
+          setContent(fallbackContent);
+          storage.saveContent(fallbackContent);
+          setIsLoading(false);
+        }
       }
+    };
+    
+    // Initial load
+    loadContent();
+    
+    // Cleanup function
+    return () => {
+      // Any cleanup if needed
     };
 
     loadContent();
-  }, [mounted]);
+  }, [isMounted]); // Changed from mounted to isMounted
 
-  const handleContentSave = async (updatedContent: any) => {
-    setContent(updatedContent);
-    // Save to localStorage
-    storage.saveContent(updatedContent);
-    console.log('Content saved to localStorage:', updatedContent);
+  /**
+   * Handle content updates from the CMS
+   */
+  const handleContentSave = (updatedContent: Content): void => {
+    if (!isMounted) return;
+    
+    try {
+      // Validate the content structure before saving
+      if (!updatedContent?.hero || !updatedContent?.skills) {
+        console.error('Invalid content structure');
+        return;
+      }
+      
+      // Save to state and storage
+      setContent(updatedContent);
+      storage.saveContent(updatedContent);
+      setShowCMS(false);
+      
+      // Show success message
+      alert('Content updated successfully!');
+      
+      // Force a refresh to ensure all components update with new content
+      window.location.reload();
+    } catch (error) {
+      console.error('Error saving content:', error);
+      alert('Failed to save content. Please check the console for details.');
+    }
   };
 
-  if (loading) {
+  // Show loading state
+  if (isLoading || !content) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-900 via-blue-900 to-slate-800 dark:from-slate-900 dark:via-blue-900 dark:to-slate-800">
         <LoadingSpinner size="xl" text="Loading portfolio..." />
@@ -294,7 +421,7 @@ export default function Home() {
       <Skills data={content.skills} />
       <Experience data={content.experience} />
       <Projects data={content.projects} />
-      <Education education={content.education} certifications={content.certifications} />
+      <Education education={content.education} certifications={content.certifications || []} />
       <Blog data={content.blog} />
       <Contact data={content.contact} />
       <Footer />

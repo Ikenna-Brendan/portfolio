@@ -9,9 +9,9 @@ export interface StorageData {
 }
 
 const STORAGE_KEY = 'portfolio-content';
-const VERSION = '1.0.4';
+const VERSION = '1.0.5'; // Bump version to force cache invalidation
 
-// Get build ID from URL or use default
+// Get build ID from URL, build-info.json, or use default
 const getBuildId = (): string => {
   if (typeof window === 'undefined') {
     console.log('getBuildId: Running on server, returning "local"');
@@ -32,10 +32,23 @@ const getBuildId = (): string => {
     return urlBuildId;
   }
   
-  // For production builds, we'll use a fixed build ID
-  // since we don't have build-info.json
-  console.log('getBuildId: Using fixed production build ID');
-  return 'production-v1';
+  // Try to get build ID from build-info.json
+  try {
+    // This will be available in the built version
+    const buildInfo = (window as any).__BUILD_INFO__;
+    if (buildInfo && buildInfo.buildId) {
+      console.log('getBuildId: Using build ID from build-info.json:', buildInfo.buildId);
+      return buildInfo.buildId;
+    }
+  } catch (error) {
+    console.log('Failed to load build info:', error);
+  }
+  
+  // Fallback to a build ID based on the current date
+  const date = new Date();
+  const dateString = `${date.getFullYear()}${String(date.getMonth() + 1).padStart(2, '0')}${String(date.getDate()).padStart(2, '0')}`;
+  console.log('getBuildId: Using date-based build ID');
+  return `build-${dateString}`;
 };
 
 const CURRENT_BUILD_ID = getBuildId();
@@ -67,6 +80,20 @@ export const storage = {
   loadContent: (): any | null => {
     try {
       console.log('Attempting to load content from localStorage...');
+      
+      // First, check if we should force a refresh from the server
+      const lastRefresh = localStorage.getItem(`${STORAGE_KEY}_last_refresh`);
+      const now = Date.now();
+      const oneHour = 60 * 60 * 1000; // 1 hour in milliseconds
+      
+      // Force refresh if it's been more than 1 hour since last refresh
+      if (lastRefresh && (now - parseInt(lastRefresh, 10)) > oneHour) {
+        console.log('Forcing content refresh - last refresh was more than 1 hour ago');
+        localStorage.removeItem(STORAGE_KEY);
+        localStorage.setItem(`${STORAGE_KEY}_last_refresh`, now.toString());
+        return null;
+      }
+      
       const stored = localStorage.getItem(STORAGE_KEY);
       
       if (!stored) {
@@ -98,6 +125,9 @@ export const storage = {
           return null;
         }
       }
+      
+      // Update the last refresh time
+      localStorage.setItem(`${STORAGE_KEY}_last_refresh`, now.toString());
       
       console.log(`Successfully loaded content from localStorage [Build: ${data.buildId || 'legacy'}, Last Updated: ${data.lastUpdated}]`);
       return data.content;
