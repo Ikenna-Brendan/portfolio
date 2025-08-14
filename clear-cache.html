@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clear Portfolio Cache</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            text-align: center;
+        }
+        .container {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 30px;
+            border-radius: 10px;
+            backdrop-filter: blur(10px);
+        }
+        button {
+            background: #4CAF50;
+            color: white;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            margin: 10px;
+        }
+        button:hover {
+            background: #45a049;
+        }
+        .status {
+            margin: 20px 0;
+            padding: 15px;
+            border-radius: 5px;
+            background: rgba(255, 255, 255, 0.2);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔄 Portfolio Cache Clearer</h1>
+        <p>This will clear the localStorage cache for your portfolio website.</p>
+        
+        <button onclick="clearCache()">Clear Cache</button>
+        <button onclick="goToPortfolio()">Go to Portfolio</button>
+        
+        <div id="status" class="status" style="display: none;"></div>
+    </div>
+
+    <script>
+        function clearCache() {
+            try {
+                // Clear localStorage
+                localStorage.clear();
+                
+                // Clear sessionStorage
+                sessionStorage.clear();
+                
+                // Clear any specific portfolio keys
+                localStorage.removeItem('portfolio-content');
+                localStorage.removeItem('content-data');
+                
+                document.getElementById('status').innerHTML = 
+                    '✅ Cache cleared successfully!<br>' +
+                    'localStorage and sessionStorage have been cleared.<br>' +
+                    'You can now go to your portfolio to see the updated content.';
+                document.getElementById('status').style.display = 'block';
+                
+                console.log('Cache cleared successfully');
+            } catch (error) {
+                document.getElementById('status').innerHTML = 
+                    '❌ Error clearing cache: ' + error.message;
+                document.getElementById('status').style.display = 'block';
+                console.error('Error clearing cache:', error);
+            }
+        }
+        
+        function goToPortfolio() {
+            window.open('http://localhost:3000', '_blank');
+        }
+        
+        // Auto-clear cache when page loads
+        window.onload = function() {
+            clearCache();
+        };
+    </script>
+</body>
+</html> 

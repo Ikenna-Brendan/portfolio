@@ -55,8 +55,12 @@ export default function Home() {
         // Fallback to JSON file
         console.log('Loading content from JSON file');
         
-        // Try multiple paths for content.json
+        // Try multiple paths for content.json with cache busting
+        const timestamp = new Date().getTime();
         const paths = [
+          // Production path
+          'https://ikenna-brendan.github.io/portfolio/data/content.json',
+          // Local development paths
           '/data/content.json',
           './data/content.json',
           '/portfolio/data/content.json',
@@ -66,16 +70,17 @@ export default function Home() {
         let data = null;
         for (const path of paths) {
           try {
-            console.log('Trying path:', path);
-            const response = await fetch(path);
-            console.log('Response status:', response.status, 'for path:', path);
+            const url = `${path}${path.includes('?') ? '&' : '?'}_t=${timestamp}`;
+            console.log('Trying path:', url);
+            const response = await fetch(url);
+            console.log('Response status:', response.status, 'for path:', url);
             if (response.ok) {
               data = await response.json();
-              console.log('Successfully loaded from:', path);
+              console.log('Successfully loaded from:', url);
               break;
             }
           } catch (error) {
-            console.log('Failed to load from:', path, error);
+            console.log('Failed to load from path:', path, error);
           }
         }
         

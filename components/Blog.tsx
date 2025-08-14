@@ -106,19 +106,10 @@ export default function Blog({ data }: BlogProps) {
 
           {/* Blog Post Modal */}
           <Dialog open={open} onOpenChange={setOpen}>
-            <DialogContent className="max-w-2xl w-full">
+            <DialogContent className="max-w-2xl w-full pt-8">
               {selectedPost && (
                 <>
-                  <DialogHeader className="relative">
-                    <Button
-                      variant="ghost"
-                      size="sm"
-                      className="absolute right-0 top-0 h-8 w-8 p-0 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200"
-                      onClick={() => setOpen(false)}
-                    >
-                      <X size={16} />
-                      <span className="sr-only">Close</span>
-                    </Button>
+                  <DialogHeader>
                     <DialogTitle>{selectedPost.title}</DialogTitle>
                     <DialogDescription>
                       <div className="flex items-center gap-2 text-sm text-gray-500 dark:text-gray-400 mb-2">
@@ -131,9 +122,18 @@ export default function Blog({ data }: BlogProps) {
                       </div>
                     </DialogDescription>
                   </DialogHeader>
-                  <img src={selectedPost.image} alt={selectedPost.title} className="w-full h-56 object-cover rounded mb-4" />
-                  <div className="prose dark:prose-invert max-h-[70vh] overflow-y-auto [&>*]:mb-4 [&>*:last-child]:mb-0 pb-16">
-                    <ReactMarkdown>{selectedPost.content || selectedPost.excerpt}</ReactMarkdown>
+                  <div
+                    className="max-h-[70vh] overflow-y-auto"
+                    style={{
+                      margin: '0 auto',
+                      maxWidth: 600,
+                      paddingRight: 16,
+                    }}
+                  >
+                    <img src={selectedPost.image} alt={selectedPost.title} className="w-full h-56 object-cover rounded mb-4" />
+                    <div className="prose dark:prose-invert [&>*]:mb-4 [&>*:last-child]:mb-0 pb-24">
+                      <ReactMarkdown>{selectedPost.content || selectedPost.excerpt}</ReactMarkdown>
+                    </div>
                   </div>
                 </>
               )}

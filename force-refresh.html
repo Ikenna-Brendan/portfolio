@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Force Refresh Portfolio</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            text-align: center;
+        }
+        .container {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 30px;
+            border-radius: 10px;
+            backdrop-filter: blur(10px);
+        }
+        button {
+            background: #4CAF50;
+            color: white;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            margin: 10px;
+        }
+        button:hover {
+            background: #45a049;
+        }
+        .status {
+            margin: 20px 0;
+            padding: 15px;
+            border-radius: 5px;
+            background: rgba(255, 255, 255, 0.2);
+        }
+        .step {
+            text-align: left;
+            margin: 10px 0;
+            padding: 10px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔄 Force Refresh Portfolio</h1>
+        <p>This will completely clear all cache and force a fresh reload of your portfolio.</p>
+        
+        <div class="step">
+            <strong>Step 1:</strong> Clear all browser cache and localStorage
+        </div>
+        <div class="step">
+            <strong>Step 2:</strong> Force reload the portfolio with fresh data
+        </div>
+        <div class="step">
+            <strong>Step 3:</strong> Verify all 6 projects are visible
+        </div>
+        
+        <button onclick="forceRefresh()">Force Refresh Portfolio</button>
+        <button onclick="goToPortfolio()">Go to Portfolio</button>
+        
+        <div id="status" class="status" style="display: none;"></div>
+    </div>
+
+    <script>
+        function forceRefresh() {
+            try {
+                // Clear localStorage completely
+                localStorage.clear();
+                
+                // Clear sessionStorage
+                sessionStorage.clear();
+                
+                // Clear any specific keys that might be used
+                localStorage.removeItem('portfolio-content');
+                localStorage.removeItem('content-data');
+                localStorage.removeItem('portfolio-cache');
+                
+                // Clear browser cache for localhost
+                if ('caches' in window) {
+                    caches.keys().then(function(names) {
+                        for (let name of names) {
+                            caches.delete(name);
+                        }
+                    });
+                }
+                
+                document.getElementById('status').innerHTML = 
+                    '✅ All cache cleared successfully!<br>' +
+                    'localStorage, sessionStorage, and browser cache have been cleared.<br>' +
+                    'Click "Go to Portfolio" to see all 6 projects with fresh data.';
+                document.getElementById('status').style.display = 'block';
+                
+                console.log('Force refresh completed');
+            } catch (error) {
+                document.getElementById('status').innerHTML = 
+                    '❌ Error during force refresh: ' + error.message;
+                document.getElementById('status').style.display = 'block';
+                console.error('Error during force refresh:', error);
+            }
+        }
+        
+        function goToPortfolio() {
+            // Open portfolio in new tab with cache-busting parameter
+            const timestamp = new Date().getTime();
+            window.open(`http://localhost:3000?refresh=${timestamp}`, '_blank');
+        }
+        
+        // Auto-clear cache when page loads
+        window.onload = function() {
+            forceRefresh();
+        };
+    </script>
+</body>
+</html> 

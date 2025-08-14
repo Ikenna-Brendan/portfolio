@@ -32,7 +32,12 @@
       "Mobile App Development",
       "API Design",
       "RESTful APIs",
-      "Automated Testing"
+      "Automated Testing",
+      "Tailwind CSS",
+      "Content Management Systems",
+      "Progressive Web Apps (PWA)",
+      "GitHub Pages",
+      "Vercel Deployment"
     ],
     "Systems & Infrastructure": [
       "Active Directory",
@@ -54,7 +59,10 @@
       "Docker",
       "CI/CD",
       "Infrastructure as Code",
-      "Cloud Migration"
+      "Cloud Migration",
+      "Rapid Prototyping",
+      "Performance Optimization",
+      "SEO & Accessibility Testing"
     ],
     "Project & Team Leadership": [
       "Agile Methodologies",
@@ -80,7 +88,10 @@
       "Business Intelligence",
       "Reporting",
       "Data Visualization",
-      "Streamlit"
+      "Streamlit",
+      "Chart.js",
+      "Real-time Analytics",
+      "Business Intelligence Dashboards"
     ]
   },
   "experience": [
@@ -189,6 +200,95 @@
   ],
   "projects": [
     {
+      "title": "JBEES Business Website",
+      "company": "JBEES Nigeria",
+      "description": "Modern business website for JBEES Nigeria featuring responsive design, contact forms, and professional branding with seamless user experience.",
+      "image": "https://images.pexels.com/photos/3183150/pexels-photo-3183150.jpeg?auto=compress&cs=tinysrgb&w=800",
+      "technologies": [
+        "Next.js",
+        "TypeScript",
+        "Tailwind CSS",
+        "React.js",
+        "Responsive Design",
+        "Contact Forms",
+        "Professional Branding"
+      ],
+      "features": [
+        "Responsive design optimized for all devices",
+        "Professional business branding and modern UI",
+        "Contact forms with email integration",
+        "Fast loading times and SEO optimization",
+        "Cross-browser compatibility and accessibility"
+      ],
+      "impact": "Delivered professional business website in 24 hours with improved online presence and customer engagement"
+    },
+    {
+      "title": "Modern Portfolio Website",
+      "company": "Personal Project",
+      "description": "Full-stack portfolio website built with Next.js, TypeScript, and Tailwind CSS featuring real-time CMS, blog platform, and automated testing.",
+      "image": "https://images.pexels.com/photos/3183150/pexels-photo-3183150.jpeg?auto=compress&cs=tinysrgb&w=800",
+      "technologies": [
+        "Next.js",
+        "TypeScript",
+        "Tailwind CSS",
+        "React.js",
+        "Content Management",
+        "GitHub Pages"
+      ],
+      "features": [
+        "Real-time content management system with Markdown support",
+        "Responsive design with modern UI/UX principles",
+        "Automated website testing for performance and SEO",
+        "Blog platform with dynamic content rendering",
+        "Dark/light theme toggle and accessibility features"
+      ],
+      "impact": "Developed and deployed complete portfolio in under 48 hours with 95+ Lighthouse performance score"
+    },
+    {
+      "title": "E-commerce Platform",
+      "company": "Client Project",
+      "description": "Complete e-commerce solution with product management, payment integration, and order tracking system.",
+      "image": "https://images.pexels.com/photos/5632402/pexels-photo-5632402.jpeg?auto=compress&cs=tinysrgb&w=800",
+      "technologies": [
+        "React.js",
+        "Node.js",
+        "Express.js",
+        "MongoDB",
+        "Stripe API",
+        "Vercel"
+      ],
+      "features": [
+        "Product catalog with search and filtering",
+        "Secure payment processing with Stripe integration",
+        "Order management and tracking system",
+        "Admin dashboard for inventory management",
+        "Mobile-responsive design with PWA capabilities"
+      ],
+      "impact": "Launched complete e-commerce platform in 72 hours with 100% uptime and zero security vulnerabilities"
+    },
+    {
+      "title": "Business Dashboard",
+      "company": "SaaS Solution",
+      "description": "Real-time business intelligence dashboard with data visualization, reporting, and analytics capabilities.",
+      "image": "https://images.pexels.com/photos/669615/pexels-photo-669615.jpeg?auto=compress&cs=tinysrgb&w=800",
+      "technologies": [
+        "React.js",
+        "TypeScript",
+        "Chart.js",
+        "Node.js",
+        "PostgreSQL",
+        "Docker"
+      ],
+      "features": [
+        "Interactive data visualizations and charts",
+        "Real-time data updates and live monitoring",
+        "Custom reporting and export functionality",
+        "Role-based access control and user management",
+        "Automated data processing and analytics"
+      ],
+      "impact": "Delivered comprehensive business dashboard in 24 hours with 40% improvement in data accessibility"
+    },
+    {
       "title": "Workshop Management System",
       "company": "Farrelly Motors",
       "description": "Complete workshop management solution with real-time tracking, inventory management, and customer communications.",
@@ -225,44 +325,6 @@
         "Comprehensive user training and documentation"
       ],
       "impact": "Streamlined operations resulting in 30% reduction in processing time and improved inventory accuracy"
-    },
-    {
-      "title": "Data Analytics Platform",
-      "company": "Freelance Project",
-      "description": "Python-based analytics platform for retail client with real-time dashboard and predictive insights.",
-      "image": "https://images.pexels.com/photos/669615/pexels-photo-669615.jpeg?auto=compress&cs=tinysrgb&w=800",
-      "technologies": [
-        "Python",
-        "Streamlit",
-        "Pandas",
-        "Power BI"
-      ],
-      "features": [
-        "Real-time sales and inventory dashboards",
-        "Predictive analytics for demand forecasting",
-        "Automated report generation and distribution",
-        "Mobile-responsive interface for field teams"
-      ],
-      "impact": "Improved inventory planning accuracy by 45% and reduced stockouts by 60%"
-    },
-    {
-      "title": "Infrastructure Modernization",
-      "company": "Milestone Procore",
-      "description": "Complete infrastructure overhaul including Active Directory migration and cloud integration.",
-      "image": "https://images.pexels.com/photos/2881232/pexels-photo-2881232.jpeg?auto=compress&cs=tinysrgb&w=800",
-      "technologies": [
-        "Windows Server",
-        "Active Directory",
-        "Azure",
-        "PowerShell"
-      ],
-      "features": [
-        "Zero-downtime Active Directory migration",
-        "Hybrid cloud integration with Azure",
-        "Automated backup and disaster recovery solutions",
-        "Enhanced security protocols and compliance"
-      ],
-      "impact": "Achieved 99.9% uptime and reduced IT support tickets by 50%"
     }
   ],
   "education": [

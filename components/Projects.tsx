@@ -1,11 +1,11 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { ExternalLink, Code, Zap, FolderOpen } from 'lucide-react';
-import ProjectFilters from '@/components/ProjectFilters';
+import ProjectFilters from './ProjectFilters';
 import { trackProjectView } from '@/lib/analytics';
 
 interface Project {
@@ -26,8 +26,24 @@ export default function Projects({ data }: ProjectsProps) {
   const [selectedProject, setSelectedProject] = useState<number | null>(null);
   const [filteredProjects, setFilteredProjects] = useState<Project[]>(data);
 
+  // Log when filtered projects change
+  useEffect(() => {
+    console.log('Filtered projects updated:', filteredProjects);
+  }, [filteredProjects]);
+
+  // Reset filtered projects when data changes
+  useEffect(() => {
+    setFilteredProjects(data);
+  }, [data]);
+
   const handleProjectClick = (project: Project) => {
     trackProjectView(project.title);
+  };
+
+  // Handle filter changes
+  const handleFilterChange = (projects: Project[]) => {
+    console.log('Filter changed. Filtered projects:', projects);
+    setFilteredProjects(projects);
   };
 
   return (
@@ -49,7 +65,7 @@ export default function Projects({ data }: ProjectsProps) {
           {/* Project Filters */}
           <ProjectFilters 
             projects={data} 
-            onFilterChange={setFilteredProjects}
+            onFilterChange={handleFilterChange}
           />
 
           {/* Projects grid */}
