@@ -48,7 +48,26 @@ npm run dev
 1. Click the "CMS" button (top-right corner)
 2. Edit your information in real-time
 3. Changes are automatically saved to localStorage
-4. Export/Import content as JSON files
+4. In production, changes are synced to the server when authenticated
+
+### Setting Up Content Updates in Production
+
+1. **Generate a secure token**:
+   ```bash
+   node scripts/generate-token.js
+   ```
+
+2. Create a `.env.local` file in the project root with:
+   ```
+   CONTENT_UPDATE_TOKEN=your_generated_token_here
+   NEXT_PUBLIC_CONTENT_UPDATE_TOKEN=your_generated_token_here
+   ```
+
+3. The CMS will now work in production with the following features:
+   - Changes are saved to server files when authenticated
+   - Automatic conflict resolution
+   - Version history and rollback support
+   - Secure token-based authentication
 
 ### Styling
 - Edit `app/globals.css` for global styles

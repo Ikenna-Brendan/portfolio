@@ -7,24 +7,15 @@ import { Button } from '@/components/ui/button';
 import { ExternalLink, Code, Zap, FolderOpen } from 'lucide-react';
 import ProjectFilters from './ProjectFilters';
 import { trackProjectView } from '@/lib/analytics';
-
-interface Project {
-  title: string;
-  company: string;
-  description: string;
-  image: string;
-  technologies: string[];
-  features: string[];
-  impact: string;
-}
+import type { ProjectItem } from '@/types';
 
 interface ProjectsProps {
-  data: Project[];
+  data: ProjectItem[];
 }
 
 export default function Projects({ data }: ProjectsProps) {
   const [selectedProject, setSelectedProject] = useState<number | null>(null);
-  const [filteredProjects, setFilteredProjects] = useState<Project[]>(data);
+  const [filteredProjects, setFilteredProjects] = useState<ProjectItem[]>(data);
 
   // Log when filtered projects change
   useEffect(() => {
@@ -33,15 +24,21 @@ export default function Projects({ data }: ProjectsProps) {
 
   // Reset filtered projects when data changes
   useEffect(() => {
-    setFilteredProjects(data);
+    setFilteredProjects(data.map(project => ({
+      ...project,
+      company: project.company || 'Freelance',
+      image: project.image || '/images/project-placeholder.jpg',
+      features: project.features || [],
+      impact: project.impact || 'Improved business processes and user experience.'
+    })));
   }, [data]);
 
-  const handleProjectClick = (project: Project) => {
+  const handleProjectClick = (project: ProjectItem) => {
     trackProjectView(project.title);
   };
 
   // Handle filter changes
-  const handleFilterChange = (projects: Project[]) => {
+  const handleFilterChange = (projects: ProjectItem[]) => {
     console.log('Filter changed. Filtered projects:', projects);
     setFilteredProjects(projects);
   };
@@ -122,7 +119,7 @@ export default function Projects({ data }: ProjectsProps) {
                     {/* Technologies */}
                     <div className="mb-4">
                       <div className="flex flex-wrap gap-2">
-                        {project.technologies.map((tech, techIndex) => (
+                        {project.technologies.map((tech: string, techIndex: number) => (
                           <Badge key={techIndex} variant="secondary" className="text-xs">
                             {tech}
                           </Badge>
@@ -137,7 +134,7 @@ export default function Projects({ data }: ProjectsProps) {
                         <div className="mb-4">
                           <h4 className="font-semibold text-gray-900 dark:text-white mb-2 text-sm">Key Features</h4>
                           <ul className="space-y-1">
-                            {project.features.map((feature, featureIndex) => (
+                            {(project.features || []).map((feature: string, featureIndex: number) => (
                               <li key={featureIndex} className="text-sm text-gray-700 dark:text-gray-300 pl-4 relative">
                                 <span className="absolute left-0 top-2 w-1.5 h-1.5 bg-green-600 rounded-full"></span>
                                 {feature}

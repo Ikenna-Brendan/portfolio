@@ -7,26 +7,31 @@ import { Badge } from '@/components/ui/badge';
 import { Dialog, DialogTrigger, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '@/components/ui/dialog';
 import React from 'react';
 import ReactMarkdown from 'react-markdown';
-
-interface BlogPost {
-  title: string;
-  excerpt: string;
-  date: string;
-  readTime: string;
-  image: string;
-  content?: string;
-}
+import type { BlogPost as BlogPostType } from '@/types';
 
 interface BlogProps {
-  data: BlogPost[];
+  data: BlogPostType[];
 }
 
 export default function Blog({ data }: BlogProps) {
   const [open, setOpen] = React.useState(false);
-  const [selectedPost, setSelectedPost] = React.useState<BlogPost | null>(null);
+  const [selectedPost, setSelectedPost] = React.useState<BlogPostType | null>(null);
 
-  const handleReadMore = (post: BlogPost) => {
-    setSelectedPost(post);
+  // Ensure all posts have required fields with defaults
+  const posts = data.map(post => ({
+    ...post,
+    readTime: post.readTime || '5 min read',
+    image: post.image || '/images/blog-placeholder.jpg',
+    content: post.content || post.excerpt
+  }));
+
+  const handleReadMore = (post: BlogPostType) => {
+    setSelectedPost({
+      ...post,
+      readTime: post.readTime || '5 min read',
+      image: post.image || '/images/blog-placeholder.jpg',
+      content: post.content || post.excerpt
+    });
     setOpen(true);
   };
 
@@ -48,7 +53,7 @@ export default function Blog({ data }: BlogProps) {
 
           {/* Blog posts grid */}
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {data.map((post, index) => (
+            {posts.map((post, index) => (
               <Card 
                 key={index}
                 className="overflow-hidden hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2 cursor-pointer group bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700"

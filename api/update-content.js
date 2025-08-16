@@ -1,15 +1,32 @@
 import fs from 'fs';
 import path from 'path';
 
+// Helper function to verify the auth token
+function verifyAuthToken(authHeader) {
+  if (!authHeader) return false;
+  
+  const token = authHeader.replace('Bearer ', '');
+  const expectedToken = process.env.CONTENT_UPDATE_TOKEN;
+  
+  return token && expectedToken && token === expectedToken;
+}
+
 export default async function handler(req, res) {
   // Only allow POST requests
   if (req.method !== 'POST') {
     return res.status(405).json({ success: false, error: 'Method not allowed' });
   }
 
-  // Only allow in development
-  if (process.env.NODE_ENV !== 'development') {
-    return res.status(403).json({ success: false, error: 'Not allowed in production' });
+  // In production, require a valid auth token
+  if (process.env.NODE_ENV === 'production') {
+    const isAuthorized = verifyAuthToken(req.headers.authorization);
+    if (!isAuthorized) {
+      console.warn('Unauthorized content update attempt');
+      return res.status(403).json({ 
+        success: false, 
+        error: 'Not authorized. A valid token is required for content updates in production.' 
+      });
+    }
   }
 
   try {
