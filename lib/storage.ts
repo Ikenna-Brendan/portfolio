@@ -1,12 +1,11 @@
-// Storage utility for content management
-// Uses localStorage for client-side caching and syncs with server
+// Storage utility for GitHub Pages compatibility
+// Uses localStorage and sessionStorage for data persistence
 
 export interface StorageData {
   content: any;
   lastUpdated: string;
   version: string;
   buildId?: string;
-  etag?: string; // For cache validation
 }
 
 const STORAGE_KEY = 'portfolio-content';
@@ -76,37 +75,35 @@ const saveToFileSystem = async (content: any, options: { forceDownload?: boolean
 };
 
 export const storage = {
-  // Save content to localStorage and sync with server
-  saveContent: async (content: any, options: { 
-    skipServerSync?: boolean; 
-    etag?: string;
-  } = {}): Promise<{ success: boolean; etag?: string; error?: string }> => {
+  // Save content to localStorage with build ID and optionally to file system in development
+  saveContent: async (content: any, options: { saveToFile?: boolean } = {}): Promise<void> => {
     try {
-      console.log('Saving content...');
-      const now = new Date().toISOString();
-      const etag = options.etag || `"${Date.now()}"`;
-      
+      console.log('Saving content...', { content });
       const data: StorageData = {
         content,
-        lastUpdated: now,
+        lastUpdated: new Date().toISOString(),
         version: VERSION,
-        buildId: CURRENT_BUILD_ID,
-        etag
+        buildId: CURRENT_BUILD_ID
       };
       
       // Save to localStorage
+      console.log('Saving to localStorage...');
       localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
-      console.log(`Content saved to localStorage [Build: ${CURRENT_BUILD_ID}]`);
+      console.log(`Content saved to localStorage [Build: ${CURRENT_BUILD_ID}, Key: ${STORAGE_KEY}]`);
       
-      return { success: true, etag };
+      // Only save to file system if explicitly requested
+      if (process.env.NODE_ENV === 'development' && options.saveToFile) {
+        console.log('Attempting to save to file system...');
+        const fileSaveSuccess = await saveToFileSystem(content, { forceDownload: true });
+        console.log('File system save result:', fileSaveSuccess ? 'Success' : 'Failed');
+      }
     } catch (error) {
       console.error('Failed to save content:', error);
-      return { success: false, error: error instanceof Error ? error.message : 'Unknown error' };
     }
   },
 
-  // Load content from localStorage with build ID and etag check
-  loadContent: (options: { withEtag?: boolean } = {}): any | { content: any; etag?: string } | null => {
+  // Load content from localStorage with build ID check
+  loadContent: (): any | null => {
     try {
       console.log('Attempting to load content from localStorage...');
       
@@ -159,13 +156,6 @@ export const storage = {
       localStorage.setItem(`${STORAGE_KEY}_last_refresh`, now.toString());
       
       console.log(`Successfully loaded content from localStorage [Build: ${data.buildId || 'legacy'}, Last Updated: ${data.lastUpdated}]`);
-      
-      if (options.withEtag) {
-        return {
-          content: data.content,
-          etag: data.etag
-        };
-      }
       return data.content;
     } catch (error) {
       console.error('Failed to load content from storage:', error);

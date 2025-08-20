@@ -5,11 +5,20 @@ import { Search, Filter, X } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import type { ProjectItem } from '@/types';
+
+interface Project {
+  title: string;
+  company: string;
+  description: string;
+  image: string;
+  technologies: string[];
+  features: string[];
+  impact: string;
+}
 
 interface ProjectFiltersProps {
-  projects: ProjectItem[];
-  onFilterChange: (filteredProjects: ProjectItem[]) => void;
+  projects: Project[];
+  onFilterChange: (filteredProjects: Project[]) => void;
 }
 
 export default function ProjectFilters({ projects, onFilterChange }: ProjectFiltersProps) {

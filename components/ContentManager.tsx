@@ -12,27 +12,16 @@ import { trackCMSAccess } from '@/lib/analytics';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '@/components/ui/dialog';
 import { Label } from '@/components/ui/label';
 import { toast } from 'react-hot-toast';
-import type { 
-  Content as ContentType, 
-  HeroContent, 
-  AboutContent, 
-  ExperienceItem, 
-  ProjectItem, 
-  EducationItem, 
-  BlogPost, 
-  CertificationItem, 
-  ContactContent 
-} from '@/types';
 
 interface ContentManagerProps {
   isVisible: boolean;
   onClose: () => void;
-  onSave: (updatedContent: ContentType) => void;
-  currentContent: ContentType;
+  onSave: (updatedContent: any) => void;
+  currentContent: any;
 }
 
 export default function ContentManager({ isVisible, onClose, onSave, currentContent }: ContentManagerProps) {
-  const [content, setContent] = useState<ContentType>(currentContent);
+  const [content, setContent] = useState(currentContent);
   const [activeSection, setActiveSection] = useState('hero');
   const [isSaving, setIsSaving] = useState(false);
   const [lastSaved, setLastSaved] = useState<string | null>(null);
@@ -91,16 +80,17 @@ export default function ContentManager({ isVisible, onClose, onSave, currentCont
   };
 
   const handleSave = async () => {
+    setIsSaving(true);
     try {
-      setIsSaving(true);
-      await storage.saveContent(content, { skipServerSync: true });
+      // Save to localStorage and trigger file download in development
+      await storage.saveContent(content, { saveToFile: true });
       onSave(content);
-      setLastSaved(new Date().toLocaleTimeString());
+      setLastSaved(new Date().toISOString());
+      // Show success feedback
       toast.success('Content saved successfully!');
+      setTimeout(() => setIsSaving(false), 1000);
     } catch (error) {
-      console.error('Error saving content:', error);
-      toast.error('Failed to save content');
-    } finally {
+      console.error('Failed to save content:', error);
       setIsSaving(false);
     }
   };
@@ -142,81 +132,44 @@ export default function ContentManager({ isVisible, onClose, onSave, currentCont
     }
   };
 
-  const updateContent = <T extends keyof ContentType, K extends keyof ContentType[T]>(
-    section: T,
-    field: K,
-    value: ContentType[T][K]
-  ) => {
-    setContent((prev) => {
-      const sectionValue = prev[section];
-      if (typeof sectionValue !== 'object' || sectionValue === null) {
-        return { ...prev, [section]: { [field]: value } } as ContentType;
+  const updateContent = (section: string, field: string, value: any) => {
+    setContent((prev: any) => ({
+      ...prev,
+      [section]: {
+        ...prev[section],
+        [field]: value
       }
-      return {
-        ...prev,
-        [section]: {
-          ...(sectionValue as object),
-          [field]: value
-        }
-      };
-    });
+    }));
   };
 
-  const updateArrayItem = <
-    T extends keyof ContentType,
-    K extends ContentType[T] extends Array<infer U> ? keyof U : never
-  >(
-    section: T,
-    index: number,
-    field: K,
-    value: ContentType[T] extends Array<infer U> ? U[K] : never
-  ) => {
-    setContent((prev) => {
-      const sectionArray = prev[section] as Array<{ [key: string]: unknown }>;
-      return {
-        ...prev,
-        [section]: sectionArray.map((item, i) => 
-          i === index ? { ...item, [field as string]: value } : item
-        )
-      };
-    });
+  const updateArrayItem = (section: string, index: number, field: string, value: any) => {
+    setContent((prev: any) => ({
+      ...prev,
+      [section]: prev[section].map((item: any, i: number) => 
+        i === index ? { ...item, [field]: value } : item
+      )
+    }));
   };
 
-  const addArrayItem = <T extends keyof ContentType>(
-    section: T,
-    newItem: ContentType[T] extends Array<infer U> ? U : never
-  ) => {
-    setContent((prev) => {
-      const sectionArray = Array.isArray(prev[section]) 
-        ? (prev[section] as any[]) 
-        : [];
-      return {
-        ...prev,
-        [section]: [...sectionArray, newItem]
-      } as ContentType;
-    });
+  const addArrayItem = (section: string, newItem: any) => {
+    setContent((prev: any) => ({
+      ...prev,
+      [section]: [...prev[section], newItem]
+    }));
   };
 
-  const removeArrayItem = <T extends keyof ContentType>(
-    section: T,
-    index: number
-  ) => {
-    setContent((prev) => {
-      const sectionArray = Array.isArray(prev[section]) 
-        ? (prev[section] as unknown[])
-        : [];
-      return {
-        ...prev,
-        [section]: sectionArray.filter((_, i) => i !== index)
-      } as ContentType;
-    });
+  const removeArrayItem = (section: string, index: number) => {
+    setContent((prev: any) => ({
+      ...prev,
+      [section]: prev[section].filter((_: any, i: number) => i !== index)
+    }));
   };
 
   const renderHeroEditor = () => (
     <div className="space-y-4">
       <Input
         placeholder="Name"
-        value={content.hero?.name || ''}
+        value={content.hero.name}
         onChange={(e) => updateContent('hero', 'name', e.target.value)}
       />
       <Input
@@ -252,12 +205,12 @@ export default function ContentManager({ isVisible, onClose, onSave, currentCont
       <Textarea
         placeholder="Summary"
         rows={5}
-        value={content.about?.summary || ''}
+        value={content.about.summary}
         onChange={(e) => updateContent('about', 'summary', e.target.value)}
       />
       <div>
         <h4 className="font-semibold mb-2">Highlights</h4>
-        {(content.about?.highlights || []).map((highlight: string, index: number) => (
+        {content.about.highlights.map((highlight: string, index: number) => (
           <div key={index} className="flex gap-2 mb-2">
             <Input
               value={highlight}
@@ -296,7 +249,7 @@ export default function ContentManager({ isVisible, onClose, onSave, currentCont
 
   const renderSkillsEditor = () => (
     <div className="space-y-4">
-      {Object.entries(content.skills || {}).map(([category, skills]) => (
+      {Object.entries(content.skills).map(([category, skills]: [string, any]) => (
         <div key={category} className="space-y-2">
           <div className="flex items-center gap-2">
             <Input
@@ -322,7 +275,7 @@ export default function ContentManager({ isVisible, onClose, onSave, currentCont
             </Button>
           </div>
           <div className="flex flex-wrap gap-2">
-            {(skills || []).map((skill: string, index: number) => (
+            {skills.map((skill: string, index: number) => (
               <Badge key={index} variant="secondary" className="cursor-pointer">
                 {skill}
                 <X
@@ -378,7 +331,7 @@ export default function ContentManager({ isVisible, onClose, onSave, currentCont
 
   const renderExperienceEditor = () => (
     <div className="space-y-6">
-      {(content.experience || []).map((exp: ExperienceItem, index: number) => (
+      {content.experience.map((exp: any, index: number) => (
         <Card key={index} className="p-4">
           <div className="space-y-4">
             <div className="grid grid-cols-2 gap-4">
@@ -412,7 +365,7 @@ export default function ContentManager({ isVisible, onClose, onSave, currentCont
             />
             <div>
               <h4 className="font-semibold mb-2">Achievements</h4>
-              {(exp.achievements || []).map((achievement: string, aIndex: number) => (
+              {exp.achievements.map((achievement: string, aIndex: number) => (
                 <div key={aIndex} className="flex gap-2 mb-2">
                   <Input
                     value={achievement}
@@ -449,7 +402,7 @@ export default function ContentManager({ isVisible, onClose, onSave, currentCont
             <div>
               <h4 className="font-semibold mb-2">Technologies</h4>
               <div className="flex flex-wrap gap-2">
-                {(exp.technologies || []).map((tech: string, tIndex: number) => (
+                {exp.technologies.map((tech: string, tIndex: number) => (
                   <Badge key={tIndex} variant="secondary" className="cursor-pointer">
                     {tech}
                     <X
@@ -492,7 +445,7 @@ export default function ContentManager({ isVisible, onClose, onSave, currentCont
       <Button
         variant="outline"
         onClick={() => {
-          const newExperience: ExperienceItem = {
+          const newExperience = {
             title: '',
             company: '',
             period: '',
@@ -512,7 +465,7 @@ export default function ContentManager({ isVisible, onClose, onSave, currentCont
 
   const renderProjectsEditor = () => (
     <div className="space-y-6">
-      {(content.projects || []).map((project: ProjectItem, index: number) => (
+      {content.projects.map((project: any, index: number) => (
         <Card key={index} className="p-4">
           <div className="space-y-4">
             <div className="grid grid-cols-2 gap-4">
@@ -540,7 +493,7 @@ export default function ContentManager({ isVisible, onClose, onSave, currentCont
             <div>
               <h4 className="font-semibold mb-2">Technologies</h4>
               <div className="flex flex-wrap gap-2">
-                {(project.technologies || []).map((tech: string, tIndex: number) => (
+                {project.technologies.map((tech: string, tIndex: number) => (
                   <Badge key={tIndex} variant="secondary" className="cursor-pointer">
                     {tech}
                     <X
@@ -570,12 +523,12 @@ export default function ContentManager({ isVisible, onClose, onSave, currentCont
             </div>
             <div>
               <h4 className="font-semibold mb-2">Features</h4>
-              {(project.features || []).map((feature: string, fIndex: number) => (
+              {project.features.map((feature: string, fIndex: number) => (
                 <div key={fIndex} className="flex gap-2 mb-2">
                   <Input
                     value={feature}
                     onChange={(e) => {
-                      const newFeatures = project.features ? [...project.features] : [];
+                      const newFeatures = [...project.features];
                       newFeatures[fIndex] = e.target.value;
                       updateArrayItem('projects', index, 'features', newFeatures);
                     }}
@@ -584,7 +537,7 @@ export default function ContentManager({ isVisible, onClose, onSave, currentCont
                     variant="outline"
                     size="sm"
                     onClick={() => {
-                      const newFeatures = project.features?.filter((_: any, i: number) => i !== fIndex) || [];
+                      const newFeatures = project.features.filter((_: any, i: number) => i !== fIndex);
                       updateArrayItem('projects', index, 'features', newFeatures);
                     }}
                   >
@@ -596,7 +549,7 @@ export default function ContentManager({ isVisible, onClose, onSave, currentCont
                 variant="outline"
                 size="sm"
                 onClick={() => {
-                  const newFeatures = project.features ? [...project.features, ''] : [''];
+                  const newFeatures = [...project.features, ''];
                   updateArrayItem('projects', index, 'features', newFeatures);
                 }}
               >
@@ -624,7 +577,7 @@ export default function ContentManager({ isVisible, onClose, onSave, currentCont
       <Button
         variant="outline"
         onClick={() => {
-          const newProject: ProjectItem = {
+          const newProject = {
             title: '',
             company: '',
             description: '',
@@ -644,7 +597,7 @@ export default function ContentManager({ isVisible, onClose, onSave, currentCont
 
   const renderEducationEditor = () => (
     <div className="space-y-6">
-      {(content.education || []).map((edu: EducationItem, index: number) => (
+      {content.education.map((edu: any, index: number) => (
         <Card key={index} className="p-4">
           <div className="space-y-4">
             <Input
@@ -682,7 +635,7 @@ export default function ContentManager({ isVisible, onClose, onSave, currentCont
       <Button
         variant="outline"
         onClick={() => {
-          const newEducation: EducationItem = {
+          const newEducation = {
             degree: '',
             institution: '',
             year: '',
@@ -697,74 +650,64 @@ export default function ContentManager({ isVisible, onClose, onSave, currentCont
     </div>
   );
 
-  const renderCertificationsEditor = () => {
-    const certifications = Array.isArray(content.certifications) 
-      ? content.certifications 
-      : [];
-      
-    return (
-      <div className="space-y-6">
-        {certifications.map((cert: CertificationItem, index: number) => (
-          <Card key={index} className="p-4">
-            <div className="space-y-4">
-              <Input
-                placeholder="Certification Name"
-                value={cert.name || ''}
-                onChange={(e) => updateArrayItem('certifications', index, 'name', e.target.value)}
-              />
-              <Input
-                placeholder="Issuer"
-                value={cert.issuer || ''}
-                onChange={(e) => updateArrayItem('certifications', index, 'issuer', e.target.value)}
-              />
-              <Input
-                placeholder="Year"
-                value={cert.year || ''}
-                onChange={(e) => updateArrayItem('certifications', index, 'year', e.target.value)}
-              />
-              <Textarea
-                placeholder="Description"
-                value={cert.description || ''}
-                onChange={(e) => updateArrayItem('certifications', index, 'description', e.target.value)}
-              />
-              <Input
-                placeholder="URL"
-                value={cert.url || ''}
-                onChange={(e) => updateArrayItem('certifications', index, 'url', e.target.value)}
-              />
-              <Button
-                variant="destructive"
-                onClick={() => removeArrayItem('certifications', index)}
-                className="text-red-600 hover:text-red-700"
-              >
-                <Trash2 size={16} className="mr-2" />
-                Remove Certification
-              </Button>
-            </div>
-          </Card>
-        ))}
-        <Button
-          variant="outline"
-          onClick={() => {
-            const newCertification: CertificationItem = {
-              name: '',
-              issuer: '',
-              year: '',
-              description: ''
-            };
-            addArrayItem('certifications', newCertification);
-          }}
-        >
-          <Plus size={16} className="mr-2" />
-          Add Certification
-        </Button>
-      </div>
-    );
-  };
+  const renderCertificationsEditor = () => (
+    <div className="space-y-6">
+      {content.certifications.map((cert: any, index: number) => (
+        <Card key={index} className="p-4">
+          <div className="space-y-4">
+            <Input
+              placeholder="Certification Name"
+              value={cert.name}
+              onChange={(e) => updateArrayItem('certifications', index, 'name', e.target.value)}
+            />
+            <Input
+              placeholder="Issuer"
+              value={cert.issuer}
+              onChange={(e) => updateArrayItem('certifications', index, 'issuer', e.target.value)}
+            />
+            <Input
+              placeholder="Year"
+              value={cert.year}
+              onChange={(e) => updateArrayItem('certifications', index, 'year', e.target.value)}
+            />
+            <Textarea
+              placeholder="Description"
+              value={cert.description}
+              onChange={(e) => updateArrayItem('certifications', index, 'description', e.target.value)}
+            />
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => removeArrayItem('certifications', index)}
+              className="text-red-600 hover:text-red-700"
+            >
+              <Trash2 size={16} className="mr-2" />
+              Remove Certification
+            </Button>
+          </div>
+        </Card>
+      ))}
+      <Button
+        variant="outline"
+        onClick={() => {
+          const newCertification = {
+            name: '',
+            issuer: '',
+            year: '',
+            description: ''
+          };
+          addArrayItem('certifications', newCertification);
+        }}
+      >
+        <Plus size={16} className="mr-2" />
+        Add Certification
+      </Button>
+    </div>
+  );
 
   const renderBlogEditor = () => (
     <div className="space-y-6">
-      {(content.blog || []).map((post: BlogPost, index: number) => (
+      {content.blog.map((post: any, index: number) => (
         <Card key={index} className="p-4">
           <div className="space-y-4">
             <Input
@@ -957,58 +900,26 @@ export default function ContentManager({ isVisible, onClose, onSave, currentCont
                   {activeSection === 'blog' && renderBlogEditor()}
                   {activeSection === 'contact' && (
                     <div className="space-y-4">
-                      <div>
-                        <Label htmlFor="contact-email">Email</Label>
-                        <Input
-                          id="contact-email"
-                          placeholder="Email"
-                          value={content.contact?.email || ''}
-                          onChange={(e) => updateContent('contact', 'email', e.target.value)}
-                          className="mt-1"
-                        />
-                      </div>
-                      <div>
-                        <Label htmlFor="contact-linkedin">LinkedIn URL</Label>
-                        <Input
-                          id="contact-linkedin"
-                          placeholder="LinkedIn URL"
-                          value={content.contact?.linkedin || ''}
-                          onChange={(e) => updateContent('contact', 'linkedin', e.target.value)}
-                          className="mt-1"
-                        />
-                      </div>
-                      <div>
-                        <Label htmlFor="contact-github">GitHub URL</Label>
-                        <Input
-                          id="contact-github"
-                          placeholder="GitHub URL"
-                          value={content.contact?.github || ''}
-                          onChange={(e) => updateContent('contact', 'github', e.target.value)}
-                          className="mt-1"
-                        />
-                      </div>
-                      <div>
-                        <Label htmlFor="contact-location">Location</Label>
-                        <Input
-                          id="contact-location"
-                          placeholder="Location"
-                          value={content.contact?.location || ''}
-                          onChange={(e) => updateContent('contact', 'location', e.target.value)}
-                          className="mt-1"
-                        />
-                      </div>
-                      <div className="flex items-center space-x-2 pt-2">
-                        <input
-                          type="checkbox"
-                          id="available"
-                          checked={content.contact?.available || false}
-                          onChange={(e) => updateContent('contact', 'available', e.target.checked)}
-                          className="h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500"
-                        />
-                        <label htmlFor="available" className="text-sm font-medium text-gray-700 dark:text-gray-300">
-                          Available for work
-                        </label>
-                      </div>
+                      <Input
+                        placeholder="Email"
+                        value={content.contact.email}
+                        onChange={(e) => updateContent('contact', 'email', e.target.value)}
+                      />
+                      <Input
+                        placeholder="LinkedIn URL"
+                        value={content.contact.linkedin}
+                        onChange={(e) => updateContent('contact', 'linkedin', e.target.value)}
+                      />
+                      <Input
+                        placeholder="GitHub URL"
+                        value={content.contact.github}
+                        onChange={(e) => updateContent('contact', 'github', e.target.value)}
+                      />
+                      <Input
+                        placeholder="Location"
+                        value={content.contact.location}
+                        onChange={(e) => updateContent('contact', 'location', e.target.value)}
+                      />
                     </div>
                   )}
 
