@@ -133,9 +133,9 @@
         "Active Directory",
         "Exchange",
         "PowerShell",
-        "Network Administration",
         "Okta",
-        "Jira"
+        "Jira",
+        "Network Administration"
       ]
     },
     {
