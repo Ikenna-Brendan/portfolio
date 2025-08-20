@@ -12,7 +12,7 @@
     "summary": "With over a decade in technology spanning multiple industries, I bring a unique blend of technical depth and business acumen. My experience ranges from software engineering and ERP implementations to DevOps, cloud architecture, and AI solutions. I thrive on solving complex problems and have successfully led projects from conception to deployment, always focusing on scalable, secure, and user-centric solutions.",
     "highlights": [
       "15+ years across automotive, healthcare, retail, and education industries",
-      "Versatile expertise: software engineering, ERP, DevOps, cloud, and AI",
+      "Versatile expertise: software engineering, ERP, DevOps, cloud, and AI & ML",
       "Proven track record in both individual contribution and leadership roles",
       "Based in Ireland with global project experience"
     ]
@@ -35,9 +35,7 @@
       "RESTful APIs",
       "Automated Testing",
       "Cursor",
-      "Windsurf",
-      "Visual Studio Code",
-      ".NET"
+      "Windsurf"
     ],
     "Systems & Infrastructure": [
       "Active Directory",
@@ -115,7 +113,8 @@
         "Content Management Systems",
         "Node.js",
         "Automated Testing",
-        "CI/CD"
+        "CI/CD",
+        "PostgreSQL"
       ]
     },
     {
@@ -172,7 +171,8 @@
         "Python",
         "MySQL",
         "JavaScript",
-        "API Integration"
+        "API Integration",
+        "Data Migration"
       ]
     },
     {
