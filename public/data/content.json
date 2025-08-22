@@ -12,7 +12,7 @@
     "summary": "With over a decade in technology spanning multiple industries, I bring a unique blend of technical depth and business acumen. My experience ranges from software engineering and ERP implementations to DevOps, cloud architecture, and AI solutions. I thrive on solving complex problems and have successfully led projects from conception to deployment, always focusing on scalable, secure, and user-centric solutions.",
     "highlights": [
       "15+ years across automotive, healthcare, retail, and education industries",
-      "Versatile expertise: software engineering, ERP, DevOps, cloud, and AI",
+      "Versatile expertise: software engineering, ERP, DevOps, cloud, and AI & ML",
       "Proven track record in both individual contribution and leadership roles",
       "Based in Ireland with global project experience"
     ]
@@ -35,8 +35,7 @@
       "RESTful APIs",
       "Automated Testing",
       "Cursor",
-      "Windsurf",
-      "Visual Studio Code"
+      "Windsurf"
     ],
     "Systems & Infrastructure": [
       "Active Directory",
@@ -113,12 +112,14 @@
         "GitHub Pages",
         "Content Management Systems",
         "Node.js",
-        "Automated Testing"
+        "Automated Testing",
+        "CI/CD",
+        "PostgreSQL"
       ]
     },
     {
       "title": "Technical Support Specialist",
-      "company": "Milestone Procore",
+      "company": "Procore",
       "period": "2025 - Present",
       "location": "Ireland",
       "description": "Provided enterprise-level technical support for Windows environments and network infrastructure.",
@@ -132,6 +133,8 @@
         "Active Directory",
         "Exchange",
         "PowerShell",
+        "Okta",
+        "Jira",
         "Network Administration"
       ]
     },
@@ -170,7 +173,8 @@
         "Python",
         "MySQL",
         "JavaScript",
-        "API Integration"
+        "API Integration",
+        "Data Migration"
       ]
     },
     {
@@ -321,6 +325,55 @@
         "Comprehensive user training and documentation"
       ],
       "impact": "Streamlined operations resulting in 30% reduction in processing time and improved inventory accuracy"
+    },
+    {
+      "title": "Unregistered Road User Temporal Permit",
+      "company": "Personal Project",
+      "description": "Comprehensive digital solution that revolutionizes the management of unregistered road user temporally permits through a modern, secure, and efficient platform. Streamlining digital workflow, significantly improving operational efficiency and user experience.",
+      "image": "/uploads/ca5971d6-cb9b-491b-8cfd-ac44a9932358.JPG",
+      "technologies": [
+        "React Native",
+        "TypeScript",
+        "React Navigation",
+        "Expo Camera",
+        "Node.js",
+        "PostgreSQL",
+        "Knex.js",
+        "JWT",
+        "Playwright",
+        "ESLint",
+        "Git"
+      ],
+      "features": [
+        "Digital Permit Management",
+        "QR Code Integration",
+        "Role-Based Access Control",
+        "Responsive Design",
+        "Comprehensive Reporting"
+      ],
+      "impact": "90% reduction in permit processing time thereby improving operational efficiency. Cost savings by lower operational cost through process automation, dismiss need for paper and physical storage space. Security and compliance improvement."
+    },
+    {
+      "title": "Digital Solutions Platform",
+      "company": "Personal Project",
+      "description": "Modern and responsive website for a digital solutions agency specializing in custom software development, marketing automation, and UX/UI design. It showcases the company's services, case studies, and provides a streamlined contact process for potential clients.",
+      "image": "/uploads/71a70d11-f92e-43d1-875f-5a942cad83b0.JPG",
+      "technologies": [
+        "React",
+        "TypeScript",
+        "Vite",
+        "Tailwind",
+        "ESLint",
+        "Responsive design testing tools",
+        "Git"
+      ],
+      "features": [
+        "Modern Responsive Design",
+        "Service Showcase",
+        "Multi-language Support",
+        "Performance Optimized"
+      ],
+      "impact": "Online presence that builds trust with potential clients. Reflects organization's expertise in digital solutions."
     }
   ],
   "education": [
@@ -343,6 +396,24 @@
       "issuer": "Goethe Institute",
       "year": "2001",
       "description": "Advanced German language proficiency certification"
+    },
+    {
+      "name": "AWS Certified Solutions Architect– Associate",
+      "issuer": "",
+      "year": "",
+      "description": "In progress"
+    },
+    {
+      "name": "Kubernetes Certified Administrator (CKA) ",
+      "issuer": "",
+      "year": "",
+      "description": "In progress"
+    },
+    {
+      "name": "ITIL Foundation– Incident Management",
+      "issuer": "",
+      "year": "",
+      "description": "Recommended"
     }
   ],
   "blog": [

@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Badge } from '@/components/ui/badge';
+import { ImageUpload } from '@/components/ui/image-upload';
 import { Edit, Save, X, Plus, Trash2, Download, Upload, RotateCcw } from 'lucide-react';
 import { storage } from '@/lib/storage';
 import { trackCMSAccess } from '@/lib/analytics';
@@ -485,11 +486,14 @@ export default function ContentManager({ isVisible, onClose, onSave, currentCont
               value={project.description}
               onChange={(e) => updateArrayItem('projects', index, 'description', e.target.value)}
             />
-            <Input
-              placeholder="Image URL"
-              value={project.image}
-              onChange={(e) => updateArrayItem('projects', index, 'image', e.target.value)}
-            />
+            <div className="space-y-2">
+              <Label>Project Image</Label>
+              <ImageUpload
+                value={project.image}
+                onChange={(url) => updateArrayItem('projects', index, 'image', url)}
+                disabled={isSaving}
+              />
+            </div>
             <div>
               <h4 className="font-semibold mb-2">Technologies</h4>
               <div className="flex flex-wrap gap-2">

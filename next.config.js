@@ -2,7 +2,8 @@
 const isGithubPages = process.env.NODE_ENV === 'production';
 
 const nextConfig = {
-  output: 'export',
+  // Only use static export in production; allow API routes in development
+  ...(isGithubPages ? { output: 'export' } : {}),
   assetPrefix: isGithubPages ? '/portfolio/' : '',
   basePath: isGithubPages ? '/portfolio' : '',
   eslint: {

@@ -10,33 +10,17 @@ set BUILD_ID=!BUILD_ID: =0!
 REM Create data directory if it doesn't exist
 if not exist "public\data" mkdir "public\data"
 
-REM Export content from localStorage if available
-if exist "node_modules\.bin\npx.cmd" (
-    echo [*] Exporting content from localStorage...
-    call npm run dev -- -p 0 
-    timeout /t 5 >nul
-    start "" "http://localhost:3000/export-content.html"
-    timeout /t 5 >nul
-    taskkill /f /im node.exe >nul 2>&1
-    
-    if exist "public\data\content-export.json" (
-        echo [+] Successfully exported content from localStorage
-        move /Y "public\data\content-export.json" "public\data\content.json"
-    ) else (
-        echo [!] No content found in localStorage, using existing content.json if available
-    )
-)
+REM Skipping legacy localStorage export step (handled by CMS/dev API now)
 
 REM Update the build version in a file that will be used by the app
 echo {"buildId": "!BUILD_ID!"} > public\build-info.json
 
-REM Build the project
-echo [*] Building project...
-call npm run build
-
-REM Export the project for static hosting
-echo [*] Exporting project...
+REM Export the project for static hosting (includes build)
+echo [*] Exporting project (build + export)...
 call npm run export
+
+REM Ensure content.json is included in the exported output
+node scripts/copy-content.js
 
 REM Remove old docs (be careful if you have custom files)
 echo [*] Cleaning up old files...
@@ -46,19 +30,6 @@ mkdir docs
 REM Copy all exported files, including hidden and system files
 echo [*] Copying files to docs...
 xcopy out\* docs /E /I /Y /H
-
-REM Copy additional static assets that might not be in the export
-if exist "public\favicon.ico" (
-    echo [*] Copying favicon.ico...
-    copy "public\favicon.ico" "docs\favicon.ico"
-)
-if exist "public\icon-192x192.png" (
-    echo [*] Copying PWA icons...
-    copy "public\icon-192x192.png" "docs\icon-192x192.png"
-)
-if exist "public\icon-512x512.png" (
-    copy "public\icon-512x512.png" "docs\icon-512x512.png"
-)
 
 REM Ensure data directory exists in docs
 if not exist "docs\data" mkdir "docs\data"
@@ -89,36 +60,55 @@ REM Create .nojekyll file for GitHub Pages
 echo [*] Creating .nojekyll file...
 echo # This file tells GitHub Pages not to process this site with Jekyll > docs\.nojekyll
 
-REM Create a _headers file for Netlify/Cloudflare to set cache control
-echo [*] Setting cache control headers...
-echo /* > docs\_headers
-echo   Cache-Control: public, max-age=0, must-revalidate >> docs\_headers
-echo   X-Build-ID: !BUILD_ID! >> docs\_headers
-echo /data/* >> docs\_headers
-echo   Cache-Control: public, max-age=0, must-revalidate >> docs\_headers
-echo   X-Build-ID: !BUILD_ID! >> docs\_headers
-
-REM Add docs directory to git
+REM Add docs directory to git and conditionally commit/push
 echo [*] Adding files to git...
 git add docs/
 
-REM Commit changes with build ID
-echo [*] Committing changes...
-git commit -m "Deploy to GitHub Pages [BUILD:!BUILD_ID!]"
-
-REM Push to GitHub
-echo [*] Pushing to GitHub...
-git push origin main
+echo [*] Checking for changes...
+git diff --cached --quiet --exit-code
+if %errorlevel%==0 (
+    echo [*] No changes to commit. Skipping commit and push.
+) else (
+    echo [*] Committing changes...
+    git commit -m "Deploy to GitHub Pages [BUILD:!BUILD_ID!]"
+    echo [*] Pushing to GitHub...
+    git push origin main
+)
 
 echo.
 echo [+] Deployment complete!
 echo [*] Your site will be available at: https://ikenna-brendan.github.io/portfolio
 echo [*] Build ID: !BUILD_ID!
 echo [*] It may take a few minutes for changes to appear.
-echo [*] To force refresh, append ?v=!BUILD_ID! to the URL
-echo.
+echo [*] Waiting for GitHub Pages to publish the new build (polling for content-!BUILD_ID!.json)...
 
-REM Open the site in browser
-start "" "https://ikenna-brendan.github.io/portfolio?v=!BUILD_ID!"
+set MAX_TRIES=60
+set /a TRY=0
+set PUBLISHED=0
+
+
+:WAIT_LOOP
+set /a TRY+=1
+for /f "usebackq tokens=*" %%A in (`powershell -NoProfile -Command "$ProgressPreference='SilentlyContinue'; try { (Invoke-WebRequest -Uri \"https://ikenna-brendan.github.io/portfolio/data/content-%BUILD_ID%.json\" -UseBasicParsing -Method Head -TimeoutSec 10).StatusCode } catch { 0 }"`) do set STATUS=%%A
+if not defined STATUS set STATUS=0
+
+if "%STATUS%"=="200" (
+    set PUBLISHED=1
+    echo [+] Detected published artifact: content-!BUILD_ID!.json is live.
+    goto OPEN_SITE
+)
+
+if %TRY% GEQ %MAX_TRIES% (
+    echo [!] Timed out waiting for GitHub Pages (waited %MAX_TRIES% cycles). Proceeding to open the site anyway.
+    goto OPEN_SITE
+)
+
+echo [*] Not live yet (status %STATUS%). Waiting 5s... (Attempt %TRY%/%MAX_TRIES%)
+timeout /t 5 >nul
+goto WAIT_LOOP
+
+:OPEN_SITE
+echo [*] Opening with cache-busting and refresh flag: ?refresh=true&v=!BUILD_ID!
+start "" "https://ikenna-brendan.github.io/portfolio?refresh=true&v=!BUILD_ID!"
 
 pause

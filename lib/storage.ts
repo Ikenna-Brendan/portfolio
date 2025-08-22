@@ -53,23 +53,25 @@ const getBuildId = (): string => {
 
 const CURRENT_BUILD_ID = getBuildId();
 
-// Import client-side file system operations
-import { saveContentToFile } from './fileSystem';
-
-// Helper function to save to file system in development
-const saveToFileSystem = async (content: any, options: { forceDownload?: boolean } = {}): Promise<boolean> => {
-  // Only run in development and only if explicitly requested
-  if (typeof window === 'undefined' || 
-      process.env.NODE_ENV !== 'development' || 
-      !options.forceDownload) {
+// Helper: save content to disk via dev API (no browser download)
+const saveToDevServer = async (content: any): Promise<boolean> => {
+  if (typeof window === 'undefined' || process.env.NODE_ENV !== 'development') {
     return false;
   }
-
   try {
-    // Use client-side file system operations
-    return await saveContentToFile(content);
+    const res = await fetch('/api/update-content', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(content),
+    });
+    const data = await res.json().catch(() => ({}));
+    const ok = res.ok && (data.success !== false);
+    if (!ok) {
+      console.warn('Dev save API failed:', data);
+    }
+    return ok;
   } catch (error) {
-    console.warn('Could not save to file system:', error);
+    console.warn('Dev save API error:', error);
     return false;
   }
 };
@@ -91,11 +93,11 @@ export const storage = {
       localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
       console.log(`Content saved to localStorage [Build: ${CURRENT_BUILD_ID}, Key: ${STORAGE_KEY}]`);
       
-      // Only save to file system if explicitly requested
+      // In development, also persist to project files via API (no download)
       if (process.env.NODE_ENV === 'development' && options.saveToFile) {
-        console.log('Attempting to save to file system...');
-        const fileSaveSuccess = await saveToFileSystem(content, { forceDownload: true });
-        console.log('File system save result:', fileSaveSuccess ? 'Success' : 'Failed');
+        console.log('Attempting to persist content to disk via dev API...');
+        const apiSaveSuccess = await saveToDevServer(content);
+        console.log('Dev API save result:', apiSaveSuccess ? 'Success' : 'Failed');
       }
     } catch (error) {
       console.error('Failed to save content:', error);

@@ -355,12 +355,8 @@ export default function Home() {
       setContent(updatedContent);
       storage.saveContent(updatedContent);
       setShowCMS(false);
-      
-      // Show success message
-      alert('Content updated successfully!');
-      
-      // Force a refresh to ensure all components update with new content
-      window.location.reload();
+      // Components read from state; no full-page reload needed
+      console.log('Content updated successfully (state + storage).');
     } catch (error) {
       console.error('Error saving content:', error);
       alert('Failed to save content. Please check the console for details.');

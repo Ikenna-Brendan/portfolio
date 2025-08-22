@@ -4,6 +4,7 @@ import { Inter } from 'next/font/google';
 import { ThemeProvider } from '@/components/ThemeProvider';
 import ErrorBoundary from '@/components/ErrorBoundary';
 import { registerServiceWorker } from '@/lib/sw-register';
+import { Toaster } from 'react-hot-toast';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -89,6 +90,8 @@ export default function RootLayout({
             disableTransitionOnChange
           >
             {children}
+            {/* Global toast notifications */}
+            <Toaster position="top-right" toastOptions={{ duration: 2500 }} />
           </ThemeProvider>
         </ErrorBoundary>
       </body>

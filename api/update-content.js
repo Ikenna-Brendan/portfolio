@@ -14,16 +14,19 @@ export default async function handler(req, res) {
 
   try {
     const content = req.body;
-    const contentPath = path.join(process.cwd(), 'public/data/content.json');
+    const publicContentPath = path.join(process.cwd(), 'public/data/content.json');
+    const docsContentPath = path.join(process.cwd(), 'docs/data/content.json');
     
-    // Ensure the directory exists
-    const dir = path.dirname(contentPath);
-    if (!fs.existsSync(dir)) {
-      fs.mkdirSync(dir, { recursive: true });
-    }
+    // Ensure the directories exist
+    const publicDir = path.dirname(publicContentPath);
+    if (!fs.existsSync(publicDir)) fs.mkdirSync(publicDir, { recursive: true });
+    const docsDir = path.dirname(docsContentPath);
+    if (!fs.existsSync(docsDir)) fs.mkdirSync(docsDir, { recursive: true });
     
-    // Write the updated content
-    fs.writeFileSync(contentPath, JSON.stringify(content, null, 2), 'utf8');
+    // Write the updated content to both locations
+    const payload = JSON.stringify(content, null, 2);
+    fs.writeFileSync(publicContentPath, payload, 'utf8');
+    fs.writeFileSync(docsContentPath, payload, 'utf8');
     
     return res.status(200).json({ success: true });
   } catch (error) {
