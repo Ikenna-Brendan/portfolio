@@ -31,8 +31,18 @@ REM Copy all exported files, including hidden and system files
 echo [*] Copying files to docs...
 xcopy out\* docs /E /I /Y /H
 
-REM Ensure data directory exists in docs
+REM Ensure data and uploads directories exist in docs
 if not exist "docs\data" mkdir "docs\data"
+if not exist "docs\uploads" mkdir "docs\uploads"
+
+REM Copy uploads directory (for local development)
+if exist "public\uploads" (
+    echo [*] Copying uploads directory...
+    xcopy "public\uploads" "docs\uploads" /E /I /Y /H
+    if %ERRORLEVEL% NEQ 0 (
+        echo [!] Warning: Failed to copy uploads directory
+    )
+)
 
 REM Copy content files to docs directory with cache busting
 if exist "public\data" (
@@ -60,9 +70,15 @@ REM Create .nojekyll file for GitHub Pages
 echo [*] Creating .nojekyll file...
 echo # This file tells GitHub Pages not to process this site with Jekyll > docs\.nojekyll
 
-REM Add docs directory to git and conditionally commit/push
+REM Add docs directory and its contents to git
 echo [*] Adding files to git...
 git add docs/
+
+REM Ensure the uploads directory is tracked in the repository
+if exist "public\uploads" (
+    echo [*] Ensuring uploads directory is tracked...
+    git add -f public/uploads/
+)
 
 echo [*] Checking for changes...
 git diff --cached --quiet --exit-code

@@ -8,6 +8,10 @@
   ],
   "routes": [
     {
+      "src": "/uploads/(.*)",
+      "dest": "/public/uploads/$1"
+    },
+    {
       "src": "/data/(.*)",
       "dest": "/data/$1"
     },
@@ -17,6 +21,9 @@
     }
   ],
   "functions": {
+    "api/upload/route.js": {
+      "includeFiles": "public/uploads/**"
+    },
     "api/contact.js": {
       "maxDuration": 10
     }
