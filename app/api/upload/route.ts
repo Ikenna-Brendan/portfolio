@@ -1,20 +1,9 @@
 import { NextResponse } from 'next/server';
 import { writeFile, mkdir } from 'fs/promises';
 import { join } from 'path';
-import { randomUUID } from 'crypto';
-import { v2 as cloudinary, UploadApiResponse } from 'cloudinary';
 
 export async function POST(request: Request) {
   try {
-    // Configure Cloudinary if in production
-    if (process.env.NODE_ENV === 'production') {
-      cloudinary.config({
-        cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
-        api_key: process.env.CLOUDINARY_API_KEY,
-        api_secret: process.env.CLOUDINARY_API_SECRET,
-      });
-    }
-
     const formData = await request.formData();
     const file = formData.get('file') as File | null;
 
@@ -25,7 +14,7 @@ export async function POST(request: Request) {
       );
     }
 
-    // Validate file type
+    // Check if the file is an image
     if (!file.type.startsWith('image/')) {
       return NextResponse.json(
         { success: false, error: 'Only image files are allowed' },
@@ -33,51 +22,51 @@ export async function POST(request: Request) {
       );
     }
 
-    // Convert file to buffer
-    const bytes = await file.arrayBuffer();
-    const buffer = Buffer.from(bytes);
-
-    let publicUrl: string;
-
-    if (process.env.NODE_ENV === 'production') {
-      // Upload to Cloudinary in production
-      const result = await new Promise<UploadApiResponse>((resolve, reject) => {
-        const uploadStream = cloudinary.uploader.upload_stream(
-          { folder: 'portfolio' },
-          (error: Error | undefined, result: UploadApiResponse | undefined) => {
-            if (error) reject(error);
-            else if (!result) reject(new Error('No result from Cloudinary'));
-            else resolve(result);
-          }
-        );
-        uploadStream.end(buffer);
-      });
-
-      publicUrl = result.secure_url;
-    } else {
-      // Save locally in development
-      const uploadDir = join(process.cwd(), 'public', 'uploads');
-      await mkdir(uploadDir, { recursive: true });
-
-      const fileExtension = file.name.split('.').pop();
-      const fileName = `${randomUUID()}.${fileExtension}`;
-      const filePath = join(uploadDir, fileName);
-
-await writeFile(filePath, new Uint8Array(buffer));
-      publicUrl = `/uploads/${fileName}`;
+    // Validate file size (max 2MB)
+    const maxSize = 2 * 1024 * 1024; // 2MB
+    if (file.size > maxSize) {
+      return NextResponse.json(
+        { success: false, error: 'File size must be less than 2MB' },
+        { status: 400 }
+      );
     }
+
+    const bytes = await file.arrayBuffer();
+    const buffer = new Uint8Array(bytes);
     
-    return NextResponse.json({
-      success: true,
-      url: publicUrl,
-      fileName: file.name,
-      size: file.size,
-      type: file.type
-    });
+    // Generate a unique filename with timestamp and original extension
+    const timestamp = Date.now();
+    const fileExt = file.name.split('.').pop()?.toLowerCase() || 'jpg';
+    const fileName = `img-${timestamp}.${fileExt}`;
+    
+    // Define paths
+    const uploadsDir = join(process.cwd(), 'public', 'uploads');
+    const filePath = join(uploadsDir, fileName);
+    const publicUrl = `/uploads/${fileName}`;
+    
+    try {
+      // Ensure uploads directory exists
+      await mkdir(uploadsDir, { recursive: true });
+      
+      // Write the file using Uint8Array
+      await writeFile(filePath, buffer);
+      
+      return NextResponse.json({
+        success: true,
+        url: publicUrl,
+        message: 'File uploaded successfully',
+      });
+    } catch (error) {
+      console.error('Error saving file:', error);
+      return NextResponse.json(
+        { success: false, error: 'Error saving file' },
+        { status: 500 }
+      );
+    }
   } catch (error) {
     console.error('Error uploading file:', error);
     return NextResponse.json(
-      { success: false, error: 'Failed to upload file' },
+      { success: false, error: 'Error uploading file' },
       { status: 500 }
     );
   }

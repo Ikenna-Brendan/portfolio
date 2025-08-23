@@ -3,6 +3,10 @@ setlocal enabledelayedexpansion
 
 echo [*] Starting GitHub Pages deployment...
 
+echo [*] Ensuring required directories exist...
+if not exist "public\uploads" mkdir "public\uploads"
+if not exist "public\uploads\.gitkeep" echo. > "public\uploads\.gitkeep"
+
 REM Generate a unique build ID for cache busting
 set BUILD_ID=%DATE:~-4%%DATE:~3,2%%DATE:~0,2%_%TIME:~0,2%%TIME:~3,2%%TIME:~6,2%
 set BUILD_ID=!BUILD_ID: =0!
@@ -30,6 +34,17 @@ mkdir docs
 REM Copy all exported files, including hidden and system files
 echo [*] Copying files to docs...
 xcopy out\* docs /E /I /Y /H
+
+REM Copy uploads directory with all its contents
+echo [*] Copying uploads directory...
+if exist "public\uploads" (
+    xcopy "public\uploads" "docs\uploads" /E /I /Y /H
+    if errorlevel 1 (
+        echo [!] Warning: Failed to copy uploads directory
+    ) else (
+        echo [+] Uploads directory copied successfully
+    )
+)
 
 REM Ensure data and uploads directories exist in docs
 if not exist "docs\data" mkdir "docs\data"
@@ -70,15 +85,19 @@ REM Create .nojekyll file for GitHub Pages
 echo [*] Creating .nojekyll file...
 echo # This file tells GitHub Pages not to process this site with Jekyll > docs\.nojekyll
 
-REM Add docs directory and its contents to git
+REM Add all necessary files to git
 echo [*] Adding files to git...
 git add docs/
 
-REM Ensure the uploads directory is tracked in the repository
+REM Ensure the uploads directory structure is tracked
 if exist "public\uploads" (
-    echo [*] Ensuring uploads directory is tracked...
+    echo [*] Ensuring uploads directory structure is tracked...
     git add -f public/uploads/
+    git add -f public/uploads/.gitkeep
 )
+
+REM Add any new files in public/uploads that aren't in .gitignore
+git add -f public/uploads/*
 
 echo [*] Checking for changes...
 git diff --cached --quiet --exit-code

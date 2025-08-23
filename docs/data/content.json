@@ -330,7 +330,7 @@
       "title": "Unregistered Road User Temporal Permit",
       "company": "Personal Project",
       "description": "Comprehensive digital solution that revolutionizes the management of unregistered road user temporally permits through a modern, secure, and efficient platform. Streamlining digital workflow, significantly improving operational efficiency and user experience.",
-      "image": "/uploads/ca5971d6-cb9b-491b-8cfd-ac44a9932358.JPG",
+      "image": "/uploads/img-1755942391495.jpg",
       "technologies": [
         "React Native",
         "TypeScript",
@@ -345,19 +345,19 @@
         "Git"
       ],
       "features": [
-        "Digital Permit Management",
-        "QR Code Integration",
-        "Role-Based Access Control",
-        "Responsive Design",
-        "Comprehensive Reporting"
+        "Digital permit management",
+        "Secure QR code integration for permits verification",
+        "Role-based access control",
+        "Responsive  design optimized for all devices",
+        "Real-time analytics and dashboards"
       ],
       "impact": "90% reduction in permit processing time thereby improving operational efficiency. Cost savings by lower operational cost through process automation, dismiss need for paper and physical storage space. Security and compliance improvement."
     },
     {
       "title": "Digital Solutions Platform",
       "company": "Personal Project",
-      "description": "Modern and responsive website for a digital solutions agency specializing in custom software development, marketing automation, and UX/UI design. It showcases the company's services, case studies, and provides a streamlined contact process for potential clients.",
-      "image": "/uploads/71a70d11-f92e-43d1-875f-5a942cad83b0.JPG",
+      "description": "Modern responsive website for a digital solutions agency specializing in custom software development, marketing automation, and UX/UI design. It showcases the company's services, case studies, and provides a streamlined contact process for potential clients.",
+      "image": "/uploads/img-1755942444325.jpg",
       "technologies": [
         "React",
         "TypeScript",
