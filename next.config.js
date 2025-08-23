@@ -39,60 +39,6 @@ const nextConfig = {
     
     return config;
   },
-  
-  // Copy the uploads directory during export
-  async exportPathMap(defaultPathMap, { dev, dir, outDir, distDir }) {
-    if (dev) return defaultPathMap;
-    
-    const fs = require('fs');
-    const path = require('path');
-    const { promisify } = require('util');
-    const copyFile = promisify(fs.copyFile);
-    const mkdir = promisify(fs.mkdir);
-    const readdir = promisify(fs.readdir);
-    const stat = promisify(fs.stat);
-
-    // Function to copy directory recursively
-    async function copyDir(src, dest) {
-      await mkdir(dest, { recursive: true });
-      const entries = await readdir(src, { withFileTypes: true });
-
-      for (let entry of entries) {
-        const srcPath = path.join(src, entry.name);
-        const destPath = path.join(dest, entry.name);
-
-        if (entry.isDirectory()) {
-          await copyDir(srcPath, destPath);
-        } else {
-          await copyFile(srcPath, destPath);
-        }
-      }
-    }
-
-    try {
-      // Copy uploads directory
-      const uploadsSrc = path.join(dir, 'public', 'uploads');
-      const uploadsDest = path.join(outDir, 'uploads');
-      
-      if (fs.existsSync(uploadsSrc)) {
-        console.log(`Copying uploads from ${uploadsSrc} to ${uploadsDest}`);
-        await copyDir(uploadsSrc, uploadsDest);
-      }
-
-      // Also copy to _next/static/media for image optimization
-      const mediaDest = path.join(outDir, '_next', 'static', 'media');
-      if (fs.existsSync(uploadsSrc)) {
-        console.log(`Copying uploads to ${mediaDest}`);
-        await copyDir(uploadsSrc, mediaDest);
-      }
-      
-    } catch (error) {
-      console.error('Error during export:', error);
-      process.exit(1);
-    }
-    
-    return defaultPathMap;
-  },
 };
 
 module.exports = nextConfig;

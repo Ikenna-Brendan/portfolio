@@ -4,14 +4,14 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build && node scripts/copy-uploads.js",
-    "postbuild": "node scripts/copy-content.js",
+    "build": "next build",
+    "postbuild": "node scripts/copy-content.js && node scripts/post-build.js",
     "start": "next start",
-    "export": "next build && next export && node scripts/copy-uploads.js",
+    "export": "next build && next export",
     "lint": "next lint",
-    "deploy": "npm run build && npm run copy-to-docs",
+    "deploy": "npm run build && npm run export && npm run copy-to-docs",
     "copy-to-docs": "xcopy out\\* docs\\ /E /I /Y /H",
-    "prepare-deploy": "npm run build && mkdir -p docs && xcopy out\\* docs\\ /E /I /Y /H"
+    "prepare-deploy": "npm run build && npm run export && mkdir -p docs && xcopy out\\* docs\\ /E /I /Y /H"
   },
   "keywords": [
     "testing",
@@ -87,5 +87,8 @@
     "uuid": "^11.1.0",
     "vaul": "^0.9.9",
     "zod": "^3.23.8"
+  },
+  "devDependencies": {
+    "copy-webpack-plugin": "^13.0.1"
   }
 }

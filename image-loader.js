@@ -1,5 +1,5 @@
 // Custom image loader for Next.js static export
-// This ensures image paths are correct in production
+// This ensures image paths are correct in both development and production
 
 module.exports = function customLoader({ src, width, quality }) {
   // For production (GitHub Pages), use the base path
@@ -11,6 +11,16 @@ module.exports = function customLoader({ src, width, quality }) {
     return `${basePath}${src}`;
   }
   
-  // For other images, use the default behavior
-  return `${basePath}${src}?w=${width}&q=${quality || 75}`;
+  // If the image is from _next/static/media, handle it specially
+  if (src.includes('_next/static/media')) {
+    return `${basePath}${src}`;
+  }
+  
+  // For other images, use the default behavior with quality parameter
+  const params = new URLSearchParams();
+  if (width) params.append('w', width);
+  if (quality) params.append('q', quality);
+  
+  const queryString = params.toString();
+  return queryString ? `${basePath}${src}?${queryString}` : `${basePath}${src}`;
 };
