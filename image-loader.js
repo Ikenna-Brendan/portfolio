@@ -6,21 +6,34 @@ module.exports = function customLoader({ src, width, quality }) {
   const isProd = process.env.NODE_ENV === 'production';
   const basePath = isProd ? '/portfolio' : '';
   
-  // If the image is from the uploads directory, use the correct path
-  if (src.startsWith('/uploads/')) {
-    return `${basePath}${src}`;
+  // Handle different source types
+  if (src.startsWith('http') || src.startsWith('data:')) {
+    // External URLs or data URIs - use as is
+    return src;
   }
   
-  // If the image is from _next/static/media, handle it specially
-  if (src.includes('_next/static/media')) {
-    return `${basePath}${src}`;
+  // Handle absolute paths
+  if (src.startsWith('/')) {
+    // Remove leading slash if present
+    const cleanSrc = src.startsWith('/') ? src.slice(1) : src;
+    
+    // For production, add the base path
+    const prefixedSrc = isProd ? `${basePath}/${cleanSrc}` : `/${cleanSrc}`;
+    
+    // Add query parameters if needed
+    const params = new URLSearchParams();
+    if (width) params.append('w', width);
+    if (quality) params.append('q', quality || 75);
+    
+    const queryString = params.toString();
+    return queryString ? `${prefixedSrc}?${queryString}` : prefixedSrc;
   }
   
-  // For other images, use the default behavior with quality parameter
+  // For relative paths, just add query parameters
   const params = new URLSearchParams();
   if (width) params.append('w', width);
-  if (quality) params.append('q', quality);
+  if (quality) params.append('q', quality || 75);
   
   const queryString = params.toString();
-  return queryString ? `${basePath}${src}?${queryString}` : `${basePath}${src}`;
+  return queryString ? `${src}?${queryString}` : src;
 };

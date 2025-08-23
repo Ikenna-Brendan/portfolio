@@ -17,22 +17,57 @@ set BUILD_ID=!BUILD_ID: =0!
 REM Update the build version in a file that will be used by the app
 echo {"buildId": "!BUILD_ID!"} > public\build-info.json
 
+REM Ensure uploads directory is tracked by Git
 echo [*] Ensuring uploads directory is tracked by Git...
 git add -f public/uploads/
 for /f "delims=" %%f in ('dir /b /s /a-d public\uploads\* 2^>nul') do (
     git add -f "%%f"
 )
 
-REM Export the project for static hosting (includes build)
-echo [*] Exporting project (build + export)...
+REM Build the project
+echo [*] Building the project...
+call npm run build
+if errorlevel 1 (
+    echo [ERROR] Build failed
+    exit /b 1
+)
+
+REM Export the project for static hosting
+echo [*] Exporting the project...
 call npm run export
+if errorlevel 1 (
+    echo [ERROR] Export failed
+    exit /b 1
+)
 
 REM Ensure content.json is included in the exported output
 node scripts/copy-content.js
 
-REM Remove old docs (be careful if you have custom files)
+REM Clean up old docs directory
 echo [*] Cleaning up old files...
 if exist "docs" rmdir /S /Q docs
+
+REM Create new docs directory
+if not exist "docs" mkdir "docs"
+
+REM Copy all files from out to docs
+echo [*] Copying files to docs directory...
+xcopy /E /I /Y /Q "out\*" "docs\"
+
+REM Ensure the uploads directory exists in docs
+if not exist "docs\uploads" mkdir "docs\uploads"
+
+REM Copy all files from public/uploads to docs/uploads
+echo [*] Copying uploads to docs directory...
+if exist "public\uploads" (
+    xcopy /E /I /Y /Q "public\uploads\*" "docs\uploads\"
+)
+
+REM Add all changes to git
+echo [*] Adding changes to Git...
+git add -f docs/
+
+echo [*] Deployment preparation complete!
 mkdir docs
 
 REM Copy all exported files, including hidden and system files

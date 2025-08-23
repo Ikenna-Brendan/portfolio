@@ -22,20 +22,35 @@ const nextConfig = {
     // Disable image optimization since we're using static export
     loader: 'custom',
     loaderFile: './image-loader.js',
-    // Ensure images are loaded from the correct path in production
-    path: isGithubPages ? `${basePath}/_next/static/media` : '/_next/static/media',
+    // Don't use the default path for static export
+    path: '',
   },
   
   // Add trailing slashes to URLs
   trailingSlash: true,
   
   // Webpack configuration
-  webpack: (config) => {
+  webpack: (config, { isServer }) => {
     // Fixes npm packages that depend on `fs` module
     config.resolve.fallback = {
       ...config.resolve.fallback,
       fs: false,
     };
+
+    // Copy files plugin for Webpack
+    if (!isServer) {
+      config.plugins.push(
+        new (require('copy-webpack-plugin'))({
+          patterns: [
+            {
+              from: 'public/uploads',
+              to: 'uploads',
+              noErrorOnMissing: true,
+            },
+          ],
+        })
+      );
+    }
     
     return config;
   },
