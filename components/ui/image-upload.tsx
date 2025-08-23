@@ -3,6 +3,7 @@
 import { useState, useCallback } from 'react';
 import { Button } from './button';
 import { Upload, X, Loader2 } from 'lucide-react';
+import { CustomImage } from './custom-image';
 
 interface ImageUploadProps {
   value?: string;
@@ -91,10 +92,12 @@ export function ImageUpload({ value, onChange, disabled = false }: ImageUploadPr
         {value ? (
           <div className="relative group">
             <div className="aspect-video rounded-md overflow-hidden bg-gray-100 dark:bg-gray-800">
-              <img
+              <CustomImage
                 src={value}
                 alt="Project preview"
                 className="object-cover w-full h-full"
+                width={800}
+                height={450}
               />
             </div>
             <button

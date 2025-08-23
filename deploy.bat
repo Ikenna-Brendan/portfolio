@@ -14,13 +14,19 @@ REM Generate a unique build ID for cache busting
 set BUILD_ID=%DATE:~-4%%DATE:~3,2%%DATE:~0,2%_%TIME:~0,2%%TIME:~3,2%%TIME:~6,2%
 set BUILD_ID=!BUILD_ID: =0!
 
-REM Create data directory if it doesn't exist
+REM Create necessary directories if they don't exist
 if not exist "public\data" mkdir "public\data"
-
-REM Skipping legacy localStorage export step (handled by CMS/dev API now)
+if not exist "public\uploads" mkdir "public\uploads"
+if not exist "public\uploads\.gitkeep" echo. > "public\uploads\.gitkeep"
 
 REM Update the build version in a file that will be used by the app
 echo {"buildId": "!BUILD_ID!"} > public\build-info.json
+
+echo [*] Ensuring uploads directory is tracked by Git...
+git add -f public/uploads/
+for /f "delims=" %%f in ('dir /b /s /a-d public\uploads\* 2^>nul') do (
+    git add -f "%%f"
+)
 
 REM Export the project for static hosting (includes build)
 echo [*] Exporting project (build + export)...
