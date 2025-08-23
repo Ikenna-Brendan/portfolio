@@ -19,13 +19,23 @@ export function ImageUpload({ value, onChange, disabled = false }: ImageUploadPr
       const file = e.target.files?.[0];
       if (!file) return;
 
+      // Reset file input
+      e.target.value = '';
+
       // Validate file type
       if (!file.type.startsWith('image/')) {
-        setError('Please upload an image file');
+        setError('Please upload an image file (JPEG, PNG, GIF, etc.)');
         return;
       }
 
-      // Reset error
+      // Validate file size (client-side)
+      const maxSize = 2 * 1024 * 1024; // 2MB
+      if (file.size > maxSize) {
+        setError('File size must be less than 2MB');
+        return;
+      }
+
+      // Reset error state
       setError(null);
       setIsUploading(true);
 
@@ -33,20 +43,33 @@ export function ImageUpload({ value, onChange, disabled = false }: ImageUploadPr
         const formData = new FormData();
         formData.append('file', file);
 
+        console.log('Sending upload request...');
         const response = await fetch('/api/upload', {
           method: 'POST',
           body: formData,
         });
 
+        const data = await response.json();
+        console.log('Upload response:', data);
+
         if (!response.ok) {
-          throw new Error('Failed to upload image');
+          throw new Error(data.error || 'Failed to upload image');
         }
 
-        const data = await response.json();
+        if (!data.success) {
+          throw new Error(data.error || 'Upload failed');
+        }
+
+        if (!data.url) {
+          throw new Error('No URL returned from server');
+        }
+
+        console.log('Upload successful, URL:', data.url);
         onChange(data.url);
       } catch (err) {
         console.error('Error uploading image:', err);
-        setError('Failed to upload image. Please try again.');
+        const errorMessage = err instanceof Error ? err.message : 'Failed to upload image';
+        setError(errorMessage);
       } finally {
         setIsUploading(false);
       }

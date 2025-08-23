@@ -7,6 +7,9 @@ echo [*] Ensuring required directories exist...
 if not exist "public\uploads" mkdir "public\uploads"
 if not exist "public\uploads\.gitkeep" echo. > "public\uploads\.gitkeep"
 
+REM Clean up any temporary files in uploads
+del /q "public\uploads\temp-*" 2>nul
+
 REM Generate a unique build ID for cache busting
 set BUILD_ID=%DATE:~-4%%DATE:~3,2%%DATE:~0,2%_%TIME:~0,2%%TIME:~3,2%%TIME:~6,2%
 set BUILD_ID=!BUILD_ID: =0!
@@ -33,7 +36,22 @@ mkdir docs
 
 REM Copy all exported files, including hidden and system files
 echo [*] Copying files to docs...
+if not exist "docs" mkdir "docs"
+
+REM First, copy the Next.js export
 xcopy out\* docs /E /I /Y /H
+
+REM Then copy the uploads directory
+if exist "public\uploads" (
+    echo [*] Copying uploads directory...
+    if not exist "docs\uploads" mkdir "docs\uploads"
+    xcopy "public\uploads\*" "docs\uploads" /E /I /Y /H
+    if errorlevel 1 (
+        echo [!] Warning: Failed to copy uploads directory
+    ) else (
+        echo [+] Uploads directory copied successfully
+    )
+)
 
 REM Copy uploads directory with all its contents
 echo [*] Copying uploads directory...
@@ -87,17 +105,25 @@ echo # This file tells GitHub Pages not to process this site with Jekyll > docs\
 
 REM Add all necessary files to git
 echo [*] Adding files to git...
-git add docs/
 
-REM Ensure the uploads directory structure is tracked
+REM First, add all tracked files
+git add .
+
+REM Then force add the uploads directory and its contents
 if exist "public\uploads" (
-    echo [*] Ensuring uploads directory structure is tracked...
+    echo [*] Ensuring uploads directory is tracked...
+    
+    REM Add the directory structure
     git add -f public/uploads/
-    git add -f public/uploads/.gitkeep
+    
+    REM Add all files in uploads, including new ones (except .gitkeep which is already added)
+    for /f "delims=" %%f in ('dir /b /s /a-d public\\uploads\\* ^| findstr /v "\\.gitkeep$" 2^>nul') do (
+        git add -f "%%f"
+    )
 )
 
-REM Add any new files in public/uploads that aren't in .gitignore
-git add -f public/uploads/*
+REM Add the docs directory and its contents
+git add docs/
 
 echo [*] Checking for changes...
 git diff --cached --quiet --exit-code

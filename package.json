@@ -3,15 +3,15 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "dev": "node server.js",
     "build": "next build && next export",
     "postbuild": "node scripts/copy-content.js",
-    "start": "next start",
+    "start": "node server.js",
     "lint": "next lint",
     "export": "next build && next export",
     "deploy": "npm run build && npm run copy-to-docs",
-    "copy-to-docs": "cp -r out/* docs/ || xcopy out\\* docs\\ /E /I /Y",
-    "prepare-deploy": "npm run build && mkdir -p docs && cp -r out/* docs/"
+    "copy-to-docs": "xcopy out\\* docs\\ /E /I /Y /H",
+    "prepare-deploy": "npm run build && mkdir -p docs && xcopy out\\* docs\\ /E /I /Y /H"
   },
   "keywords": [
     "testing",
