@@ -1,12 +1,13 @@
 /** @type {import('next').NextConfig} */
 const isGithubPages = process.env.NODE_ENV === 'production';
+const isStaticExport = process.env.NEXT_EXPORT === 'true' || isGithubPages;
 const basePath = isGithubPages ? '/portfolio' : '';
 const assetPrefix = isGithubPages ? '/portfolio/' : '';
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  // Enable static export
-  output: 'export',
+  // Enable static export only when needed
+  ...(isStaticExport && { output: 'export' }),
   
   // Set base path for GitHub Pages
   basePath,

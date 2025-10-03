@@ -2,6 +2,9 @@ import { NextResponse } from 'next/server';
 import fs from 'fs';
 import path from 'path';
 
+// This route cannot be statically exported
+export const dynamic = 'force-dynamic';
+
 export async function POST(request: Request) {
   // Only allow in development
   if (process.env.NODE_ENV !== 'development') {

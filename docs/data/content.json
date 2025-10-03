@@ -203,7 +203,7 @@
       "title": "JBEES Business Website",
       "company": "JBEES Nigeria",
       "description": "Modern business website for JBEES Nigeria featuring responsive design, contact forms, and professional branding with seamless user experience.",
-      "image": "https://images.pexels.com/photos/3183150/pexels-photo-3183150.jpeg?auto=compress&cs=tinysrgb&w=800",
+      "image": "/uploads/img-1759506686806.jpg",
       "technologies": [
         "Next.js",
         "TypeScript",
