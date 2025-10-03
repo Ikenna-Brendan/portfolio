@@ -9,7 +9,7 @@ import { Toaster } from 'react-hot-toast';
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://ikenna-iwuoha.com'),
+  metadataBase: new URL('https://ikenna-brendan.github.io/portfolio'),
   title: 'Ikenna Iwuoha | Full-Stack Technologist & Digital Solutions Architect',
   description: 'From Infrastructure to AI—Delivering Scalable, Secure, and Insightful Technology Solutions. 10+ years of experience across automotive, healthcare, retail, and education sectors.',
   keywords: 'Full-Stack Developer, Digital Solutions Architect, Software Engineer, ERP Implementation, Cloud Solutions, Data Analytics, Technology Leadership',
@@ -29,7 +29,7 @@ export const metadata: Metadata = {
     siteName: 'Ikenna Iwuoha Portfolio',
     images: [
       {
-        url: '/og-image.jpg',
+        url: '/portfolio/og-image.jpg',
         width: 1200,
         height: 630,
         alt: 'Ikenna Iwuoha - Full-Stack Technologist',
@@ -41,7 +41,7 @@ export const metadata: Metadata = {
     title: 'Ikenna Iwuoha | Full-Stack Technologist & Digital Solutions Architect',
     description: 'From Infrastructure to AI—Delivering Scalable, Secure, and Insightful Technology Solutions.',
     creator: '@ikenna_iwuoha',
-    images: ['/og-image.jpg'],
+    images: ['/portfolio/og-image.jpg'],
   },
   robots: {
     index: true,
@@ -57,6 +57,12 @@ export const metadata: Metadata = {
   verification: {
     google: 'your-google-verification-code',
   },
+  icons: {
+    icon: '/portfolio/favicon.ico',
+    apple: '/portfolio/apple-touch-icon.png',
+  },
+  manifest: '/portfolio/manifest.json',
+  themeColor: '#1e293b',
 };
 
 export default function RootLayout({
@@ -69,18 +75,8 @@ export default function RootLayout({
     registerServiceWorker();
   }
 
-  // Determine the base path for static assets
-  const isGithubPages = process.env.NODE_ENV === 'production';
-  const basePath = isGithubPages ? '/portfolio' : '';
-
   return (
     <html lang="en" className="scroll-smooth" suppressHydrationWarning>
-      <head>
-        <link rel="icon" href={`${basePath}/favicon.ico`} />
-        <link rel="apple-touch-icon" href={`${basePath}/apple-touch-icon.png`} />
-        <link rel="manifest" href={`${basePath}/manifest.json`} />
-        <meta name="theme-color" content="#1e293b" />
-      </head>
       <body className={inter.className}>
         <ErrorBoundary>
           <ThemeProvider

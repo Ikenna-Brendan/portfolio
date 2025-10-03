@@ -11,7 +11,9 @@
     "lint": "next lint",
     "deploy": "npm run build && npm run export && npm run copy-to-docs",
     "copy-to-docs": "xcopy out\\* docs\\ /E /I /Y /H",
-    "prepare-deploy": "npm run build && npm run export && mkdir -p docs && xcopy out\\* docs\\ /E /I /Y /H"
+    "prepare-deploy": "npm run build && npm run export && mkdir -p docs && xcopy out\\* docs\\ /E /I /Y /H",
+    "fix-paths": "node scripts/update-content-paths.js",
+    "quick-deploy": "npm run fix-paths && git add docs/data/ && git commit -m \"fix: update image paths for production\" && git push"
   },
   "keywords": [
     "testing",
