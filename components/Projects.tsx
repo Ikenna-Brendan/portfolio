@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import Image from 'next/image';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -94,10 +95,13 @@ export default function Projects({ data }: ProjectsProps) {
                 >
                   {/* Project image */}
                   <div className="relative h-48 overflow-hidden">
-                    <img 
+                    <Image 
                       src={project.image} 
                       alt={project.title}
+                      width={400}
+                      height={192}
                       className="w-full h-full object-cover transition-transform duration-300 hover:scale-110"
+                      priority={index < 2}
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
                     <div className="absolute bottom-4 left-4 text-white">
