@@ -8,7 +8,6 @@ const fs = require('fs');
 module.exports = function customLoader({ src, width, quality }) {
   // Base path from environment or default to empty string
   const basePath = process.env.NEXT_PUBLIC_BASE_PATH || '';
-  const isProduction = process.env.NODE_ENV === 'production';
   
   // Handle different source types
   if (!src) return '';
@@ -30,15 +29,30 @@ module.exports = function customLoader({ src, width, quality }) {
     }
   }
   
-  // Add base path for production (GitHub Pages)
-  if (isProduction && basePath) {
-    imagePath = `${basePath}${imagePath}`;
-  }
+  // Add base path for production
+  imagePath = basePath ? `${basePath}${imagePath}` : imagePath;
   
   // Ensure proper path formatting (no double slashes)
   imagePath = imagePath.replace(/([^:]\/)\/+/g, '$1');
   
-  // For static export, we don't need optimization parameters
-  // Just return the clean path
-  return imagePath;
+  // Add optimization parameters
+  const params = new URLSearchParams();
+  
+  // Only add width if it's a number and not too small
+  if (width && !isNaN(width) && width > 0) {
+    params.append('w', Math.min(Number(width), 3840)); // Max width 3840px (4K)
+  }
+  
+  // Add quality if specified (default to 75%)
+  const q = quality || 75;
+  if (q > 0 && q <= 100) {
+    params.append('q', q);
+  }
+  
+  // Add auto format if supported
+  params.append('auto', 'format');
+  
+  // Add query string if we have any parameters
+  const queryString = params.toString();
+  return queryString ? `${imagePath}?${queryString}` : imagePath;
 };

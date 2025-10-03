@@ -1,7 +1,6 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import Image from 'next/image';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -45,6 +44,25 @@ export default function Projects({ data }: ProjectsProps) {
   const handleFilterChange = (projects: Project[]) => {
     console.log('Filter changed. Filtered projects:', projects);
     setFilteredProjects(projects);
+  };
+
+  // Helper function to get correct image path for production
+  const getImagePath = (imagePath: string) => {
+    if (!imagePath) return '';
+    
+    // External URLs - use as is
+    if (imagePath.startsWith('http') || imagePath.startsWith('data:')) {
+      return imagePath;
+    }
+    
+    // For production (GitHub Pages), add the base path
+    const isProduction = typeof window !== 'undefined' && window.location.hostname === 'ikenna-brendan.github.io';
+    const basePath = isProduction ? '/portfolio' : '';
+    
+    // Ensure path starts with /
+    const cleanPath = imagePath.startsWith('/') ? imagePath : `/${imagePath}`;
+    
+    return `${basePath}${cleanPath}`;
   };
 
   return (
@@ -95,13 +113,10 @@ export default function Projects({ data }: ProjectsProps) {
                 >
                   {/* Project image */}
                   <div className="relative h-48 overflow-hidden">
-                    <Image 
-                      src={project.image} 
+                    <img 
+                      src={getImagePath(project.image)} 
                       alt={project.title}
-                      width={400}
-                      height={192}
                       className="w-full h-full object-cover transition-transform duration-300 hover:scale-110"
-                      priority={index < 2}
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
                     <div className="absolute bottom-4 left-4 text-white">
