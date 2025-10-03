@@ -4,14 +4,14 @@
     "name": "Ikenna B Iwuoha",
     "title": "Full-Stack Technologist & Digital Solutions Architect",
     "tagline": "From Infrastructure to AI-Delivering Scalable, Secure, and Insightful Technology Solutions.",
-    "bio": "15+ years of experience delivering enterprise solutions across automotive, healthcare, retail, and education sectors. Passionate about transforming complex business challenges into elegant technical solutions.",
+    "bio": "10+ years of experience delivering enterprise solutions across automotive, healthcare, retail, and education sectors. Passionate about transforming complex business challenges into elegant technical solutions.",
     "resumeUrl": "https://drive.google.com/file/d/1h0VyeDM3zJuu_MqrR2e7VFUYSUTs99RA/view",
     "location": "Ireland"
   },
   "about": {
     "summary": "With over a decade in technology spanning multiple industries, I bring a unique blend of technical depth and business acumen. My experience ranges from software engineering and ERP implementations to DevOps, cloud architecture, and AI solutions. I thrive on solving complex problems and have successfully led projects from conception to deployment, always focusing on scalable, secure, and user-centric solutions.",
     "highlights": [
-      "15+ years across automotive, healthcare, retail, and education industries",
+      "10+ years across automotive, healthcare, retail, and education industries",
       "Versatile expertise: software engineering, ERP, DevOps, cloud, and AI & ML",
       "Proven track record in both individual contribution and leadership roles",
       "Based in Ireland with global project experience"
@@ -203,7 +203,7 @@
       "title": "JBEES Business Website",
       "company": "JBEES Nigeria",
       "description": "Modern business website for JBEES Nigeria featuring responsive design, contact forms, and professional branding with seamless user experience.",
-      "image": "/portfolio/uploads/img-1759506686806.jpg",
+      "image": "/uploads/img-1759506686806.jpg",
       "technologies": [
         "Next.js",
         "TypeScript",
