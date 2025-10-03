@@ -57,7 +57,8 @@ export async function POST(request: Request) {
       // Define paths - ensure forward slashes for URLs
       const uploadsDir = join(process.cwd(), 'public', 'uploads');
       const filePath = join(uploadsDir, fileName);
-      const publicUrl = `/uploads/${fileName}`;
+      // Use the correct path for production (GitHub Pages)
+      const publicUrl = `/portfolio/uploads/${fileName}`;
       
       console.log('Saving file to:', filePath);
       
