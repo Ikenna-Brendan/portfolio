@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import { ArrowDown, Download, MapPin, Mail, LinkedinIcon, GithubIcon } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { trackContactClick } from '@/lib/analytics';
 
 interface HeroData {
   name: string;
@@ -34,6 +35,12 @@ export default function Hero({ data, contact }: HeroProps) {
   const scrollToNext = () => {
     const aboutSection = document.getElementById('about');
     aboutSection?.scrollIntoView({ behavior: 'smooth' });
+  };
+
+  const scrollToContact = () => {
+    trackContactClick('hero_button');
+    const contactSection = document.getElementById('contact');
+    contactSection?.scrollIntoView({ behavior: 'smooth' });
   };
 
   const handleResumeDownload = () => {
@@ -91,7 +98,7 @@ export default function Hero({ data, contact }: HeroProps) {
             <Button 
               variant="outline" 
               size="lg"
-              onClick={() => window.open(`mailto:${contact.email}`, '_blank')}
+              onClick={scrollToContact}
               className="border-blue-400 text-blue-400 hover:bg-blue-400 hover:text-white px-8 py-3 rounded-lg transition-all duration-300 transform hover:scale-105"
             >
               <Mail className="mr-2" size={20} />

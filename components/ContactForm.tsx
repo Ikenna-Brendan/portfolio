@@ -29,7 +29,7 @@ export default function ContactForm({ email }: ContactFormProps) {
 
     try {
       // Using Formspree for form handling
-      const response = await fetch('https://formspree.io/f/xwpbwwdv', {
+      const response = await fetch('https://formspree.io/f/xjkarjyj', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -104,7 +104,7 @@ export default function ContactForm({ email }: ContactFormProps) {
               className="bg-white/10 border-white/20 text-white placeholder:text-gray-300"
             />
             <Textarea
-              placeholder="Your Message"
+              placeholder="Quick Message"
               rows={5}
               value={formData.message}
               onChange={(e) => handleInputChange('message', e.target.value)}

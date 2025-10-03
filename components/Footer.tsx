@@ -27,7 +27,7 @@ export default function Footer() {
             {/* Footer content */}
             <div className="border-t border-gray-700 pt-8">
               <p className="text-gray-400">
-                © 2024 Ikenna Iwuoha. All rights reserved.
+                © 2025 Ikenna Iwuoha. All rights reserved.
               </p>
             </div>
           </div>
