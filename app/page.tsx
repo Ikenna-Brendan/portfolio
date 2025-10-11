@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { Settings } from 'lucide-react';
+import { CertificationItem } from '@/types';
 import { Button } from '@/components/ui/button';
 import Hero from '@/components/Hero';
 import About from '@/components/About';

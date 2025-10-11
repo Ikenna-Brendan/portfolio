@@ -75,7 +75,7 @@ export default function Experience({ data }: ExperienceProps) {
             <div className="space-y-12">
               {sortedExperiences.map((experience, index) => (
                 <div 
-                  key={index}
+                  key={`${experience.title}-${experience.company}-${experience.period}`}
                   className={`relative flex items-center ${
                     index % 2 === 0 ? 'md:flex-row' : 'md:flex-row-reverse'
                   }`}
