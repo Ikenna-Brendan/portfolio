@@ -119,12 +119,12 @@
     },
     {
       "title": "Technical Support Specialist",
-      "company": "Procore",
+      "company": "Milestone Procore",
       "period": "2025 - Present",
       "location": "Ireland",
       "description": "Provided enterprise-level technical support for Windows environments and network infrastructure.",
       "achievements": [
-        "Maintained 98% customer satisfaction rating across 500+ support tickets",
+        "Maintained 98% customer satisfaction rating across multiple support tickets",
         "Implemented automated monitoring solutions reducing incident response time by 50%",
         "Led compliance audits and security assessments"
       ],
@@ -195,6 +195,33 @@
         "Node.js",
         "Google Cloud",
         "Streamlit"
+      ]
+    },
+    {
+      "title": "IT Manager (Volunteer)",
+      "company": "Children 4 World Children",
+      "period": "2024 - Present",
+      "location": "Dublin",
+      "description": "Led the design, development, and launch of the organization’s first official website, driving digital transformation and enhancing global visibility and outreach.",
+      "achievements": [
+        "Designed, developed, and launched the organization’s first official website (children4worldchildren.com ) using React.js, Node.js, TypeScript, and PostgreSQL, enhancing global visibility and user engagement.",
+        "Implemented a CI/CD automation pipeline with a zero-cost hosting solution via GitHub Pages, streamlining deployments, reducing operational costs, and improving system reliability.",
+        "Applied responsive design and Tailwind CSS to create a modern, accessible, and mobile-friendly user interface aligned with UI/UX best practices.",
+        "Optimized backend and data workflows, ensuring secure and efficient content management with scalability for future organizational growth.",
+        "Enhanced professional skills in full-stack development, DevOps automation, digital strategy, and IT leadership, while empowering staff with training and documentation for sustainable site management."
+      ],
+      "technologies": [
+        "React",
+        "GitHub",
+        "GitHub Pages",
+        "Jira",
+        "Confluence",
+        "DevOps automation",
+        "Node Js",
+        "Content Management System",
+        "CI/CD",
+        "Automated Testing",
+        "PostgreSQL"
       ]
     }
   ],

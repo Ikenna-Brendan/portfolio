@@ -10,19 +10,28 @@ import Experience from '@/components/Experience';
 import Projects from '@/components/Projects';
 import Education from '@/components/Education';
 import Blog from '@/components/Blog';
-import Contact from '@/components/Contact';
 import Footer from '@/components/Footer';
 import ContentManager from '@/components/ContentManager';
 import LoadingSpinner from '@/components/LoadingSpinner';
-import ThemeToggle from '@/components/ThemeToggle';
 import ScrollProgress from '@/components/ScrollProgress';
 import { storage } from '@/lib/storage';
 import { trackPageView } from '@/lib/analytics';
 
-// Import shared types
-import { CertificationItem } from '@/types';
+// Helper function to sort experiences by start year (newest first)
+const sortExperiences = (experiences: any[]): any[] => {
+  if (!Array.isArray(experiences)) return [];
+  
+  const getStartYear = (period: string): number => {
+    if (!period) return 0;
+    const yearMatch = period.match(/\b(20\d{2})\b/);
+    return yearMatch ? parseInt(yearMatch[1], 10) : 0;
+  };
+  
+  return [...experiences].sort((a, b) => {
+    return getStartYear(b.period) - getStartYear(a.period);
+  });
+};
 
-// Define content type for better type safety
 interface Content {
   hero: {
     name: string;
@@ -109,9 +118,14 @@ export default function Home() {
               const data: Content = await response.json();
               if (data?.hero && data?.skills) {
                 console.log('Successfully loaded content from:', url);
-                storage.saveContent(data);
+                // Sort experiences before saving and setting state
+                const sortedData = {
+                  ...data,
+                  experience: sortExperiences(data.experience || [])
+                };
+                storage.saveContent(sortedData);
                 if (isMounted) {
-                  setContent(data);
+                  setContent(sortedData);
                   setIsLoading(false);
                 }
                 return;
@@ -127,8 +141,13 @@ export default function Home() {
         const storedContent = storage.loadContent();
         if (storedContent) {
           console.log('Using content from localStorage');
+          // Sort experiences from localStorage
+          const sortedContent = {
+            ...storedContent,
+            experience: sortExperiences(storedContent.experience || [])
+          };
           if (isMounted) {
-            setContent(storedContent);
+            setContent(sortedContent);
             setIsLoading(false);
           }
           return;

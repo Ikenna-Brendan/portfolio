@@ -19,6 +19,18 @@ interface ExperienceProps {
 }
 
 export default function Experience({ data }: ExperienceProps) {
+  // Helper function to extract start year from period string (e.g., "2020 - 2023" -> 2020)
+  const getStartYear = (period: string): number => {
+    if (!period) return 0;
+    const yearMatch = period.match(/\b(20\d{2})\b/);
+    return yearMatch ? parseInt(yearMatch[1], 10) : 0;
+  };
+
+  // Sort experiences by start year in descending order (newest first)
+  const sortedExperiences = [...data].sort((a, b) => {
+    return getStartYear(b.period) - getStartYear(a.period);
+  });
+
   return (
     <section id="experience" className="py-20 bg-gradient-to-br from-gray-50 to-blue-50 dark:from-gray-900 dark:to-gray-800">
       <div className="container mx-auto px-6">
@@ -42,7 +54,7 @@ export default function Experience({ data }: ExperienceProps) {
 
             {/* Experience items */}
             <div className="space-y-12">
-              {data.map((experience, index) => (
+              {sortedExperiences.map((experience, index) => (
                 <div 
                   key={index}
                   className={`relative flex items-center ${
