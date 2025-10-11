@@ -19,8 +19,27 @@ interface ExperienceProps {
 }
 
 export default function Experience({ data }: ExperienceProps) {
-  // Helper function to extract start year from period string (e.g., "2020 - 2023" -> 2020)
-  const getStartYear = (period: string): number => {
+  // Handle loading and empty states
+  if (!data || !Array.isArray(data)) {
+    return (
+      <section id="experience" className="py-20 bg-gradient-to-br from-gray-50 to-blue-50 dark:from-gray-900 dark:to-gray-800">
+        <div className="container mx-auto px-6">
+          <div className="max-w-6xl mx-auto">
+            <div className="text-center">
+              <h2 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-4">
+                Professional Experience
+              </h2>
+              <div className="w-24 h-1 bg-gradient-to-r from-blue-600 to-teal-600 mx-auto rounded-full mb-6"></div>
+              <p className="text-gray-600 dark:text-gray-400">Loading experience...</p>
+            </div>
+          </div>
+        </div>
+      </section>
+    );
+  }
+
+  // Helper function to extract start year from period string
+  const getStartYear = (period: string = ''): number => {
     if (!period) return 0;
     const yearMatch = period.match(/\b(20\d{2})\b/);
     return yearMatch ? parseInt(yearMatch[1], 10) : 0;
@@ -28,7 +47,7 @@ export default function Experience({ data }: ExperienceProps) {
 
   // Sort experiences by start year in descending order (newest first)
   const sortedExperiences = [...data].sort((a, b) => {
-    return getStartYear(b.period) - getStartYear(a.period);
+    return getStartYear(b?.period) - getStartYear(a?.period);
   });
 
   return (
