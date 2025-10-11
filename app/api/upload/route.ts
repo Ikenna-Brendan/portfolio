@@ -2,9 +2,6 @@ import { NextResponse } from 'next/server';
 import { writeFile, mkdir } from 'fs/promises';
 import { join } from 'path';
 
-// This route cannot be statically exported
-export const dynamic = 'force-dynamic';
-
 export async function POST(request: Request) {
   console.log('Upload request received');
   

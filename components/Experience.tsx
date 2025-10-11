@@ -38,6 +38,10 @@ export default function Experience({ data }: ExperienceProps) {
     );
   }
 
+  // Debug logging to check if sorting is working
+  console.log('Experience data received:', data);
+  console.log('Experience periods:', data?.map(exp => `${exp.title} - ${exp.period}`).join(', '));
+
   // Helper function to extract start year from period string
   const getStartYear = (period: string = ''): number => {
     if (!period) return 0;
@@ -47,8 +51,13 @@ export default function Experience({ data }: ExperienceProps) {
 
   // Sort experiences by start year in descending order (newest first)
   const sortedExperiences = [...data].sort((a, b) => {
-    return getStartYear(b?.period) - getStartYear(a?.period);
+    const aYear = getStartYear(a?.period);
+    const bYear = getStartYear(b?.period);
+    console.log(`Comparing: ${a.title} (${aYear}) vs ${b.title} (${bYear})`);
+    return bYear - aYear;
   });
+
+  console.log('Sorted experiences:', sortedExperiences.map(exp => `${exp.title} - ${exp.period}`));
 
   return (
     <section id="experience" className="py-20 bg-gradient-to-br from-gray-50 to-blue-50 dark:from-gray-900 dark:to-gray-800">

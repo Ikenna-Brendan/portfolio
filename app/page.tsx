@@ -98,7 +98,6 @@ export default function Home() {
               cache: 'no-store',
               headers: {
                 'Cache-Control': 'no-cache, no-store, must-revalidate',
-                'Pragma': 'no-cache',
                 'Expires': '0'
               }
             });
@@ -106,7 +105,8 @@ export default function Home() {
             if (response.ok) {
               const data: Content = await response.json();
               if (data?.hero && data?.skills) {
-                console.log('Successfully loaded content from:', url);
+                console.log('Successfully loaded content from:', url, 'Experience count:', data.experience?.length);
+                console.log('Experience data:', data.experience?.map(exp => `${exp.title} - ${exp.period}`).join(', '));
                 storage.saveContent(data);
                 if (isMounted) {
                   setContent(data);
